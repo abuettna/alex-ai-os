@@ -1,12 +1,5 @@
 # Personal AI OS
 
-A static, privacy-conscious website documenting practical personal AI workflows.
+A privacy-conscious static website documenting practical AI-ready personal infrastructure.
 
-## Deploy to Cloudflare Pages
-
-- Framework preset: None
-- Build command: leave blank (or `exit 0`)
-- Build output directory: `/`
-- Root directory: `/`
-
-The production branch should be `main`.
+Cloudflare Pages: framework none, build command empty, output directory /, production branch main.
