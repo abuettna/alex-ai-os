@@ -304,6 +304,7 @@ figcaption {
 }
 
 .asset-fallback {
+  display: grid;
   min-height: 12rem;
   place-content: center;
   text-align: center;
