@@ -290,17 +290,12 @@ figcaption {
 .asset-graphic {
   display: block;
   width: 100%;
+  height: auto;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
   box-shadow: var(--shadow);
-}
-
-.asset-graphic img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
 }
 
 .asset-fallback {
