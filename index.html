@@ -1,71 +1,404 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Personal AI OS explores how to structure personal data, tools and workflows so AI can use them meaningfully."><meta name="theme-color" content="#0b1020"><title>Personal AI OS</title><link rel="stylesheet" href="styles.css"></head><body><header class="nav"><a href="#top" class="brand"><span class="logo">◎</span>Personal AI OS</a><nav><a href="#idea">The idea</a><a href="#architecture">Architecture</a><a href="#cases">Case studies</a><a href="#decision">One decision</a><a href="#principles">Principles</a></nav></header><main id="top"><section class="hero"><div class="hero-copy"><p class="eyebrow">AI-READY PERSONAL INFRASTRUCTURE</p><h1>Structure your digital life so AI can actually use it.</h1><p class="lede">Personal AI OS is an open experiment in combining specialist apps, clean data flows and lightweight databases into an architecture that makes personal data understandable, portable and useful for AI.</p><div class="actions"><a class="button primary" href="#architecture">See the architecture</a><a class="button secondary" href="#cases">View real workflows</a></div><p class="anti-hype">No AI guru claims. No fake automation. No one app pretending to do everything.</p></div><figure class="hero-image"><img src="assets/fenix.webp" alt="Garmin Fenix 8 used in everyday life"><figcaption>Real devices. Real data. Real friction.</figcaption></figure></section><section id="idea" class="statement"><p class="eyebrow">THE CORE IDEA</p><h2>AI is not the system. The architecture makes AI useful.</h2><p>Today, much of the intelligence is still human: choosing the right tools, defining the source of truth, deciding what belongs where and creating reliable paths between data sources. AI becomes valuable only after that foundation exists.</p></section><section id="architecture" class="section"><div class="section-head"><p class="eyebrow">ARCHITECTURE</p><h2>Specialist tools stay specialized. The surrounding system makes the data AI-ready.</h2></div><div class="flow"><div class="node"><strong>Capture</strong><span>Garmin, Apple Health, specialist apps</span></div><div class="arrow">→</div><div class="node"><strong>Organize</strong><span>Sources of truth, timestamps, clean ownership</span></div><div class="arrow">→</div><div class="node"><strong>Fill gaps</strong><span>Airtable and structured personal context</span></div><div class="arrow">→</div><div class="node"><strong>Use with AI</strong><span>Analysis, interpretation and decisions</span></div></div></section><section id="cases" class="section"><div class="section-head"><p class="eyebrow">REAL-WORLD CASE STUDIES</p><h2>Not demos. Working systems used in everyday life.</h2></div><article class="case"><div class="case-copy"><p class="case-number">CASE 01</p><h3>A personal data lake without another tracking app</h3><p>Natural-language observations are stored as timestamped facts in Airtable. That preserves the raw information while keeping future calculations flexible.</p><ul><li>One conversational input</li><li>No duplicate tracking workflow</li><li>Raw facts instead of frozen calculations</li><li>AI-ready history for later analysis</li></ul></div><figure class="screen"><img src="assets/airtable.webp" alt="Airtable journal used as a personal data layer"></figure></article><article class="case reverse"><div class="case-copy"><p class="case-number">CASE 02</p><h3>Turning wearable signals into usable context</h3><p>Wearables are already excellent at collecting data. The real challenge is preserving enough surrounding context so those signals can later be interpreted together with training, nutrition, routines and subjective observations.</p></div><figure class="screen"><img src="assets/garmin.webp" alt="Garmin health and activity overview"></figure></article><article class="case upcoming"><div class="case-copy"><p class="case-number">CASE 03 — UPCOMING</p><h3>Making a specialist app part of a broader health-data workflow</h3><p>A future case study on interoperability, Apple Health and how structured export can make a specialist app far more useful without turning it into an all-in-one platform.</p><p class="privacy">No personal consumption history or identifiable health data will be published.</p></div></article></section><section id="decision" class="section decision-section">
-<div class="section-head">
-<p class="eyebrow">CASE STUDY — ONE QUESTION, MULTIPLE SYSTEMS</p>
-<h2>From fragmented data to one practical training decision.</h2>
-<p class="section-intro">The real benefit appears when several specialist systems can be queried in one conversation. A single request can combine recovery data, endurance history, strength load, nutrition context and real-life constraints into one actionable recommendation.</p>
-</div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Personal AI OS is a real personal experiment in connecting health, training, recovery, nutrition, calendar, and manual logs into one AI-readable context layer.">
+    <meta name="theme-color" content="#0b1020">
+    <title>Personal AI OS</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="#top" class="brand"><span class="logo">◎</span><span>Personal AI OS</span></a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#how-it-works">How it works</a>
+        <a href="#use-cases">Use cases</a>
+        <a href="#under-the-hood">Under the hood</a>
+        <a href="#status">Status</a>
+      </nav>
+    </header>
 
-<div class="workflow-map" aria-label="Personal AI OS workflow">
-<div class="workflow-column">
-<p class="workflow-label">CAPTURE & SPECIALIST TOOLS</p>
-<div class="workflow-box"><strong>Garmin / Fenix</strong><span>Running, cycling, walking, sleep, heart rate, HRV and activities</span></div>
-<div class="workflow-box"><strong>LiftTrack</strong><span>Strength planning, completed sessions and muscle load</span></div>
-<div class="workflow-box"><strong>DrinkLog</strong><span>Drinks and estimated blood alcohol concentration</span></div>
-<div class="workflow-box"><strong>Airtable</strong><span>Nutrition, subjective observations and everyday events</span></div>
-</div>
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy stack-lg">
+          <p class="eyebrow">REAL-WORLD PERSONAL EXPERIMENT</p>
+          <h1>Personal AI OS</h1>
+          <p class="claim">Your data. One context. Better decisions.</p>
+          <p class="lede">
+            I’m building a practical personal AI operating system around ChatGPT — connecting the data and context that normally live in separate apps and turning them into useful decisions in everyday life.
+          </p>
+          <p class="hero-note"><strong>This is not another dashboard.</strong> The interesting part is what happens when fragmented data becomes shared context.</p>
+          <div class="hero-actions" aria-label="Page shortcuts">
+            <a class="button button-primary" href="#how-it-works">How it works</a>
+            <a class="button button-secondary" href="#use-cases">See real use cases</a>
+            <a class="button button-secondary" href="#under-the-hood">Under the hood</a>
+          </div>
+        </div>
 
-<div class="workflow-column">
-<p class="workflow-label">DATA & ACCESS LAYER</p>
-<div class="workflow-box accent"><strong>Apple Health</strong><span>Shared health-data route for compatible sources</span></div>
-<div class="workflow-box accent"><strong>Freddy</strong><span>Garmin Connect, Apple Health and Runalyze in one health context</span></div>
-<div class="workflow-box accent"><strong>MCP connectors</strong><span>Freddy, LiftTrack and Airtable become directly queryable</span></div>
-</div>
+        <div class="hero-visual stack-md">
+          <figure class="device-card">
+            <img src="assets/fenix.webp" alt="Garmin Fenix 8 watch used as part of the Personal AI OS workflow">
+            <figcaption>Real devices, real apps, real trade-offs.</figcaption>
+          </figure>
+          <div class="context-strip" aria-label="Core project themes">
+            <div>
+              <span class="context-label">Signals</span>
+              <p>Recovery, training, nutrition, calendar, and subjective logs.</p>
+            </div>
+            <div>
+              <span class="context-label">Layer</span>
+              <p>ChatGPT as the context and decision-support interface.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<div class="workflow-column">
-<p class="workflow-label">CONVERSATIONAL DECISION LAYER</p>
-<div class="workflow-box dark"><strong>ChatGPT weekly context</strong><span>Goal, schedule, symptoms, upcoming events and prior decisions</span></div>
-<div class="workflow-box result"><strong>One usable answer</strong><span>Heart-rate targets, load ceiling, stop rules and practical execution</span></div>
-</div>
-</div>
+      <section id="how-it-works" class="section-shell section-block">
+        <div class="section-heading stack-md">
+          <p class="eyebrow">HOW IT WORKS</p>
+          <h2>The human job is surprisingly small.</h2>
+          <p>
+            The point is not to spend more time managing data. It is to keep using normal tools, add a few important manual observations, and make the combined context available when a real question comes up.
+          </p>
+        </div>
 
-<p class="workflow-note">Some Garmin data reaches Freddy through more than one route. The practical system tolerates this overlap rather than pretending the personal data ecosystem is perfectly clean.</p>
+        <figure class="asset-figure">
+          <img
+            class="asset-graphic"
+            src="assets/So%20funktioniert%20dein%20perso%CC%88nlicher%20KI-Coach.png"
+            alt="How it works graphic showing the user-facing personal AI coach flow"
+          >
+          <figcaption>The user view: keep using your normal tools. The context comes together in the background.</figcaption>
+        </figure>
 
-<div class="decision-grid">
-<article class="decision-card">
-<p class="case-number">THE QUESTION</p>
-<blockquote>“I want to run 11 km today. How should I structure the session based on all currently available information?”</blockquote>
-<figure class="screen compact-screen"><img src="assets/decision-prompt.webp" alt="ChatGPT question querying Airtable, LiftTrack and Freddy"></figure>
-</article>
+        <div class="how-grid">
+          <article class="panel flow-panel">
+            <p class="mini-label">WHAT I DO</p>
+            <ul class="check-list">
+              <li>Wear my devices</li>
+              <li>Train normally</li>
+              <li>Use the apps I already use</li>
+              <li>Log things machines cannot know</li>
+              <li>Ask ChatGPT normal questions</li>
+            </ul>
+          </article>
 
-<article class="decision-card">
-<p class="case-number">THE SYNTHESIS</p>
-<h3>Several systems contribute different parts of the answer.</h3>
-<div class="source-list">
-<div><strong>Freddy</strong><span>Sleep, HRV, resting heart rate, recent endurance load and Garmin/Runalyze context</span></div>
-<div><strong>LiftTrack</strong><span>Recent strength session, loaded muscle groups and residual fatigue</span></div>
-<div><strong>Airtable</strong><span>Nutrition, alcohol, symptoms and manually logged events</span></div>
-<div><strong>Chat context</strong><span>Training goal, injury history, family schedule and upcoming football</span></div>
-</div>
-</article>
+          <article class="panel flow-panel accent-panel">
+            <p class="mini-label">WHAT HAPPENS IN THE BACKGROUND</p>
+            <p>
+              Data and context from multiple sources become available to the AI context layer through a mix of sync, read-only access, intermediary services, and intentionally manual logging.
+            </p>
+            <p class="small-note">Not every connection is automatic. Not every system has clean write access. That is part of the actual design problem.</p>
+          </article>
 
-<article class="decision-card wide">
-<div class="decision-result-copy">
-<p class="case-number">THE RESULT</p>
-<h3>A recommendation that is specific enough to use immediately.</h3>
-<ul>
-<li>11 km as a controlled aerobic run rather than a tempo test</li>
-<li>Target heart-rate range and explicit upper ceiling</li>
-<li>Adjustment for recent strength work and uneven sleep</li>
-<li>Stop or run-walk rules for pain, heavy legs or excessive heart rate</li>
-<li>Practical guidance for shoes, warm-up and the rest of the day</li>
-</ul>
-</div>
-<figure class="screen answer-screen"><img src="assets/decision-answer.webp" alt="Detailed training recommendation generated from multiple personal data sources"></figure>
-</article>
-</div>
+          <article class="panel flow-panel result-panel">
+            <p class="mini-label">THEN</p>
+            <p>
+              ChatGPT can reason across the combined context and help with real decisions instead of responding to one isolated metric or one app in a silo.
+            </p>
+          </article>
+        </div>
+      </section>
 
-<div class="evidence-strip">
-<figure class="evidence-card"><img src="assets/freddy-sources-1.webp" alt="Freddy Apple Health source overview"><figcaption>Apple Health and its contributing sources inside Freddy.</figcaption></figure>
-<figure class="evidence-card"><img src="assets/freddy-sources-2.webp" alt="Freddy Garmin Connect and Runalyze sources"><figcaption>Garmin Connect and Runalyze add further training context.</figcaption></figure>
-</div>
-</section><section id="principles" class="section"><div class="section-head"><p class="eyebrow">PRINCIPLES</p><h2>The rules behind the project.</h2></div><div class="cards"><div class="card"><span>01</span><h3>One source of truth</h3><p>Each domain has one primary system. Avoid duplicate ownership.</p></div><div class="card"><span>02</span><h3>Raw facts first</h3><p>Preserve original observations. Recalculate derived values later.</p></div><div class="card"><span>03</span><h3>Specialists over monoliths</h3><p>Use focused tools that do one job well.</p></div><div class="card"><span>04</span><h3>Human before automation</h3><p>Automate only after the workflow and data model make sense.</p></div><div class="card"><span>05</span><h3>Privacy by separation</h3><p>Public documentation never shares the private personal data layer.</p></div><div class="card"><span>06</span><h3>No hype</h3><p>Document trade-offs, limitations and failures as clearly as successes.</p></div></div></section></main><footer><span>Personal AI OS</span><span>Open experiment · Work in progress</span></footer></body></html>
+      <section id="use-cases" class="section-shell section-block bordered-top">
+        <div class="section-heading stack-md narrow-heading">
+          <p class="eyebrow">REAL USE CASES</p>
+          <h2>Okay, but what does it actually do?</h2>
+          <p>These are practical examples of what becomes possible once multiple sources can be queried as one context instead of one screen at a time.</p>
+        </div>
+
+        <div class="use-case-grid">
+          <article class="panel use-case featured-case">
+            <div class="stack-md">
+              <p class="case-label">CASE STUDY 1</p>
+              <h3>Training decision support</h3>
+              <p>
+                A planned workout cannot be evaluated from training data alone. The useful answer can depend on recent training, Garmin-derived recovery signals, subjective logs, alcohol or sleep context, calendar events, and real-life constraints such as an upcoming football match.
+              </p>
+              <p><strong>Key point:</strong> not another readiness score — a contextual decision.</p>
+            </div>
+            <figure class="screen-card">
+              <img src="assets/decision-answer.webp" alt="Example training recommendation generated from combined personal context">
+            </figure>
+          </article>
+
+          <article class="panel use-case">
+            <p class="case-label">CASE STUDY 2</p>
+            <h3>Adapting the actual workout</h3>
+            <p>
+              The system can inspect LiftTrack workout and exercise context together with recovery and real-life constraints, then suggest concrete session changes.
+            </p>
+            <p class="small-note">Current missing link: AI may suggest changes that still need to be applied manually because write-back into LiftTrack is not guaranteed.</p>
+          </article>
+
+          <article class="panel use-case">
+            <p class="case-label">CASE STUDY 3</p>
+            <h3>One-tap real-life logging</h3>
+            <p>
+              An iPhone Shortcut on the lock screen opens a persistent ChatGPT logging conversation. One tap can turn a quick voice note or typed observation into a structured long-term log.
+            </p>
+            <ul class="mini-list">
+              <li>subjective energy</li>
+              <li>unusual symptoms</li>
+              <li>digestion observations</li>
+              <li>hunger, meals, and context</li>
+              <li>how something felt</li>
+            </ul>
+            <p><strong>Key point:</strong> manual logging only survives if friction is extremely low.</p>
+          </article>
+
+          <article class="panel use-case">
+            <p class="case-label">CASE STUDY 4</p>
+            <h3>Food without traditional food logging</h3>
+            <p>
+              A meal can be sent as text, voice, or image. The AI can identify foods, estimate quantities where appropriate, preserve product-specific information, and place nutrition in longer-term context.
+            </p>
+            <p><strong>Key point:</strong> the goal is reconstructable context, not obsessive calorie tracking.</p>
+          </article>
+
+          <article class="panel use-case">
+            <p class="case-label">CASE STUDY 5</p>
+            <h3>Calendar changes the answer</h3>
+            <p>
+              The same recovery or training data can lead to different recommendations depending on what is actually planned for the day. Calendar context becomes part of decision support instead of remaining a separate productivity silo.
+            </p>
+          </article>
+
+          <article class="panel use-case contrast-case">
+            <p class="case-label">CASE STUDY 6</p>
+            <h3>Simple everyday intelligence</h3>
+            <p>
+              Personal AI OS is not only about health analytics. Small pieces of context, easy access, and usable memory can also remove ordinary everyday friction when a simple decision depends on details spread across tools and prior notes.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="under-the-hood" class="section-shell section-block bordered-top">
+        <div class="section-heading stack-md narrow-heading">
+          <p class="eyebrow">UNDER THE HOOD</p>
+          <h2>For people who want to know where the data actually goes.</h2>
+          <p>
+            This is a practical architecture, not a perfectly unified platform. Some flows are automatic, some are manual, some are read-only, and some depend on third-party synchronization.
+          </p>
+        </div>
+
+        <div class="legend" aria-label="Architecture legend">
+          <span class="tag read">READ</span>
+          <span class="tag write">WRITE</span>
+          <span class="tag sync">SYNC</span>
+          <span class="tag manual">MANUAL INPUT</span>
+          <span class="tag derived">DERIVED CONTEXT</span>
+          <span class="tag limit">LIMITATION / MISSING LINK</span>
+        </div>
+
+        <div class="architecture-stack">
+          <div class="architecture-grid" aria-label="Personal AI OS architecture overview">
+            <article class="panel architecture-lane">
+              <p class="mini-label">CAPTURE & APPS</p>
+              <div class="stack-sm">
+                <div class="system-card"><strong>Garmin / Fenix 8</strong><span>Workout execution, activity, sleep, heart rate, HRV, recovery signals</span><span class="chip-row"><span class="tag sync">SYNC</span><span class="tag derived">DERIVED CONTEXT</span></span></div>
+                <div class="system-card"><strong>LiftTrack</strong><span>Workout templates, exercise context, training history where available</span><span class="chip-row"><span class="tag read">READ</span><span class="tag write">WRITE</span><span class="tag limit">LIMITATION</span></span></div>
+                <div class="system-card"><strong>Drinklog</strong><span>Alcohol-related logging when used</span><span class="chip-row"><span class="tag manual">MANUAL INPUT</span><span class="tag sync">SYNC</span></span></div>
+                <div class="system-card"><strong>iPhone Shortcuts</strong><span>Fast entry point into the persistent ChatGPT logging flow</span><span class="chip-row"><span class="tag manual">MANUAL INPUT</span></span></div>
+                <div class="system-card"><strong>Google Calendar</strong><span>Real-life schedule and constraints</span><span class="chip-row"><span class="tag read">READ</span></span></div>
+              </div>
+            </article>
+
+            <article class="panel architecture-lane">
+              <p class="mini-label">CONTEXT & ACCESS LAYER</p>
+              <div class="stack-sm">
+                <div class="system-card"><strong>Garmin Connect</strong><span>Receives synced workout/activity data and passes training context onward</span><span class="chip-row"><span class="tag sync">SYNC</span><span class="tag limit">LIMITATION</span></span></div>
+                <div class="system-card"><strong>Apple Health</strong><span>Shared route for compatible health data, including Drinklog when configured</span><span class="chip-row"><span class="tag sync">SYNC</span></span></div>
+                <div class="system-card"><strong>freddy</strong><span>Aggregation/access layer for multiple health, recovery, and training metrics from connected services</span><span class="chip-row"><span class="tag read">READ</span><span class="tag derived">DERIVED CONTEXT</span></span></div>
+                <div class="system-card"><strong>Airtable</strong><span>Structured subjective and manual long-term context</span><span class="chip-row"><span class="tag manual">MANUAL INPUT</span><span class="tag read">READ</span></span></div>
+              </div>
+            </article>
+
+            <article class="panel architecture-lane dark-lane">
+              <p class="mini-label">REASONING LAYER</p>
+              <div class="stack-sm">
+                <div class="system-card dark-card"><strong>ChatGPT</strong><span>Queries or receives the relevant context, combines it, and produces decision support for the user</span><span class="chip-row"><span class="tag read">READ</span><span class="tag manual">MANUAL INPUT</span><span class="tag derived">DERIVED CONTEXT</span></span></div>
+                <div class="system-card result-card"><strong>Outcome</strong><span>Useful decisions, suggested workout changes, richer logs, and better questions</span></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="panel relationship-panel">
+            <div class="stack-md">
+              <p class="mini-label">IMPORTANT FLOWS</p>
+              <ul class="relationship-list">
+                <li><strong>LiftTrack → Garmin Connect → Garmin / Fenix 8</strong><span>A workout created or synced from LiftTrack can reach Garmin Connect and the watch for execution.</span></li>
+                <li><strong>During the workout</strong><span>Sets, weight, and repetitions can be confirmed or recorded on the watch.</span></li>
+                <li><strong>Back through Garmin Connect</strong><span>Workout data can flow back and appear in LiftTrack while Garmin Connect also keeps activity and training information.</span></li>
+                <li><strong>Drinklog → Apple Health → freddy</strong><span>Alcohol-related data can enter the broader context through this path where configured.</span></li>
+                <li><strong>Google Calendar → ChatGPT context</strong><span>Schedule, travel, and everyday constraints can change the recommendation.</span></li>
+                <li><strong>iPhone Shortcut → ChatGPT → Airtable</strong><span>Quick manual notes can become structured long-term context.</span></li>
+              </ul>
+              <p class="small-note">Editing behavior, sync direction, and reliability can vary. This should not be mistaken for one flawless universal data model.</p>
+            </div>
+          </div>
+
+          <div class="panel table-panel">
+            <div class="table-wrap">
+              <table>
+                <caption>Reality-based view of the main components</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Component</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">How it is used here</th>
+                    <th scope="col">Current reality</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">ChatGPT</th>
+                    <td>Reasoning layer</td>
+                    <td>Combines retrieved context with normal user questions</td>
+                    <td>Useful for synthesis, but outputs still need judgment and verification</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Airtable</th>
+                    <td>Structured memory</td>
+                    <td>Stores subjective/manual long-term logs</td>
+                    <td>Strong for structure, but depends on good logging habits and schema decisions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">LiftTrack</th>
+                    <td>Training context</td>
+                    <td>Provides workout templates, exercise details, and history where available</td>
+                    <td>Helpful source, but AI write-back and sync behavior are not universally seamless</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Garmin Connect + Garmin / Fenix 8</th>
+                    <td>Execution and signals</td>
+                    <td>Captures workouts, recovery signals, and watch-based confirmations</td>
+                    <td>Core source of real data, but sync chains and edits can break or behave differently</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">freddy</th>
+                    <td>Aggregation/access layer</td>
+                    <td>Exposes combined health, recovery, and training metrics from connected services</td>
+                    <td>Useful abstraction layer, but only as complete as its upstream sources</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Apple Health</th>
+                    <td>Intermediary health layer</td>
+                    <td>Acts as a shared route for compatible sources</td>
+                    <td>Important connective tissue, not the single source of truth for everything</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Drinklog</th>
+                    <td>Manual event logging</td>
+                    <td>Adds alcohol-related context when needed</td>
+                    <td>Only valuable if it actually gets logged and propagated</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Google Calendar</th>
+                    <td>Life context</td>
+                    <td>Adds schedule constraints to decisions</td>
+                    <td>Changes recommendations without changing the underlying biometrics</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">iPhone Shortcuts</th>
+                    <td>Low-friction input</td>
+                    <td>Makes fast capture practical from the lock screen</td>
+                    <td>Great for reducing friction, but still intentionally manual</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="reality-check" aria-label="Reality check">
+            <p class="eyebrow">REALITY CHECK</p>
+            <p>
+              Personal integrations are messy. Some flows are automatic, some are manual, some are read-only, and some depend on third-party synchronization. That is part of the experiment.
+            </p>
+          </aside>
+
+          <div class="evidence-grid">
+            <figure class="screen-card evidence-card">
+              <img src="assets/freddy-sources-1.webp" alt="Freddy source overview showing Apple Health connections">
+              <figcaption>Freddy pulling source context from Apple Health.</figcaption>
+            </figure>
+            <figure class="screen-card evidence-card">
+              <img src="assets/freddy-sources-2.webp" alt="Freddy source overview showing Garmin Connect and related training sources">
+              <figcaption>Additional training context coming through Garmin Connect and related sources.</figcaption>
+            </figure>
+            <figure class="screen-card evidence-card">
+              <img src="assets/decision-prompt.webp" alt="Prompt asking ChatGPT to reason across multiple personal data sources">
+              <figcaption>A real example of context being queried as one question.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell section-block bordered-top">
+        <div class="two-column-story">
+          <div class="section-heading stack-md">
+            <p class="eyebrow">WHY THIS MATTERS</p>
+            <h2>Most people do not have a data problem. They have a context problem.</h2>
+          </div>
+          <div class="story-copy stack-md">
+            <p>
+              Their information already exists, but it is scattered across wearables, training apps, health platforms, calendars, notes, food logs, and their own head.
+            </p>
+            <p>
+              The Personal AI OS idea is to create a context layer above those silos so the useful question is no longer blocked by where the data happens to live.
+            </p>
+            <p class="pull-quote">The value isn’t another place to look at your data. It’s being able to ask a better question.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="status" class="section-shell section-block bordered-top">
+        <div class="section-heading stack-md narrow-heading">
+          <p class="eyebrow">CURRENT STATUS</p>
+          <h2>Building in public, while the system is still changing.</h2>
+        </div>
+
+        <div class="status-grid">
+          <article class="panel status-card">
+            <ul class="check-list compact-list">
+              <li>This is my personal working setup.</li>
+              <li>It evolves as integrations improve.</li>
+              <li>Some components are experiments.</li>
+              <li>Some connections require manual steps.</li>
+              <li>Missing write access into certain systems is a real limitation.</li>
+              <li>The architecture will change.</li>
+            </ul>
+          </article>
+
+          <article class="panel status-card subtle-card">
+            <p>
+              That is not a weakness to hide. It is the whole point of documenting a real personal AI workflow instead of pretending the ecosystem is already finished, standardized, or clean.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <section class="section-shell safety-block" aria-labelledby="safety-heading">
+      <div class="safety-copy">
+        <p class="eyebrow">SAFETY / PRIVACY / DISCLAIMER</p>
+        <h2 id="safety-heading">A concise reality check.</h2>
+        <ul class="disclaimer-list">
+          <li>This is a personal experimental setup.</li>
+          <li>Examples describe my own workflow.</li>
+          <li>AI-generated interpretations can be wrong.</li>
+          <li>Health-related outputs are informational and decision-support only, not medical advice.</li>
+          <li>Important decisions should be independently verified.</li>
+          <li>Third-party services have their own privacy and data-processing terms.</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>Personal AI OS</span>
+      <span>Built as a real-world experiment.</span>
+    </footer>
+  </body>
+</html>
