@@ -60,7 +60,7 @@ a {
 }
 
 .section-block {
-  padding: 4.5rem 0;
+  padding: 3.75rem 0;
 }
 
 .bordered-top {
@@ -89,9 +89,6 @@ a {
 }
 
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -143,7 +140,7 @@ a {
 .hero {
   display: grid;
   gap: 2rem;
-  padding: 2.25rem 0 4.5rem;
+  padding: 1.5rem 0 3.25rem;
 }
 
 .eyebrow,
@@ -284,6 +281,37 @@ figcaption {
   font-size: 0.88rem;
 }
 
+.asset-figure {
+  display: grid;
+  gap: 0;
+  margin-bottom: 1.25rem;
+}
+
+.asset-graphic {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.asset-graphic img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.asset-fallback {
+  min-height: 12rem;
+  place-content: center;
+  text-align: center;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .context-strip {
   display: grid;
   grid-template-columns: 1fr;
@@ -297,7 +325,7 @@ figcaption {
 
 .section-heading {
   max-width: 42rem;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.4rem;
 }
 
 .narrow-heading {
@@ -314,7 +342,7 @@ figcaption {
 .status-grid,
 .evidence-grid {
   display: grid;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .flow-panel {
@@ -595,7 +623,7 @@ figcaption {
 }
 
 .safety-block {
-  padding: 0 0 3rem;
+  padding: 0 0 2.5rem;
 }
 
 .safety-copy {
@@ -619,6 +647,12 @@ figcaption {
     width: min(1120px, calc(100% - 48px));
   }
 
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
   .context-strip,
   .status-grid,
   .evidence-grid,
@@ -639,6 +673,34 @@ figcaption {
   .how-grid,
   .architecture-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .section-block {
+    padding: 4.5rem 0;
+  }
+
+  .hero {
+    padding: 2.25rem 0 4.5rem;
+  }
+
+  .section-heading {
+    margin-bottom: 1.8rem;
+  }
+
+  .how-grid,
+  .use-case-grid,
+  .architecture-stack,
+  .status-grid,
+  .evidence-grid {
+    gap: 1rem;
+  }
+
+  .asset-figure {
+    margin-bottom: 1.5rem;
+  }
+
+  .safety-block {
+    padding: 0 0 3rem;
   }
 }
 
