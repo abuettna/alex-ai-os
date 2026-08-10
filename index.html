@@ -5,21 +5,33 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Personal AI OS is a real personal experiment in connecting health, training, recovery, nutrition, calendar, and manual logs into one AI-readable context layer.">
     <meta name="theme-color" content="#0b1020">
+    <meta property="og:title" content="Personal AI OS">
+    <meta property="og:description" content="A real personal experiment connecting health, training, recovery, nutrition, calendar, and manual logs into one AI-readable context layer.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://abuettna.github.io/alex-ai-os/">
+    <meta property="og:image" content="https://abuettna.github.io/alex-ai-os/assets/fenix.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Personal AI OS">
+    <meta name="twitter:description" content="Your data. One context. Better decisions.">
+    <meta name="twitter:image" content="https://abuettna.github.io/alex-ai-os/assets/fenix.webp">
+    <link rel="canonical" href="https://abuettna.github.io/alex-ai-os/">
     <title>Personal AI OS</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="site-header">
-      <a href="#top" class="brand"><span class="logo">◎</span><span>Personal AI OS</span></a>
+      <a href="#main-content" class="brand"><span class="logo">◎</span><span>Personal AI OS</span></a>
       <nav class="site-nav" aria-label="Primary">
         <a href="#how-it-works">How it works</a>
         <a href="#use-cases">Use cases</a>
+        <a href="#video-integration">Video</a>
         <a href="#under-the-hood">Under the hood</a>
         <a href="#status">Status</a>
       </nav>
     </header>
 
-    <main id="top">
+    <main id="main-content">
       <section class="hero section-shell">
         <div class="hero-copy stack-lg">
           <p class="eyebrow">REAL-WORLD PERSONAL EXPERIMENT</p>
@@ -38,7 +50,7 @@
 
         <div class="hero-visual stack-md">
           <figure class="device-card">
-            <img src="assets/fenix.webp" alt="Garmin Fenix 8 watch used as part of the Personal AI OS workflow">
+            <img src="assets/fenix.webp" alt="Garmin Fenix 8 watch used as part of the Personal AI OS workflow" loading="eager" decoding="async" fetchpriority="high">
             <figcaption>Real devices, real apps, real trade-offs.</figcaption>
           </figure>
           <div class="context-strip" aria-label="Core project themes">
@@ -68,6 +80,8 @@
             class="asset-graphic"
             src="assets/So%20funktioniert%20dein%20perso%CC%88nlicher%20KI-Coach.png"
             alt="How it works graphic showing the user-facing personal AI coach flow"
+            loading="lazy"
+            decoding="async"
           >
           <figcaption>The user view: keep using your normal tools. The context comes together in the background.</figcaption>
         </figure>
@@ -119,7 +133,7 @@
               <p><strong>Key point:</strong> not another readiness score — a contextual decision.</p>
             </div>
             <figure class="screen-card">
-              <img src="assets/decision-answer.webp" alt="Example training recommendation generated from combined personal context">
+              <img src="assets/decision-answer.webp" alt="Example training recommendation generated from combined personal context" loading="lazy" decoding="async">
             </figure>
           </article>
 
@@ -190,19 +204,44 @@
             </p>
             <div class="run-today-evidence" aria-label="Run-decision context evidence">
               <figure class="screen-card evidence-card">
-                <img src="assets/garmin.webp" alt="Garmin recovery and recent activity context used for the run decision">
+                <img src="assets/garmin.webp" alt="Garmin recovery and recent activity context used for the run decision" loading="lazy" decoding="async">
                 <figcaption>Objective readiness and recent training load.</figcaption>
               </figure>
               <figure class="screen-card evidence-card">
-                <img src="assets/airtable.webp" alt="Airtable subjective logs and observations used for the run decision">
+                <img src="assets/airtable.webp" alt="Airtable subjective logs and observations used for the run decision" loading="lazy" decoding="async">
                 <figcaption>Subjective context and notes from daily logging.</figcaption>
               </figure>
               <figure class="screen-card evidence-card">
-                <img src="assets/decision-answer.webp" alt="Final combined recommendation answering whether to run today">
+                <img src="assets/decision-answer.webp" alt="Final combined recommendation answering whether to run today" loading="lazy" decoding="async">
                 <figcaption>One answer after combining all relevant context.</figcaption>
               </figure>
             </div>
             <p><strong>From fragmented health &amp; training data to one actionable decision.</strong> Your data. One context. Better decisions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="video-integration" class="section-shell section-block bordered-top">
+        <div class="section-heading stack-md narrow-heading">
+          <p class="eyebrow">VIDEO INTEGRATION</p>
+          <h2>From screenshots to explainable walkthrough videos.</h2>
+          <p>
+            The page is now prepared for lightweight, privacy-conscious video storytelling: self-hosted clips, transcript-first publishing, and metadata-only preload to keep performance stable.
+          </p>
+        </div>
+        <div class="status-grid">
+          <article class="panel status-card">
+            <ul class="check-list compact-list">
+              <li>Use self-hosted MP4/WebM clips with <strong>preload="metadata"</strong> and descriptive poster frames.</li>
+              <li>Keep every video paired with a text summary and transcript for accessibility.</li>
+              <li>Treat videos as supporting evidence, not as the only source of key information.</li>
+            </ul>
+          </article>
+          <article class="panel status-card subtle-card">
+            <figure class="screen-card evidence-card">
+              <img src="assets/decision-prompt.webp" alt="Storyboard placeholder for future Personal AI OS walkthrough video" loading="lazy" decoding="async">
+              <figcaption>Storyboard placeholder for a future short walkthrough clip.</figcaption>
+            </figure>
           </article>
         </div>
       </section>
@@ -358,15 +397,15 @@
 
           <div class="evidence-grid">
             <figure class="screen-card evidence-card">
-              <img src="assets/freddy-sources-1.webp" alt="Freddy source overview showing Apple Health connections">
+              <img src="assets/freddy-sources-1.webp" alt="Freddy source overview showing Apple Health connections" loading="lazy" decoding="async">
               <figcaption>Freddy pulling source context from Apple Health.</figcaption>
             </figure>
             <figure class="screen-card evidence-card">
-              <img src="assets/freddy-sources-2.webp" alt="Freddy source overview showing Garmin Connect and related training sources">
+              <img src="assets/freddy-sources-2.webp" alt="Freddy source overview showing Garmin Connect and related training sources" loading="lazy" decoding="async">
               <figcaption>Additional training context coming through Garmin Connect and related sources.</figcaption>
             </figure>
             <figure class="screen-card evidence-card">
-              <img src="assets/decision-prompt.webp" alt="Prompt asking ChatGPT to reason across multiple personal data sources">
+              <img src="assets/decision-prompt.webp" alt="Prompt asking ChatGPT to reason across multiple personal data sources" loading="lazy" decoding="async">
               <figcaption>A real example of context being queried as one question.</figcaption>
             </figure>
           </div>
