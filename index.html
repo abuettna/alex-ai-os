@@ -8,13 +8,13 @@
     <meta property="og:title" content="Personal AI OS">
     <meta property="og:description" content="A real personal experiment connecting health, training, recovery, nutrition, calendar, and manual logs into one AI-readable context layer.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://abuettna.github.io/alex-ai-os/">
-    <meta property="og:image" content="https://abuettna.github.io/alex-ai-os/assets/fenix.webp">
+    <meta property="og:url" content="https://personal-ai-os.com/">
+    <meta property="og:image" content="https://personal-ai-os.com/assets/fenix.webp">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Personal AI OS">
     <meta name="twitter:description" content="Personal AI OS is a real personal experiment in connecting health, training, recovery, nutrition, calendar, and manual logs into one AI-readable context layer.">
-    <meta name="twitter:image" content="https://abuettna.github.io/alex-ai-os/assets/fenix.webp">
-    <link rel="canonical" href="https://abuettna.github.io/alex-ai-os/">
+    <meta name="twitter:image" content="https://personal-ai-os.com/assets/fenix.webp">
+    <link rel="canonical" href="https://personal-ai-os.com/">
     <title>Personal AI OS</title>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -118,104 +118,81 @@
         <div class="section-heading stack-md narrow-heading">
           <p class="eyebrow">REAL USE CASES</p>
           <h2>Okay, but what does it actually do?</h2>
-          <p>These are practical examples of what becomes possible once multiple sources can be queried as one context instead of one screen at a time.</p>
+          <p>Practical examples of what becomes possible once multiple sources can be queried as one context instead of one screen at a time.</p>
         </div>
 
         <div class="use-case-grid">
+          <!-- Featured: merged training decision case (formerly Case 1 + Case 7) -->
           <article class="panel use-case featured-case">
             <div class="stack-md">
-              <p class="case-label">CASE STUDY 1</p>
-              <h3>Training decision support</h3>
+              <p class="case-label">FEATURED</p>
+              <h3>"Should I run today?" — contextual training decision</h3>
               <p>
-                A planned workout cannot be evaluated from training data alone. The useful answer can depend on recent training, Garmin-derived recovery signals, subjective logs, alcohol or sleep context, calendar events, and real-life constraints such as an upcoming football match.
+                Instead of a generic answer, the Personal AI Coach combines Garmin and freddy recovery signals, recent LiftTrack strength-training history, Airtable subjective notes, and Google Calendar constraints — then answers one question: should I run today, and if yes, what kind of run actually fits?
               </p>
-              <p><strong>Key point:</strong> not another readiness score — a contextual decision.</p>
+              <ul class="mini-list">
+                <li><strong>Garmin / freddy:</strong> recovery, sleep, HRV, training load, recent activity</li>
+                <li><strong>LiftTrack:</strong> recent strength sessions and workout context</li>
+                <li><strong>Airtable:</strong> subjective logs and daily observations</li>
+                <li><strong>Google Calendar:</strong> available time and upcoming commitments</li>
+              </ul>
+              <p><strong>Key point:</strong> not another readiness score — a contextual decision across all your data.</p>
+              <div class="run-today-evidence" aria-label="Training decision context evidence">
+                <figure class="screen-card evidence-card">
+                  <img src="assets/garmin.webp" alt="Garmin recovery and recent activity context used for the training decision" loading="lazy" decoding="async">
+                  <figcaption>Objective readiness and recent training load.</figcaption>
+                </figure>
+                <figure class="screen-card evidence-card">
+                  <img src="assets/airtable.webp" alt="Airtable subjective logs used for the training decision" loading="lazy" decoding="async">
+                  <figcaption>Subjective context from daily logging.</figcaption>
+                </figure>
+                <figure class="screen-card evidence-card">
+                  <img src="assets/decision-answer.webp" alt="Final combined recommendation from Personal AI Coach" loading="lazy" decoding="async">
+                  <figcaption>One answer combining all relevant context.</figcaption>
+                </figure>
+              </div>
             </div>
-            <figure class="screen-card">
-              <img src="assets/decision-answer.webp" alt="Example training recommendation generated from combined personal context" loading="lazy" decoding="async">
-            </figure>
+            <!-- right-side visual on desktop handled by evidence grid above on mobile -->
           </article>
 
           <article class="panel use-case">
             <p class="case-label">CASE STUDY 2</p>
-            <h3>Adapting the actual workout</h3>
-            <p>
-              The system can inspect LiftTrack workout and exercise context together with recovery and real-life constraints, then suggest concrete session changes.
-            </p>
-            <p class="small-note">Current missing link: AI may suggest changes that still need to be applied manually because write-back into LiftTrack is not guaranteed.</p>
-          </article>
-
-          <article class="panel use-case">
-            <p class="case-label">CASE STUDY 3</p>
             <h3>One-tap real-life logging</h3>
             <p>
-              An iPhone Shortcut on the lock screen opens a persistent ChatGPT logging conversation. One tap can turn a quick voice note or typed observation into a structured long-term log.
+              An iPhone Shortcut on the lock screen opens a persistent ChatGPT logging conversation. One tap turns a quick voice note or observation into a structured long-term log.
             </p>
             <ul class="mini-list">
-              <li>subjective energy</li>
-              <li>unusual symptoms</li>
-              <li>digestion observations</li>
-              <li>hunger, meals, and context</li>
-              <li>how something felt</li>
+              <li>subjective energy and symptoms</li>
+              <li>digestion and hunger context</li>
+              <li>how a session felt</li>
             </ul>
             <p><strong>Key point:</strong> manual logging only survives if friction is extremely low.</p>
           </article>
 
           <article class="panel use-case">
-            <p class="case-label">CASE STUDY 4</p>
+            <p class="case-label">CASE STUDY 3</p>
             <h3>Food without traditional food logging</h3>
             <p>
-              A meal can be sent as text, voice, or image. The AI can identify foods, estimate quantities where appropriate, preserve product-specific information, and place nutrition in longer-term context.
+              A meal can be sent as text, voice, or image. The AI identifies foods, estimates quantities where appropriate, preserves product-specific detail, and places nutrition in longer-term context.
             </p>
             <p><strong>Key point:</strong> the goal is reconstructable context, not obsessive calorie tracking.</p>
           </article>
 
           <article class="panel use-case">
-            <p class="case-label">CASE STUDY 5</p>
+            <p class="case-label">CASE STUDY 4</p>
             <h3>Calendar changes the answer</h3>
             <p>
-              The same recovery or training data can lead to different recommendations depending on what is actually planned for the day. Calendar context becomes part of decision support instead of remaining a separate productivity silo.
+              The same recovery data can lead to different recommendations depending on what is actually planned for the day. Calendar context becomes part of decision support instead of remaining a separate productivity silo.
             </p>
           </article>
 
-          <article class="panel use-case contrast-case">
-            <p class="case-label">CASE STUDY 6</p>
-            <h3>Simple everyday intelligence</h3>
+          <article class="panel use-case">
+            <p class="case-label">CASE STUDY 5</p>
+            <h3>Adapting the actual workout</h3>
             <p>
-              Personal AI OS is not only about health analytics. Small pieces of context, easy access, and usable memory can also remove ordinary everyday friction when a simple decision depends on details spread across tools and prior notes.
+              The system can inspect LiftTrack workout context together with recovery and real-life constraints, then suggest concrete session changes.
             </p>
-          </article>
-
-          <article class="panel use-case run-today-case">
-            <p class="case-label">CASE STUDY 7</p>
-            <h3>“Should I run today?” — contextual training decision support</h3>
-            <p>
-              Instead of giving a generic answer, the Personal AI Coach can combine Garmin and freddy recovery context, recent LiftTrack strength training, Airtable notes, and Google Calendar constraints before answering a simple question: should I run today, and if yes, what kind of run actually fits?
-            </p>
-            <ul class="mini-list">
-              <li><strong>Garmin / freddy:</strong> recovery, sleep, HRV, training load, and recent activity</li>
-              <li><strong>LiftTrack:</strong> recent strength-training history and workout context</li>
-              <li><strong>Airtable:</strong> subjective logs and relevant daily observations</li>
-              <li><strong>Google Calendar:</strong> available time and upcoming commitments</li>
-            </ul>
-            <p>
-              ChatGPT as the Personal AI Coach can then turn that combined context into one actionable recommendation: skip the run, keep it easy, or use the time for a specific session that matches today’s reality.
-            </p>
-            <div class="run-today-evidence" aria-label="Run-decision context evidence">
-              <figure class="screen-card evidence-card">
-                <img src="assets/garmin.webp" alt="Garmin recovery and recent activity context used for the run decision" loading="lazy" decoding="async">
-                <figcaption>Objective readiness and recent training load.</figcaption>
-              </figure>
-              <figure class="screen-card evidence-card">
-                <img src="assets/airtable.webp" alt="Airtable subjective logs and observations used for the run decision" loading="lazy" decoding="async">
-                <figcaption>Subjective context and notes from daily logging.</figcaption>
-              </figure>
-              <figure class="screen-card evidence-card">
-                <img src="assets/decision-answer.webp" alt="Final combined recommendation answering whether to run today" loading="lazy" decoding="async">
-                <figcaption>One answer after combining all relevant context.</figcaption>
-              </figure>
-            </div>
-            <p><strong>From fragmented health &amp; training data to one actionable decision.</strong> Your data. One context. Better decisions.</p>
+            <p class="small-note">Current missing link: AI may suggest changes that still need to be applied manually because write-back into LiftTrack is not guaranteed.</p>
           </article>
         </div>
       </section>
@@ -226,9 +203,44 @@
           <p class="eyebrow">UNDER THE HOOD</p>
           <h2>For people who want to know where the data actually goes.</h2>
           <p>
-            This is a practical architecture, not a perfectly unified platform. Some flows are automatic, some are manual, some are read-only, and some depend on third-party synchronization.
+            Three layers. Each does one job. Together they turn fragmented personal data into contextual decisions.
           </p>
         </div>
+
+        <!-- Simplified 3-layer overview -->
+        <div class="architecture-grid three-layer-overview" aria-label="Three-layer architecture overview">
+          <article class="panel architecture-lane">
+            <p class="mini-label">CAPTURE &amp; APPS</p>
+            <div class="stack-sm">
+              <div class="system-card"><strong>Garmin / Fenix</strong><span>Workouts, sleep, HRV, recovery signals</span></div>
+              <div class="system-card"><strong>LiftTrack</strong><span>Training history and workout context</span></div>
+              <div class="system-card"><strong>Apple Health / Drinklog</strong><span>Shared health route and manual event logging</span></div>
+              <div class="system-card"><strong>Google Calendar</strong><span>Real-life schedule and constraints</span></div>
+              <div class="system-card"><strong>iPhone Shortcuts</strong><span>Fast lock-screen entry into logging flow</span></div>
+            </div>
+          </article>
+
+          <article class="panel architecture-lane">
+            <p class="mini-label">CONTEXT &amp; ACCESS</p>
+            <div class="stack-sm">
+              <div class="system-card"><strong>freddy</strong><span>Aggregates health, recovery, and training metrics from connected services</span></div>
+              <div class="system-card"><strong>Airtable</strong><span>Structured long-term subjective and manual logs</span></div>
+              <div class="system-card"><strong>Garmin Connect</strong><span>Activity, training, and sync hub for Garmin and LiftTrack</span></div>
+            </div>
+          </article>
+
+          <article class="panel architecture-lane dark-lane">
+            <p class="mini-label">REASONING</p>
+            <div class="stack-sm">
+              <div class="system-card dark-card"><strong>ChatGPT / Personal AI Coach</strong><span>Queries or receives relevant context and produces one decision-support answer</span></div>
+              <div class="system-card result-card"><strong>Outcome</strong><span>Useful decisions, suggested workout changes, richer logs, better questions</span></div>
+            </div>
+          </article>
+        </div>
+
+        <details class="panel details-block" style="margin-top:1rem">
+          <summary style="cursor:pointer;font-weight:700;padding:0.25rem 0;">Technical detail — flows, reality checks, and component table</summary>
+          <div class="stack-md" style="margin-top:1.25rem">
 
         <div class="legend" aria-label="Architecture legend">
           <span class="tag read">READ</span>
@@ -240,7 +252,7 @@
         </div>
 
         <div class="architecture-stack">
-          <div class="architecture-grid" aria-label="Personal AI OS architecture overview">
+          <div class="architecture-grid" aria-label="Personal AI OS architecture detail">
             <article class="panel architecture-lane">
               <p class="mini-label">CAPTURE & APPS</p>
               <div class="stack-sm">
@@ -385,6 +397,9 @@
             </figure>
           </div>
         </div>
+
+          </div>
+        </details>
       </section>
 
       <section class="section-shell section-block bordered-top">
