@@ -49,6 +49,16 @@ body {
   top: 1rem;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .skip-link {
+    transition: none;
+  }
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -671,12 +681,6 @@ figcaption {
   .site-header,
   .site-footer {
     width: min(1120px, calc(100% - 48px));
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
   }
 
   .site-header {
