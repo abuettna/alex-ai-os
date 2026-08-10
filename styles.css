@@ -87,7 +87,7 @@ a {
 }
 
 .section-block {
-  padding: 3.75rem 0;
+  padding: 3rem 0;
 }
 
 .bordered-top {
@@ -619,6 +619,30 @@ figcaption {
   gap: 1.1rem;
 }
 
+.details-block summary {
+  font-size: 0.95rem;
+  color: var(--muted);
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+.details-block summary::-webkit-details-marker {
+  display: none;
+}
+
+.details-block summary::before {
+  content: "▸ ";
+  font-size: 0.8em;
+}
+
+details[open].details-block summary::before {
+  content: "▾ ";
+}
+
+.three-layer-overview {
+  margin-bottom: 0;
+}
+
 .run-today-evidence {
   display: grid;
   gap: 0.75rem;
@@ -710,8 +734,7 @@ figcaption {
 
   .featured-case {
     grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.9fr);
-    align-items: center;
+    grid-template-columns: 1fr;
   }
 
   .how-grid,
