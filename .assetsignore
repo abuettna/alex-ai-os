@@ -1,0 +1,19 @@
+# Exclude development/deployment internals from Cloudflare static asset upload.
+node_modules
+.git
+.github
+.gitignore
+.netlify
+netlify
+netlify.toml
+lib
+.env
+.env.*
+package.json
+package-lock.json
+README.md
+pilot/SETUP.md
+
+# Preserve inactive pilot implementation artifacts in-repo, but do not publish.
+pilot/pilot.js
+pilot/pilot.css
