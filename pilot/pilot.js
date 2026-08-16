@@ -28,33 +28,18 @@ function showStep(id) {
   }
 }
 
-// ─── Analytics (fire-and-forget) ─────────────────────────────────────────────
-
-function track(event) {
-  try {
-    if (typeof navigator.sendBeacon === "function") {
-      navigator.sendBeacon("/api/analytics", JSON.stringify({ event, ts: Date.now() }));
-    }
-  } catch (_) {
-    // silently ignore — analytics must never break the flow
-  }
-}
-
 // ─── Step transitions ────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", function () {
-  track("pilot_page_view");
-
   // Welcome → Form
   const btnStart = document.getElementById("btn-start");
   if (btnStart) {
     btnStart.addEventListener("click", function () {
       showStep("step-form");
-      track("onboarding_started");
     });
   }
 
-  // Retry button
+  // Retry button (error screen → form)
   const btnRetry = document.getElementById("btn-retry");
   if (btnRetry) {
     btnRetry.addEventListener("click", function () {
@@ -106,15 +91,6 @@ function initConditionalFields() {
   deviceCheckboxes.forEach(function (cb) {
     cb.addEventListener("change", updateGarminField);
   });
-
-  // Consent email row visibility
-  const emailField = document.getElementById("f-email");
-  const consentEmailRow = document.getElementById("consent-email-row");
-  if (emailField && consentEmailRow) {
-    emailField.addEventListener("input", function () {
-      consentEmailRow.hidden = emailField.value.trim() === "";
-    });
-  }
 }
 
 // ─── Progress bar ─────────────────────────────────────────────────────────────
@@ -129,8 +105,8 @@ function initProgress() {
     const groups = form.querySelectorAll(".form-group");
     let filled = 0;
     groups.forEach(function (group) {
-      const checkboxes = group.querySelectorAll('input[type="checkbox"]:not([name="consentData"]):not([name="consentEmail"])');
-      const texts = group.querySelectorAll('input[type="text"], input[type="email"], textarea');
+      const checkboxes = group.querySelectorAll('input[type="checkbox"]:not([name="consentData"])');
+      const texts = group.querySelectorAll('input[type="text"], textarea');
       const selects = group.querySelectorAll("select");
       const anyChecked = Array.from(checkboxes).some((cb) => cb.checked);
       const anyText = Array.from(texts).some((t) => t.value.trim().length > 0);
@@ -145,6 +121,39 @@ function initProgress() {
   form.addEventListener("change", updateProgress);
   form.addEventListener("input", updateProgress);
   updateProgress();
+}
+
+// ─── Output validation ────────────────────────────────────────────────────────
+
+const REQUIRED_FIELDS = [
+  "recommendationId",
+  "architectureSummary",
+  "requiredComponents",
+  "setupSteps",
+  "evidenceLevel",
+  "confidence"
+];
+
+function validateRecommendation(rec) {
+  if (!rec || typeof rec !== "object") return false;
+  for (const field of REQUIRED_FIELDS) {
+    if (rec[field] === undefined || rec[field] === null || rec[field] === "") return false;
+  }
+  if (!Array.isArray(rec.requiredComponents)) return false;
+  if (!Array.isArray(rec.setupSteps)) return false;
+  return true;
+}
+
+// ─── Save pilot record ────────────────────────────────────────────────────────
+
+async function savePilotRecord(payload) {
+  const res = await fetch("/api/save-pilot-record", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json().catch(() => ({}));
+  return data;
 }
 
 // ─── Form submission ──────────────────────────────────────────────────────────
@@ -162,7 +171,6 @@ function initForm() {
     const participantId = generateId();
 
     showStep("step-generating");
-    track("architecture_generation_started");
 
     let recommendation = null;
     let generationFailed = false;
@@ -180,26 +188,26 @@ function initForm() {
       if (!res.ok || data.error) {
         generationFailed = true;
         failureReason = data.error || "HTTP " + res.status;
-        track("architecture_generation_failed");
+      } else if (!validateRecommendation(data.recommendation)) {
+        generationFailed = true;
+        failureReason = "Invalid response shape from architecture engine";
+        console.error("Architecture response missing required fields:", data.recommendation);
       } else {
         recommendation = data.recommendation;
-        track("architecture_generation_success");
       }
     } catch (err) {
       generationFailed = true;
       failureReason = "Network error: " + (err.message || "unknown");
-      track("architecture_generation_failed");
     }
 
     // Persist pilot record regardless of generation success/failure
+    const savePayload = { profile, recommendation, participantId, generationFailed, failureReason };
+    let saveResult = { saved: false };
     try {
-      await fetch("/api/save-pilot-record", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ profile, recommendation, participantId, generationFailed, failureReason })
-      });
+      saveResult = await savePilotRecord(savePayload);
     } catch (_) {
       // Non-fatal — record save failure must not block the user
+      console.error("Save pilot record request failed (network)");
     }
 
     if (generationFailed || !recommendation) {
@@ -214,7 +222,40 @@ function initForm() {
 
     renderResult(recommendation, profile, participantId);
     showStep("step-result");
-    track("result_viewed");
+
+    // Show save-failure notice if Airtable persistence failed
+    const saveNotice = document.getElementById("result-save-notice");
+    if (saveNotice) {
+      if (!saveResult.saved) {
+        console.warn("Airtable save failed. saved:false returned by /api/save-pilot-record");
+        saveNotice.hidden = false;
+
+        // Wire up retry-save button (only retries persistence, not generation)
+        const btnRetrySave = document.getElementById("btn-retry-save");
+        if (btnRetrySave) {
+          btnRetrySave.addEventListener("click", async function () {
+            btnRetrySave.disabled = true;
+            btnRetrySave.textContent = "Wird gespeichert…";
+            try {
+              const retryResult = await savePilotRecord(savePayload);
+              if (retryResult.saved) {
+                saveNotice.hidden = true;
+              } else {
+                btnRetrySave.disabled = false;
+                btnRetrySave.textContent = "Erneut speichern";
+                console.warn("Retry save also failed");
+              }
+            } catch (_) {
+              btnRetrySave.disabled = false;
+              btnRetrySave.textContent = "Erneut speichern";
+              console.error("Retry save request failed (network)");
+            }
+          }, { once: true });
+        }
+      } else {
+        saveNotice.hidden = true;
+      }
+    }
   });
 }
 
@@ -258,9 +299,6 @@ function validateForm(form) {
     // Scroll to first error
     const firstError = form.querySelector(".field-error:not([hidden])");
     if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-    track("onboarding_validation_failed");
-  } else {
-    track("onboarding_completed");
   }
 
   return valid;
@@ -273,7 +311,6 @@ function collectProfile(form) {
 
   return {
     name: data.get("name") || "",
-    email: data.get("email") || "",
     goals: data.getAll("goals"),
     devices: data.getAll("devices"),
     services: data.getAll("services"),
@@ -306,8 +343,6 @@ function renderResult(rec, profile, participantId) {
   const confidenceClass = "confidence-" + (rec.confidence || "low");
   const confidenceLabel =
     rec.confidence === "high" ? "Hoch" : rec.confidence === "medium" ? "Mittel" : "Niedrig";
-
-  const primaryName = profile.name ? esc(profile.name) : "dir";
 
   el.innerHTML = /* html */ `
 <div class="result-wrapper">
@@ -495,7 +530,6 @@ function renderComponents(components) {
 
 function renderDataFlow(steps) {
   if (!steps || steps.length === 0) return "";
-  // Each step may contain " → " already from the LLM; we render them as pills
   const parts = steps.flatMap((s, i) => {
     const items = s.split("→").map((p) => p.trim()).filter(Boolean);
     const result = [];

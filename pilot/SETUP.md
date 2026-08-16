@@ -7,6 +7,7 @@ Set these in your Netlify site → Site settings → Environment variables.
 | Variable | Description | Where to get it |
 |---|---|---|
 | `OPENAI_API_KEY` | OpenAI API key | https://platform.openai.com/api-keys |
+| `OPENAI_MODEL` | OpenAI model name (optional, defaults to `gpt-4o-mini`) | See [OpenAI model list](https://platform.openai.com/docs/models) |
 | `AIRTABLE_API_KEY` | Airtable personal access token | https://airtable.com/create/tokens |
 | `AIRTABLE_BASE_ID` | Your Airtable base ID (starts with `app...`) | Found in the base URL when viewing the base |
 

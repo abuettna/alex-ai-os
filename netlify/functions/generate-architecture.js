@@ -10,7 +10,7 @@ const OpenAI = require("openai");
 const { components, REGISTRY_VERSION } = require("../../lib/registry");
 const { buildSystemPrompt, PROMPT_VERSION } = require("../../lib/prompt");
 
-const MODEL = "gpt-4o-mini";
+const MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 
 /** Validate and sanitize the incoming profile */
 function validateProfile(body) {
@@ -149,6 +149,34 @@ exports.handler = async function (event) {
     recommendation = JSON.parse(rawResponse);
   } catch (err) {
     console.error("JSON parse error from model:", err.message, rawResponse?.slice(0, 200));
+    return {
+      statusCode: 502,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        error: "Die automatische Architektur konnte diesmal nicht zuverlässig erstellt werden.",
+        retryable: true
+      })
+    };
+  }
+
+  // Validate required response fields
+  const requiredFields = [
+    "recommendationId",
+    "architectureSummary",
+    "requiredComponents",
+    "setupSteps",
+    "evidenceLevel",
+    "confidence"
+  ];
+  const missingFields = requiredFields.filter(
+    (f) => recommendation[f] === undefined || recommendation[f] === null || recommendation[f] === ""
+  );
+  if (
+    missingFields.length > 0 ||
+    !Array.isArray(recommendation.requiredComponents) ||
+    !Array.isArray(recommendation.setupSteps)
+  ) {
+    console.error("Architecture response missing required fields:", missingFields, rawResponse?.slice(0, 400));
     return {
       statusCode: 502,
       headers: { "Content-Type": "application/json" },

@@ -36,7 +36,7 @@
             </div>
             <div class="pilot-info-item">
               <span class="pilot-info-icon">🔒</span>
-              <span>Keine Weitergabe an Dritte. Nur für die Pilot-Auswertung.</span>
+              <span>Dein Profil wird zur Architektur-Erstellung an den konfigurierten KI-Anbieter (OpenAI) übermittelt. Pilot-Daten werden in Airtable gespeichert. Es werden keine vollständigen Gesundheits- oder Trainingsdaten abgefragt.</span>
             </div>
             <div class="pilot-info-item">
               <span class="pilot-info-icon">🧪</span>
@@ -64,12 +64,6 @@
               <div class="form-field">
                 <label for="f-name">Vorname oder Spitzname <span class="field-optional">(optional)</span></label>
                 <input type="text" id="f-name" name="name" maxlength="80" autocomplete="given-name" placeholder="z.B. Alex">
-              </div>
-
-              <div class="form-field">
-                <label for="f-email">E-Mail <span class="field-optional">(optional – für deine Ergebnis-Kopie)</span></label>
-                <input type="email" id="f-email" name="email" maxlength="200" autocomplete="email" placeholder="deine@email.de">
-                <p class="field-hint">Nur angeben, wenn du eine Kopie des Ergebnisses erhalten möchtest. Keine Pflicht.</p>
               </div>
             </fieldset>
 
@@ -133,6 +127,7 @@
               <div class="form-field form-field-inline">
                 <label for="f-other-service">Sonstige Apps</label>
                 <input type="text" id="f-other-service" name="otherService" maxlength="200" placeholder="Weitere Apps oder Dienste">
+                <p class="field-hint">Andere Apps kannst du angeben. Wenn sie noch nicht im Component Registry bewertet sind, werden sie möglicherweise nur als bestehender Kontext berücksichtigt und nicht aktiv empfohlen.</p>
               </div>
             </fieldset>
 
@@ -231,18 +226,13 @@
             <fieldset class="form-group consent-group" id="group-consent">
               <legend class="form-group-legend">Datenschutz & Einwilligungen</legend>
               <p class="consent-summary">
-                Wir speichern dein anonymisiertes Profil (Ziele, Geräte, Präferenzen) und die generierte Architektur-Empfehlung in einer internen Pilotdatenbank. Die Daten dienen ausschließlich der Auswertung dieses Pilot-Programms und werden nicht an Dritte weitergegeben. Zur Erstellung deiner Empfehlung wird KI (OpenAI GPT-4o-mini) verwendet.
+                Zur Erstellung deiner Empfehlung wird dein anonymisiertes Profil (Ziele, Geräte, Präferenzen) an den konfigurierten KI-Anbieter (OpenAI) übermittelt. Das Ergebnis sowie deine Pilot-Daten werden in Airtable gespeichert und ausschließlich zur Auswertung dieses Pilot-Programms verwendet. Es werden keine vollständigen Gesundheits-, Trainings-, Schlaf-, Alkohol- oder Ernährungshistorien abgefragt – nur Architektur- und Pilot-Auswertungsdaten.
               </p>
               <label class="checkbox-option consent-checkbox">
                 <input type="checkbox" id="f-consent-data" name="consentData" required>
                 <span>Ich stimme zu, dass mein Profil und die Empfehlung für die Pilot-Auswertung gespeichert werden.<span class="field-required">*</span></span>
               </label>
               <p class="field-error" id="consent-error" hidden>Bitte stimme der Datenspeicherung zu, um fortzufahren.</p>
-
-              <label class="checkbox-option consent-checkbox" id="consent-email-row" hidden>
-                <input type="checkbox" id="f-consent-email" name="consentEmail">
-                <span>Ich bin einverstanden, dass Alex mir eine Kopie meiner Architektur-Empfehlung per E-Mail zusendet.</span>
-              </label>
             </fieldset>
 
             <button type="submit" class="button button-primary" id="btn-submit">
@@ -265,6 +255,12 @@
 
       <!-- Step: Result (populated by JS) -->
       <section id="step-result" class="pilot-step" aria-live="polite" hidden>
+        <div id="result-save-notice" hidden>
+          <div class="pilot-notice pilot-notice-warn" role="alert">
+            Deine Architektur wurde erstellt, aber der Pilot-Datensatz konnte gerade nicht gespeichert werden.
+            <button class="button button-secondary button-sm" id="btn-retry-save">Erneut speichern</button>
+          </div>
+        </div>
         <div id="result-content"></div>
       </section>
 
