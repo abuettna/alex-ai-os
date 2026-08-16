@@ -462,11 +462,18 @@ function renderResult(rec, profile, participantId) {
   </div>
 
   <div class="result-actions">
-    <button class="button button-primary" onclick="window.print()">Als PDF speichern</button>
+    <button class="button button-primary" id="btn-print-result">Als PDF speichern</button>
     <a href="/" class="button button-secondary">Zurück zur Startseite</a>
   </div>
 </div>
   `.trim();
+
+  const btnPrint = document.getElementById("btn-print-result");
+  if (btnPrint) {
+    btnPrint.addEventListener("click", function () {
+      window.print();
+    });
+  }
 }
 
 function renderComponents(components) {

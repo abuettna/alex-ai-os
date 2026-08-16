@@ -34,6 +34,8 @@ function validateProfile(body) {
   const payWillingness = Number(body.payWillingness) || 3;
   const privacyPreference = (body.privacyPreference || "neutral").toString().slice(0, 30);
 
+  // Accept otherGoal as a goal when no checkboxes are checked
+  if (goals.length === 0 && otherGoal) goals.push(otherGoal);
   if (goals.length === 0) throw new Error("At least one goal required");
 
   return {
