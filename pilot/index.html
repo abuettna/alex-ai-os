@@ -110,7 +110,7 @@
             <p>
               Jedes Tool macht seinen Job. Aber keines kennt das Gesamtbild.
             </p>
-            <p class="pull-quote">Nicht noch mehr Tools. Sondern die richtigen Tools richtig zusammensetzen.</p>
+            <p class="pull-quote">Nicht noch mehr Tools. Sondern die kleinste sinnvolle Architektur, die für deinen Alltag tatsächlich funktioniert.</p>
           </div>
         </div>
       </section>
@@ -120,7 +120,7 @@
         <div class="section-heading stack-md">
           <p class="eyebrow">WAS BEKOMMST DU?</p>
           <h2 class="pilot-h2">Deine persönliche AI-Architektur.</h2>
-          <p>Kein weiteres Abo. Kein Dashboard. Eine klare Empfehlung, wie deine bestehenden Tools besser zusammenspielen können.</p>
+          <p>Keine unnötigen Tools oder Abos. Nur das, was für deinen Use Case wirklich gebraucht wird. Personal AI OS ist selbst kein weiteres Dashboard – es hilft dir, die Architektur in deinen eigenen Accounts aufzusetzen.</p>
         </div>
         <div class="how-grid">
           <article class="panel flow-panel">
@@ -156,7 +156,7 @@
           <p class="eyebrow">WAS BRAUCHEN WIR VON DIR?</p>
           <h2 class="pilot-h2">Keine vollständigen Verlaufsdaten. Nur Kontext.</h2>
           <p>
-            Wir benötigen keine vollständigen Gesundheits-, Schlaf-, Trainings- oder sonstigen persönlichen Verlaufsdaten.
+            Wir erheben nur die Informationen, die für Architektur-Empfehlung und Pilot-Evaluation notwendig sind. Keine vollständigen Gesundheits-, Schlaf-, Trainings- oder sonstigen persönlichen Verlaufsdaten.
           </p>
         </div>
         <div class="pilot-two-col">
@@ -224,6 +224,9 @@
           <p>
             Die meisten Empfehlungen werden zu Beginn noch <strong>Experimental</strong> oder <strong>Founder-tested</strong> sein. Das ist Absicht, nicht Schwäche.
           </p>
+          <p class="small-note">
+            Das Evidence Level bezieht sich immer auf die konkrete Architektur bzw. das konkrete Setup – nicht auf eine pauschale Bewertung des gesamten Projekts.
+          </p>
         </div>
         <div class="pilot-evidence-levels">
           <article class="panel pilot-level-card">
@@ -246,6 +249,16 @@
             <span class="pilot-level-badge pilot-level-validated">Validated</span>
             <p>Es liegen ausreichend strukturierte Daten zu Setup-Erfolg, Friktion, Nutzung und wahrgenommenem Nutzen vor.</p>
           </article>
+          <!--
+            TODO (Phase 2): Define quantitative thresholds per evidence level, e.g.:
+            - minimum sample size
+            - setup success rate
+            - median setup time
+            - D30 retention rate
+            - perceived usefulness score
+            - failure / friction rate
+            Do not invent thresholds yet. Collect raw pilot data first.
+          -->
         </div>
       </section>
 
@@ -275,7 +288,7 @@
               Irgendwann war daraus ein ziemlich umfangreiches Personal AI OS geworden. Nach viel Trial-and-Error möchte ich jetzt testen, ob andere von diesem Gefrickel profitieren können, ohne alles selbst noch einmal durchmachen zu müssen.
             </p>
             <p>
-              Das ist kein Startup-Pitch. Kein Biohacking-Image. Kein Exit-Plan. Sondern ein ehrlicher Versuch, herauszufinden, ob das, was für mich funktioniert, auch für dich funktionieren kann.
+              Das ist kein Biohacking-Image und keine Optimierungsreligion. Es ist ein praktischer Versuch herauszufinden, welche persönliche AI-Architektur im echten Leben tatsächlich funktioniert – und ob andere davon profitieren können, ohne alles selbst noch einmal durchmachen zu müssen.
             </p>
           </div>
         </div>
@@ -319,10 +332,15 @@
           <!-- PilotOnboarding component -->
           <div id="pilot-onboarding" class="pilot-onboarding" role="region" aria-label="Pilot Onboarding">
             <!--
-              PilotOnboarding — V0.1 Placeholder
-              =====================================
+              PilotOnboarding — V0.1 Self-Service Waitlist Placeholder
+              =============================================================
               This component is intentionally decoupled from any specific form provider.
               Future integrations: Tally, Typeform, custom adaptive form, or API-based flow.
+
+              Design principle: Founder intervention rate = 0.
+              The pilot tests whether users can self-deploy the recommended architecture
+              without founder or manual support. Do NOT reintroduce language implying
+              personal onboarding, founder follow-up, or consulting.
 
               Component interface (for future implementation):
                 - onComplete(profile: PilotProfile): void
@@ -331,24 +349,70 @@
                 - locale: "de" | "en"
 
               Phase 2 flow:
-                Website → adaptiver Fragebogen → Architecture Generator
-                → automatische E-Mail → Airtable Evidence Collection
-                → D3 / D10 / D30 Follow-ups
+                Website → adaptive self-service questionnaire → Architecture Generator
+                → automated email → Airtable Evidence Collection
+                → D3 / D10 / D30 automated follow-ups
+
+              Pilot success criteria to collect (Phase 2):
+                - onboarding completion (yes/no)
+                - architecture generated (yes/no)
+                - setup attempted (yes/no)
+                - setup successful (yes/no)
+                - setup duration (minutes)
+                - setup friction / failure point (free text or category)
+                - D3 active usage (yes/no)
+                - D10 active usage (yes/no)
+                - D30 active usage (yes/no)
+                - perceived usefulness (rating)
+                - "Would you keep using this?" (yes/no/maybe)
+                - "Could you have built this without the architecture guidance?" (yes/no/maybe)
+                - Founder intervention required? (yes/no) ← critical pilot KPI
             -->
             <div class="pilot-onboarding-inner stack-md">
               <p class="lede">
-                Der vollständige adaptive Fragebogen und automatisierte Architektur-Generator werden gerade aufgebaut.
+                Der adaptive Self-Service-Fragebogen wird gerade freigeschaltet. Trag dich ein, wenn du zu den ersten Testern gehören möchtest.
               </p>
-              <p>
-                Als Founding-Pilot-Teilnehmer arbeitest du direkt mit mir. Melde dich jetzt an, und ich melde mich persönlich für das erste Onboarding.
-              </p>
-              <a
-                href="mailto:pilot@personal-ai-os.com?subject=Founding%20Pilot%20Anmeldung&amp;body=Hallo%2C%0A%0Aich%20m%C3%B6chte%20am%20Founding%20Pilot%20teilnehmen.%0A%0AMeine%20kurze%20Vorstellung%3A%0A"
-                class="button button-primary pilot-cta-btn"
-                aria-label="Per E-Mail für den Founding Pilot anmelden"
-              >Kostenlos am Founding Pilot teilnehmen</a>
+              <form
+                class="pilot-waitlist-form stack-sm"
+                action="#"
+                method="post"
+                aria-label="Waitlist-Anmeldung"
+                onsubmit="return false;"
+              >
+                <div class="pilot-form-group">
+                  <label for="pilot-name" class="pilot-form-label">Vorname oder Spitzname</label>
+                  <input
+                    type="text"
+                    id="pilot-name"
+                    name="name"
+                    class="pilot-form-input"
+                    placeholder="z.&thinsp;B. Alex"
+                    autocomplete="given-name"
+                    required
+                  >
+                </div>
+                <div class="pilot-form-group">
+                  <label for="pilot-email" class="pilot-form-label">E-Mail-Adresse</label>
+                  <input
+                    type="email"
+                    id="pilot-email"
+                    name="email"
+                    class="pilot-form-input"
+                    placeholder="deine@email.de"
+                    autocomplete="email"
+                    required
+                  >
+                </div>
+                <label class="pilot-form-consent">
+                  <input type="checkbox" name="consent" required>
+                  <span>Ich bin einverstanden, pilot-bezogene Follow-up-Nachrichten zu erhalten. Keine Werbung. Abmeldung jederzeit möglich.</span>
+                </label>
+                <button type="submit" class="button button-primary pilot-cta-btn">
+                  Jetzt für den Founding Pilot vormerken
+                </button>
+              </form>
               <p class="pilot-trust-line">
-                Kostenlos während der Pilotphase&ensp;·&ensp;Deine Accounts bleiben deine Accounts&ensp;·&ensp;Keine Übertragung deiner persönlichen Gesundheits- oder Trainingshistorie erforderlich
+                Kostenlos während der Pilotphase&ensp;·&ensp;Deine Accounts bleiben deine Accounts&ensp;·&ensp;Wir erheben nur die Informationen, die für Architektur-Empfehlung und Pilot-Evaluation notwendig sind
               </p>
             </div>
           </div>
