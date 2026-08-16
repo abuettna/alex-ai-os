@@ -1,0 +1,21 @@
+name = "alex-ai-os"
+compatibility_date = "2024-09-23"
+
+[site]
+bucket = "."
+
+# Pages Functions are automatically served from the /functions directory.
+# No build step is needed — static assets are served directly.
+# Deploy: `wrangler pages deploy .` or connect the repo to Cloudflare Pages dashboard.
+
+# Environment variables — set these in Cloudflare Pages dashboard:
+#   OPENAI_API_KEY        (secret)
+#   AIRTABLE_API_KEY      (secret)
+#   AIRTABLE_BASE_ID      (secret)
+#   OPENAI_MODEL          (optional, defaults to gpt-4o-mini)
+#
+# Optional KV namespace for rate limiting:
+#   Bind a KV namespace named RATE_LIMIT in the dashboard → Pages → Settings → Functions → KV namespace bindings
+#   Then also set:
+#     RATE_LIMIT_WINDOW_SECONDS (optional, default 3600)
+#     RATE_LIMIT_MAX_REQUESTS   (optional, default 5)

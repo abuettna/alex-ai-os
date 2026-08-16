@@ -9,6 +9,14 @@ function esc(str) {
   return d.innerHTML;
 }
 
+/** Safely coerce any value to an array */
+function toArr(val) {
+  if (Array.isArray(val)) return val;
+  if (val === null || val === undefined || val === "") return [];
+  if (typeof val === "string") return [val];
+  return [];
+}
+
 function generateId() {
   return Array.from(crypto.getRandomValues(new Uint8Array(8)))
     .map((b) => b.toString(16).padStart(2, "0"))
@@ -91,6 +99,9 @@ function initConditionalFields() {
   deviceCheckboxes.forEach(function (cb) {
     cb.addEventListener("change", updateGarminField);
   });
+
+  // Initialize on page load to handle browser autofill/back-button restore
+  updateGarminField();
 }
 
 // ─── Progress bar ─────────────────────────────────────────────────────────────
@@ -233,7 +244,8 @@ function initForm() {
         // Wire up retry-save button (only retries persistence, not generation)
         const btnRetrySave = document.getElementById("btn-retry-save");
         if (btnRetrySave) {
-          async function attemptRetrySave() {
+          // Use onclick assignment to prevent stacking listeners across multiple flow runs
+          btnRetrySave.onclick = async function () {
             btnRetrySave.disabled = true;
             btnRetrySave.textContent = "Wird gespeichert…";
             try {
@@ -251,7 +263,6 @@ function initForm() {
               console.error("Retry save request failed (network)");
             }
           }
-          btnRetrySave.addEventListener("click", attemptRetrySave);
         }
       } else {
         saveNotice.hidden = true;
@@ -356,29 +367,29 @@ function renderResult(rec, profile, participantId) {
   <div class="result-section">
     <h2>Dein Ziel</h2>
     <ul>
-      ${(rec.primaryGoals || []).map((g) => `<li>${esc(g)}</li>`).join("")}
+      ${toArr(rec.primaryGoals).map((g) => `<li>${esc(g)}</li>`).join("")}
     </ul>
   </div>
 
   <div class="result-section">
     <h2>Deine empfohlene Architektur</h2>
     <p>${esc(rec.architectureSummary || "")}</p>
-    ${renderDataFlow(rec.dataFlow || [])}
+    ${renderDataFlow(toArr(rec.dataFlow))}
   </div>
 
   ${
-    (rec.requiredComponents || []).length > 0
+    toArr(rec.requiredComponents).length > 0
       ? `<div class="result-section">
     <h2>Was du bereits hast / benötigst</h2>
     <ul class="component-list">
-      ${renderComponents(rec.requiredComponents)}
+      ${renderComponents(toArr(rec.requiredComponents))}
     </ul>
   </div>`
       : ""
   }
 
   ${
-    (rec.optionalComponents || []).length > 0
+    toArr(rec.optionalComponents).length > 0
       ? `<div class="result-section">
     <h2>Optionale Erweiterungen</h2>
     <ul class="component-list">
@@ -389,11 +400,11 @@ function renderResult(rec, profile, participantId) {
   }
 
   ${
-    (rec.excludedComponents || []).length > 0
+    toArr(rec.excludedComponents).length > 0
       ? `<div class="result-section">
     <h2>Bewusst nicht empfohlen</h2>
     <ul class="excluded-list">
-      ${(rec.excludedComponents || [])
+      ${toArr(rec.excludedComponents)
         .map(
           (c) => `<li class="excluded-item">
         <span class="excluded-name">✗ ${esc(c.name)}</span>
@@ -409,13 +420,13 @@ function renderResult(rec, profile, participantId) {
   <div class="result-section">
     <h2>Setup</h2>
     <ol class="setup-steps">
-      ${(rec.setupSteps || [])
+      ${toArr(rec.setupSteps)
         .map(
           (s) => `<li class="setup-step">
-        <span class="setup-step-num">${s.order}</span>
+        <span class="setup-step-num">${esc(s.order)}</span>
         <div>
           <div class="setup-step-text">${esc(s.action)}</div>
-          ${s.estimatedMinutes ? `<div class="setup-step-time">ca. ${s.estimatedMinutes} Min.</div>` : ""}
+          ${s.estimatedMinutes ? `<div class="setup-step-time">ca. ${esc(s.estimatedMinutes)} Min.</div>` : ""}
         </div>
       </li>`
         )
@@ -442,11 +453,11 @@ function renderResult(rec, profile, participantId) {
   </div>
 
   ${
-    (rec.expectedBenefits || []).length > 0
+    toArr(rec.expectedBenefits).length > 0
       ? `<div class="result-section">
     <h2>Was du davon hast</h2>
     <ul>
-      ${(rec.expectedBenefits || []).map((b) => `<li>${esc(b)}</li>`).join("")}
+      ${toArr(rec.expectedBenefits).map((b) => `<li>${esc(b)}</li>`).join("")}
     </ul>
   </div>`
       : ""
@@ -465,22 +476,22 @@ function renderResult(rec, profile, participantId) {
   </div>
 
   ${
-    (rec.limitations || []).length > 0
+    toArr(rec.limitations).length > 0
       ? `<div class="result-section">
     <h2>Grenzen &amp; Einschränkungen</h2>
     <ul>
-      ${(rec.limitations || []).map((l) => `<li>${esc(l)}</li>`).join("")}
+      ${toArr(rec.limitations).map((l) => `<li>${esc(l)}</li>`).join("")}
     </ul>
   </div>`
       : ""
   }
 
   ${
-    (rec.unresolvedQuestions || []).length > 0
+    toArr(rec.unresolvedQuestions).length > 0
       ? `<div class="result-section">
     <h2>Offene Fragen</h2>
     <ul>
-      ${(rec.unresolvedQuestions || []).map((q) => `<li>${esc(q)}</li>`).join("")}
+      ${toArr(rec.unresolvedQuestions).map((q) => `<li>${esc(q)}</li>`).join("")}
     </ul>
   </div>`
       : ""
@@ -530,8 +541,9 @@ function renderComponents(components) {
 }
 
 function renderDataFlow(steps) {
-  if (!steps || steps.length === 0) return "";
-  const parts = steps.flatMap((s, i) => {
+  const safeSteps = toArr(steps).map(String);
+  if (safeSteps.length === 0) return "";
+  const parts = safeSteps.flatMap((s, i) => {
     const items = s.split("→").map((p) => p.trim()).filter(Boolean);
     const result = [];
     items.forEach((item, j) => {
@@ -540,7 +552,7 @@ function renderDataFlow(steps) {
         result.push(`<li class="dataflow-arrow" aria-hidden="true">→</li>`);
       }
     });
-    if (i < steps.length - 1) {
+    if (i < safeSteps.length - 1) {
       result.push(`<li class="dataflow-arrow" aria-hidden="true">→</li>`);
     }
     return result;

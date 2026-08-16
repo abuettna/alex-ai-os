@@ -59,6 +59,18 @@
   line-height: 1.55;
 }
 
+.pilot-notice-warn {
+  background: #fff3cd;
+  border-left: 4px solid #e67e22;
+  color: #7a4100;
+}
+
+/* Button size modifier */
+.button-sm {
+  font-size: 0.82rem;
+  padding: 0.35rem 0.85rem;
+}
+
 /* Info list */
 .pilot-info-list { display: flex; flex-direction: column; gap: 0.6rem; }
 .pilot-info-item {
