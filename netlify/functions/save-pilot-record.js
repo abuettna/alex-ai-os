@@ -117,7 +117,6 @@ exports.handler = async function (event) {
 
   if (profile && typeof profile === "object") {
     if (profile.name) record.Name = String(profile.name).slice(0, 80);
-    if (profile.email) record.Email = String(profile.email).slice(0, 200);
     if (Array.isArray(profile.goals)) record.Goals = JSON.stringify(profile.goals);
     if (Array.isArray(profile.devices)) record.Devices = JSON.stringify(profile.devices);
     if (Array.isArray(profile.services)) record.Services = JSON.stringify(profile.services);

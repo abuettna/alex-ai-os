@@ -233,7 +233,7 @@ function initForm() {
         // Wire up retry-save button (only retries persistence, not generation)
         const btnRetrySave = document.getElementById("btn-retry-save");
         if (btnRetrySave) {
-          btnRetrySave.addEventListener("click", async function () {
+          async function attemptRetrySave() {
             btnRetrySave.disabled = true;
             btnRetrySave.textContent = "Wird gespeichert…";
             try {
@@ -250,7 +250,8 @@ function initForm() {
               btnRetrySave.textContent = "Erneut speichern";
               console.error("Retry save request failed (network)");
             }
-          }, { once: true });
+          }
+          btnRetrySave.addEventListener("click", attemptRetrySave);
         }
       } else {
         saveNotice.hidden = true;
