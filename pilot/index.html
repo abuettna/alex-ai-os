@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Personal AI Architect — Deine persönliche KI-Architektur-Empfehlung in 5–10 Minuten.">
+    <meta name="theme-color" content="#0b1020">
+    <meta name="robots" content="noindex">
+    <title>Founding Pilot – Personal AI OS</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="pilot.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
+    <header class="site-header">
+      <a href="/" class="brand"><span class="logo">◎</span><span>Personal AI OS</span></a>
+    </header>
+
+    <main id="main-content" class="pilot-main">
+
+      <!-- Step: Welcome -->
+      <section id="step-welcome" class="pilot-step active" aria-live="polite">
+        <div class="pilot-card stack-lg">
+          <div class="pilot-badge">FOUNDING PILOT</div>
+          <h1 class="pilot-headline">Dein persönlicher<br>AI-Architekt</h1>
+          <p class="pilot-lede">
+            In 5–10 Minuten erstellen wir für dich eine individuelle Empfehlung: welche Kombination aus KI-Tools, Apps und Workflows konkret zu deinen Zielen, Geräten und Gewohnheiten passt.
+          </p>
+          <div class="pilot-notice" role="note">
+            <strong>AI-Hinweis:</strong> Deine Architektur-Empfehlung wird automatisiert mit KI-Unterstützung erstellt. Sie kann Fehler enthalten. Produkte und Integrationen können sich ändern. Das Evidence-Level wird dir explizit angezeigt.
+          </div>
+          <div class="pilot-info-list">
+            <div class="pilot-info-item">
+              <span class="pilot-info-icon">⏱</span>
+              <span>5–10 Minuten</span>
+            </div>
+            <div class="pilot-info-item">
+              <span class="pilot-info-icon">🔒</span>
+              <span>Keine Weitergabe an Dritte. Nur für die Pilot-Auswertung.</span>
+            </div>
+            <div class="pilot-info-item">
+              <span class="pilot-info-icon">🧪</span>
+              <span>Founding Pilot — Evidence Level: Experimental / Founder-tested</span>
+            </div>
+          </div>
+          <button class="button button-primary" id="btn-start">Jetzt starten →</button>
+        </div>
+      </section>
+
+      <!-- Step: Onboarding Form -->
+      <section id="step-form" class="pilot-step" aria-live="polite" hidden>
+        <form id="pilot-form" novalidate>
+          <div class="pilot-card stack-lg">
+
+            <!-- Progress -->
+            <div class="form-progress" aria-label="Fortschritt" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="form-progress-bar" id="progress-bar" style="width:0%"></div>
+            </div>
+
+            <!-- Group 1: Basics -->
+            <fieldset class="form-group" id="group-basics">
+              <legend class="form-group-legend">Grundinfos</legend>
+
+              <div class="form-field">
+                <label for="f-name">Vorname oder Spitzname <span class="field-optional">(optional)</span></label>
+                <input type="text" id="f-name" name="name" maxlength="80" autocomplete="given-name" placeholder="z.B. Alex">
+              </div>
+
+              <div class="form-field">
+                <label for="f-email">E-Mail <span class="field-optional">(optional – für deine Ergebnis-Kopie)</span></label>
+                <input type="email" id="f-email" name="email" maxlength="200" autocomplete="email" placeholder="deine@email.de">
+                <p class="field-hint">Nur angeben, wenn du eine Kopie des Ergebnisses erhalten möchtest. Keine Pflicht.</p>
+              </div>
+            </fieldset>
+
+            <!-- Group 2: Goals -->
+            <fieldset class="form-group" id="group-goals">
+              <legend class="form-group-legend">Was willst du verbessern?<span class="field-required">*</span></legend>
+              <p class="form-group-desc">Wähle alles, was auf dich zutrifft.</p>
+              <div class="checkbox-grid" role="group" aria-label="Ziele">
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Training / Sport"> <span>Training / Sport</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Recovery / Schlaf"> <span>Recovery / Schlaf</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Ernährung"> <span>Ernährung</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Organisation / Kalender"> <span>Organisation / Kalender</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Journaling / persönliche Reflexion"> <span>Journaling / persönliche Reflexion</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Gesundheitsdaten organisieren"> <span>Gesundheitsdaten organisieren</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Produktivität / Arbeit"> <span>Produktivität / Arbeit</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Familie / Alltag"> <span>Familie / Alltag</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="goals" value="Automatisierung"> <span>Automatisierung</span></label>
+              </div>
+              <div class="form-field form-field-inline">
+                <label for="f-other-goal">Sonstiges</label>
+                <input type="text" id="f-other-goal" name="otherGoal" maxlength="200" placeholder="Was sonst noch?">
+              </div>
+              <p class="field-error" id="goals-error" hidden>Bitte wähle mindestens ein Ziel aus.</p>
+            </fieldset>
+
+            <!-- Group 3: Devices -->
+            <fieldset class="form-group" id="group-devices">
+              <legend class="form-group-legend">Welche Geräte nutzt du?</legend>
+              <p class="form-group-desc">Wähle alles, was du hast.</p>
+              <div class="checkbox-grid" role="group" aria-label="Geräte">
+                <label class="checkbox-option"><input type="checkbox" name="devices" value="Garmin"> <span>Garmin</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="devices" value="Apple Watch"> <span>Apple Watch</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="devices" value="anderes Wearable"> <span>Anderes Wearable</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="devices" value="iPhone"> <span>iPhone</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="devices" value="Android"> <span>Android</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="devices" value="kein Wearable"> <span>Kein Wearable</span></label>
+              </div>
+              <!-- Conditional: Garmin model -->
+              <div class="form-field form-field-inline conditional" id="garmin-model-field" hidden>
+                <label for="f-device-model">Garmin-Modell <span class="field-optional">(optional)</span></label>
+                <input type="text" id="f-device-model" name="deviceModel" maxlength="100" placeholder="z.B. Fenix 8, Forerunner 965">
+              </div>
+            </fieldset>
+
+            <!-- Group 4: Services -->
+            <fieldset class="form-group" id="group-services">
+              <legend class="form-group-legend">Welche Apps / Dienste nutzt du schon?</legend>
+              <div class="checkbox-grid" role="group" aria-label="Apps und Dienste">
+                <label class="checkbox-option"><input type="checkbox" name="services" value="ChatGPT"> <span>ChatGPT</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Claude"> <span>Claude</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Gemini"> <span>Gemini</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Apple Health"> <span>Apple Health</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Garmin Connect"> <span>Garmin Connect</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Strava"> <span>Strava</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Google Calendar"> <span>Google Calendar</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Apple Calendar"> <span>Apple Calendar</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Airtable"> <span>Airtable</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="Notion"> <span>Notion</span></label>
+                <label class="checkbox-option"><input type="checkbox" name="services" value="LiftTrack"> <span>LiftTrack</span></label>
+              </div>
+              <div class="form-field form-field-inline">
+                <label for="f-other-service">Sonstige Apps</label>
+                <input type="text" id="f-other-service" name="otherService" maxlength="200" placeholder="Weitere Apps oder Dienste">
+              </div>
+            </fieldset>
+
+            <!-- Group 5: Preferences -->
+            <fieldset class="form-group" id="group-prefs">
+              <legend class="form-group-legend">Deine Präferenzen</legend>
+
+              <div class="form-field slider-field">
+                <label for="f-tech-confidence">Technisches Vertrauen</label>
+                <p class="field-hint">1 = Ich bin kein Tech-Mensch. 5 = Ich baue gerne selbst.</p>
+                <div class="slider-row">
+                  <span class="slider-label">1</span>
+                  <input type="range" id="f-tech-confidence" name="technicalConfidence" min="1" max="5" value="3" class="range-input">
+                  <span class="slider-label">5</span>
+                </div>
+                <output for="f-tech-confidence" id="out-tech-confidence" class="slider-output">3</output>
+              </div>
+
+              <div class="form-field slider-field">
+                <label for="f-manual-logging">Bereitschaft manuelles Logging</label>
+                <p class="field-hint">1 = Möglichst gar nichts manuell. 5 = Ich logge gerne.</p>
+                <div class="slider-row">
+                  <span class="slider-label">1</span>
+                  <input type="range" id="f-manual-logging" name="manualLogging" min="1" max="5" value="3" class="range-input">
+                  <span class="slider-label">5</span>
+                </div>
+                <output for="f-manual-logging" id="out-manual-logging" class="slider-output">3</output>
+              </div>
+
+              <div class="form-field slider-field">
+                <label for="f-automation">Gewünschter Automatisierungsgrad</label>
+                <p class="field-hint">1 = Alles manuell ist ok. 5 = Alles soll automatisch passieren.</p>
+                <div class="slider-row">
+                  <span class="slider-label">1</span>
+                  <input type="range" id="f-automation" name="automationDesire" min="1" max="5" value="3" class="range-input">
+                  <span class="slider-label">5</span>
+                </div>
+                <output for="f-automation" id="out-automation" class="slider-output">3</output>
+              </div>
+
+              <div class="form-field slider-field">
+                <label for="f-new-apps">Bereitschaft neue Apps zu installieren</label>
+                <p class="field-hint">1 = Lieber keine neuen Apps. 5 = Gerne neue Tools ausprobieren.</p>
+                <div class="slider-row">
+                  <span class="slider-label">1</span>
+                  <input type="range" id="f-new-apps" name="newAppsWillingness" min="1" max="5" value="3" class="range-input">
+                  <span class="slider-label">5</span>
+                </div>
+                <output for="f-new-apps" id="out-new-apps" class="slider-output">3</output>
+              </div>
+
+              <div class="form-field slider-field">
+                <label for="f-pay">Bereitschaft für zusätzliche Abos zu zahlen</label>
+                <p class="field-hint">1 = Kein Budget für neue Abos. 5 = Bereit für sinnvolle Abos.</p>
+                <div class="slider-row">
+                  <span class="slider-label">1</span>
+                  <input type="range" id="f-pay" name="payWillingness" min="1" max="5" value="3" class="range-input">
+                  <span class="slider-label">5</span>
+                </div>
+                <output for="f-pay" id="out-pay" class="slider-output">3</output>
+              </div>
+
+              <div class="form-field">
+                <label for="f-privacy">Datenschutz-Präferenz</label>
+                <select id="f-privacy" name="privacyPreference" class="select-input">
+                  <option value="neutral">Neutral — mir ist das nicht so wichtig</option>
+                  <option value="prefer-privacy">Lieber datenschutzfreundliche Lösungen</option>
+                  <option value="cloud-critical">Cloud-Dienste sind für mich ein Problem</option>
+                  <option value="no-cloud">Ich möchte keine Daten in der Cloud</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="f-no-integrate">Bereiche, die du explizit NICHT integrieren willst <span class="field-optional">(optional)</span></label>
+                <input type="text" id="f-no-integrate" name="noIntegrate" maxlength="400" placeholder="z.B. Keine Ernährungsdaten, kein Standort">
+              </div>
+            </fieldset>
+
+            <!-- Group 6: Pain point -->
+            <fieldset class="form-group" id="group-pain">
+              <legend class="form-group-legend">Dein konkretes Ziel</legend>
+
+              <div class="form-field">
+                <label for="f-pain-point">Was soll dein persönliches AI-System für dich konkret besser machen?<span class="field-required">*</span></label>
+                <textarea id="f-pain-point" name="painPoint" rows="4" maxlength="800" placeholder="Beschreibe so konkret wie möglich, was du dir erhoffst." required></textarea>
+                <p class="field-error" id="pain-error" hidden>Bitte beschreibe dein konkretes Ziel.</p>
+              </div>
+
+              <div class="form-field">
+                <label for="f-frustration">Was nervt dich an deinem aktuellen Setup am meisten? <span class="field-optional">(optional)</span></label>
+                <textarea id="f-frustration" name="frustration" rows="3" maxlength="400" placeholder="Freiwillig — hilft uns aber sehr."></textarea>
+              </div>
+            </fieldset>
+
+            <!-- Consent -->
+            <fieldset class="form-group consent-group" id="group-consent">
+              <legend class="form-group-legend">Datenschutz & Einwilligungen</legend>
+              <p class="consent-summary">
+                Wir speichern dein anonymisiertes Profil (Ziele, Geräte, Präferenzen) und die generierte Architektur-Empfehlung in einer internen Pilotdatenbank. Die Daten dienen ausschließlich der Auswertung dieses Pilot-Programms und werden nicht an Dritte weitergegeben. Zur Erstellung deiner Empfehlung wird KI (OpenAI GPT-4o-mini) verwendet.
+              </p>
+              <label class="checkbox-option consent-checkbox">
+                <input type="checkbox" id="f-consent-data" name="consentData" required>
+                <span>Ich stimme zu, dass mein Profil und die Empfehlung für die Pilot-Auswertung gespeichert werden.<span class="field-required">*</span></span>
+              </label>
+              <p class="field-error" id="consent-error" hidden>Bitte stimme der Datenspeicherung zu, um fortzufahren.</p>
+
+              <label class="checkbox-option consent-checkbox" id="consent-email-row" hidden>
+                <input type="checkbox" id="f-consent-email" name="consentEmail">
+                <span>Ich bin einverstanden, dass Alex mir eine Kopie meiner Architektur-Empfehlung per E-Mail zusendet.</span>
+              </label>
+            </fieldset>
+
+            <button type="submit" class="button button-primary" id="btn-submit">
+              Architektur erstellen →
+            </button>
+
+          </div>
+        </form>
+      </section>
+
+      <!-- Step: Generating -->
+      <section id="step-generating" class="pilot-step" aria-live="polite" hidden>
+        <div class="pilot-card stack-lg pilot-card-center">
+          <div class="generating-spinner" aria-hidden="true"></div>
+          <h2>Deine Architektur wird erstellt…</h2>
+          <p class="pilot-lede">Das dauert in der Regel 15–30 Sekunden.</p>
+          <p class="muted-note">KI analysiert dein Profil und wählt die passendsten Komponenten aus dem Component Registry aus.</p>
+        </div>
+      </section>
+
+      <!-- Step: Result (populated by JS) -->
+      <section id="step-result" class="pilot-step" aria-live="polite" hidden>
+        <div id="result-content"></div>
+      </section>
+
+      <!-- Step: Error -->
+      <section id="step-error" class="pilot-step" aria-live="assertive" hidden>
+        <div class="pilot-card stack-lg pilot-card-center">
+          <div class="error-icon" aria-hidden="true">⚠️</div>
+          <h2>Empfehlung konnte nicht erstellt werden</h2>
+          <p class="pilot-lede" id="error-message">Die automatische Architektur konnte diesmal nicht zuverlässig erstellt werden.</p>
+          <p class="muted-note">Dies ist kein Fehler von dir. Der Versuch wurde als Pilot-Evidenz gespeichert.</p>
+          <div class="error-actions">
+            <button class="button button-primary" id="btn-retry">Nochmal versuchen</button>
+            <a href="/" class="button button-secondary">Zurück zur Startseite</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="pilot-footer">
+      <p>Personal AI OS · <a href="/">Startseite</a> · Evidence Level: Experimental / Founder-tested · V0.1</p>
+    </footer>
+
+    <script src="pilot.js"></script>
+  </body>
+</html>
