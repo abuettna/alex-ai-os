@@ -3,6 +3,7 @@ node_modules
 .git
 .github
 .gitignore
+.assetsignore
 .netlify
 netlify
 netlify.toml
