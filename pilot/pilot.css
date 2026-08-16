@@ -1,0 +1,195 @@
+/*
+ * pilot.css — Pilot page styles
+ * Extends and inherits from ../styles.css (shared design system).
+ * Only pilot-specific overrides and additions are defined here.
+ */
+
+/* ── Hero ── */
+.pilot-hero {
+  padding: 2rem 0 3rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.pilot-h1 {
+  font-size: clamp(2.4rem, 9vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.pilot-h2 {
+  font-size: clamp(1.8rem, 6vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.pilot-lede {
+  max-width: 42rem;
+}
+
+.pilot-cta-btn {
+  font-size: 1.06rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1.25rem;
+  min-height: 3.4rem;
+}
+
+.pilot-trust-line {
+  font-size: 0.82rem;
+  color: var(--muted);
+  max-width: 40rem;
+  line-height: 1.55;
+}
+
+/* ── Two-column layout (pilot variant) ── */
+.pilot-two-col {
+  display: grid;
+  gap: 0.85rem;
+}
+
+/* ── Evidence levels ── */
+.pilot-evidence-levels {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.pilot-level-card {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.pilot-level-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.pilot-level-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.9rem;
+  padding: 0.25rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  width: fit-content;
+}
+
+.pilot-level-experimental {
+  background: #fff4e6;
+  color: #b56100;
+}
+
+.pilot-level-founder {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.pilot-level-pilot {
+  background: #eef3ff;
+  color: #3151b7;
+}
+
+.pilot-level-replicated {
+  background: #f0fff7;
+  color: #167a47;
+}
+
+.pilot-level-validated {
+  background: var(--dark);
+  color: #fff;
+}
+
+/* ── Principle section ── */
+.pilot-principle {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 48rem;
+}
+
+.pilot-principle-en {
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: var(--ink);
+  margin: 0;
+}
+
+.pilot-principle-subline {
+  font-size: 1rem;
+  color: var(--muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Onboarding component ── */
+.pilot-onboarding {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.pilot-onboarding-inner {
+  padding: 1.5rem;
+}
+
+.pilot-onboarding-inner .lede {
+  max-width: 36rem;
+}
+
+/* ── Final CTA section ── */
+.pilot-final-cta {
+  max-width: 52rem;
+}
+
+/* ── Responsive ── */
+@media (min-width: 700px) {
+  .pilot-hero {
+    padding: 2.5rem 0 4.5rem;
+  }
+
+  .pilot-two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .pilot-evidence-levels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .pilot-evidence-levels article:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 960px) {
+  .pilot-hero {
+    grid-template-columns: 1fr;
+    padding: 3.5rem 0 5.5rem;
+    max-width: 60rem;
+  }
+
+  .pilot-evidence-levels {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pilot-evidence-levels article:last-child {
+    grid-column: auto;
+  }
+
+  .pilot-onboarding-inner {
+    padding: 2rem;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .pilot-cta-btn {
+    transition: none;
+  }
+}

@@ -277,6 +277,24 @@ h3 {
   border-color: var(--line);
 }
 
+.button-pilot {
+  background: var(--accent);
+  color: #fff;
+}
+
+.site-nav-cta {
+  background: var(--dark);
+  color: #fff !important;
+  padding: 0.55rem 1rem !important;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.site-nav-cta:hover {
+  background: var(--accent) !important;
+}
+
 .hero-visual {
   align-content: start;
 }
