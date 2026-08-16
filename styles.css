@@ -284,15 +284,16 @@ h3 {
 
 .site-nav-cta {
   background: var(--dark);
-  color: #fff !important;
-  padding: 0.55rem 1rem !important;
+  color: #fff;
+  padding: 0.55rem 1rem;
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.88rem;
 }
 
 .site-nav-cta:hover {
-  background: var(--accent) !important;
+  background: var(--accent);
+  color: #fff;
 }
 
 .hero-visual {
