@@ -122,10 +122,95 @@
         </div>
 
         <div class="use-case-grid">
-          <!-- Featured: merged training decision case (formerly Case 1 + Case 7) -->
+          <article class="panel use-case featured-case weekly-report-case">
+            <div class="weekly-case-header">
+              <div class="stack-md">
+                <p class="case-label">FEATURED · ONE REQUEST, FOUR CONNECTED SYSTEMS</p>
+                <h3>A weekly report from ten weeks of history — generated and filed from one request.</h3>
+                <p>
+                  On an iPhone, I attached ten previous weekly reports and called LiftTrack, freddy, Google Calendar, and Airtable in the same prompt. ChatGPT combined training, recovery, schedule, manual journal context, and the structure of the earlier reports into one new weekly review for KW32 — then saved it to the Alex Data Lake in Airtable.
+                </p>
+              </div>
+
+              <dl class="weekly-metrics" aria-label="Case study at a glance">
+                <div><dt>10</dt><dd>past reports</dd></div>
+                <div><dt>4</dt><dd>connected systems</dd></div>
+                <div><dt>1</dt><dd>report + write-back</dd></div>
+              </dl>
+            </div>
+
+            <div class="weekly-workflow" aria-label="Workflow from source context to the stored weekly report">
+              <div class="workflow-stage source-stage">
+                <p class="mini-label">CONTEXT</p>
+                <div class="source-cloud">
+                  <span>10 past weekly reports</span>
+                  <span>LiftTrack · training</span>
+                  <span>freddy · recovery</span>
+                  <span>Google Calendar · real life</span>
+                  <span>Airtable · journal</span>
+                </div>
+              </div>
+
+              <span class="workflow-arrow" aria-hidden="true">→</span>
+
+              <div class="workflow-stage prompt-stage">
+                <p class="mini-label">ONE NATURAL-LANGUAGE REQUEST</p>
+                <blockquote lang="de">„Erstelle mir basierend auf den 10 angehängten Vorlagen ein Wochenblatt für 2026 KW32 und speichere es in meinem Data Lake in Airtable ab.“</blockquote>
+                <div class="chip-row">
+                  <span class="tag read">READ</span>
+                  <span class="tag derived">SYNTHESIZE</span>
+                </div>
+              </div>
+
+              <span class="workflow-arrow" aria-hidden="true">→</span>
+
+              <div class="workflow-stage output-stage">
+                <p class="mini-label">USABLE OUTPUT</p>
+                <strong>KW32 weekly report</strong>
+                <ul>
+                  <li>Executive summary</li>
+                  <li>Training &amp; recovery</li>
+                  <li>Nutrition &amp; real-life context</li>
+                  <li>Coach conclusion</li>
+                </ul>
+                <span class="writeback-pill"><span class="tag write">WRITE</span> Alex Data Lake</span>
+              </div>
+            </div>
+
+            <p class="weekly-thesis">One request. Four systems. One useful result — stored where the next week can build on it.</p>
+
+            <div class="weekly-proof-grid" aria-label="Real screenshots from the weekly report workflow">
+              <figure class="workflow-proof proof-history">
+                <img src="assets/case-studies/weekly-history.webp" alt="List of previous weekly reports attached as examples" loading="lazy" decoding="async">
+                <figcaption><span>01</span> Ten previous reports preserve structure and tone.</figcaption>
+              </figure>
+
+              <div class="proof-sequence">
+                <figure class="workflow-proof proof-prompt">
+                  <img src="assets/case-studies/weekly-prompt.webp" alt="German ChatGPT prompt connecting LiftTrack, Airtable, freddy, and Google Calendar" loading="lazy" decoding="async">
+                  <figcaption><span>02</span> One prompt names the sources, desired output, and destination.</figcaption>
+                </figure>
+
+                <div class="proof-result-row">
+                  <figure class="workflow-proof">
+                    <img src="assets/case-studies/weekly-confirmation.webp" alt="ChatGPT confirmation that the KW32 report was saved" loading="lazy" decoding="async">
+                    <figcaption><span>03</span> The full report is generated.</figcaption>
+                  </figure>
+                  <figure class="workflow-proof">
+                    <img src="assets/case-studies/weekly-airtable.webp" alt="KW32 weekly report visible as a record in Airtable" loading="lazy" decoding="async">
+                    <figcaption><span>04</span> The result is present in Airtable.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+            <p class="privacy-note">The evidence is deliberately cropped. The workflow is public; the detailed personal health content is not.</p>
+          </article>
+
+          <!-- Merged training decision case (formerly Case 1 + Case 7) -->
           <article class="panel use-case featured-case">
             <div class="stack-md">
-              <p class="case-label">FEATURED</p>
+              <p class="case-label">CASE STUDY 2</p>
               <h3>"Should I run today?" — contextual training decision</h3>
               <p>
                 Instead of a generic answer, the Personal AI Coach combines Garmin and freddy recovery signals, recent LiftTrack strength-training history, Airtable subjective notes, and Google Calendar constraints — then answers one question: should I run today, and if yes, what kind of run actually fits?
@@ -156,7 +241,7 @@
           </article>
 
           <article class="panel use-case">
-            <p class="case-label">CASE STUDY 2</p>
+            <p class="case-label">CASE STUDY 3</p>
             <h3>One-tap real-life logging</h3>
             <p>
               An iPhone Shortcut on the lock screen opens a persistent ChatGPT logging conversation. One tap turns a quick voice note or observation into a structured long-term log.
@@ -170,7 +255,7 @@
           </article>
 
           <article class="panel use-case">
-            <p class="case-label">CASE STUDY 3</p>
+            <p class="case-label">CASE STUDY 4</p>
             <h3>Food without traditional food logging</h3>
             <p>
               A meal can be sent as text, voice, or image. The AI identifies foods, estimates quantities where appropriate, preserves product-specific detail, and places nutrition in longer-term context.
@@ -179,7 +264,7 @@
           </article>
 
           <article class="panel use-case">
-            <p class="case-label">CASE STUDY 4</p>
+            <p class="case-label">CASE STUDY 5</p>
             <h3>Calendar changes the answer</h3>
             <p>
               The same recovery data can lead to different recommendations depending on what is actually planned for the day. Calendar context becomes part of decision support instead of remaining a separate productivity silo.
@@ -187,7 +272,7 @@
           </article>
 
           <article class="panel use-case">
-            <p class="case-label">CASE STUDY 5</p>
+            <p class="case-label">CASE STUDY 6</p>
             <h3>Adapting the actual workout</h3>
             <p>
               The system can inspect LiftTrack workout context together with recovery and real-life constraints, then suggest concrete session changes.

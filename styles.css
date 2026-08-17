@@ -412,6 +412,219 @@ figcaption {
   gap: 1rem;
 }
 
+.weekly-report-case {
+  grid-column: 1 / -1;
+  gap: 1.35rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(96, 72, 255, 0.13), transparent 28rem),
+    var(--panel);
+  border-color: #d5d0fb;
+}
+
+.weekly-case-header {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.weekly-case-header h3 {
+  max-width: 48rem;
+}
+
+.weekly-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 1.15rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.weekly-metrics div {
+  min-width: 0;
+  padding: 0.9rem 0.7rem;
+  border-right: 1px solid var(--line);
+}
+
+.weekly-metrics div:last-child {
+  border-right: 0;
+}
+
+.weekly-metrics dt,
+.weekly-metrics dd {
+  margin: 0;
+}
+
+.weekly-metrics dt {
+  font-size: clamp(1.55rem, 6vw, 2.35rem);
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: -0.05em;
+  color: var(--ink);
+}
+
+.weekly-metrics dd {
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.weekly-workflow {
+  display: grid;
+  gap: 0.75rem;
+  align-items: stretch;
+  padding: 0.8rem;
+  border-radius: 1.4rem;
+  background: var(--dark);
+  color: #fff;
+  box-shadow: 0 20px 55px rgba(11, 16, 32, 0.18);
+}
+
+.workflow-stage {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.workflow-stage .mini-label {
+  color: #aeb8cf;
+}
+
+.source-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.source-cloud span {
+  padding: 0.48rem 0.64rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #edf1fa;
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.prompt-stage {
+  background: linear-gradient(145deg, #5540e8, #7e69ff);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.prompt-stage .mini-label {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.prompt-stage blockquote {
+  font-size: clamp(1rem, 2.8vw, 1.28rem);
+  line-height: 1.36;
+  font-weight: 680;
+  letter-spacing: -0.02em;
+}
+
+.output-stage {
+  background: #111b34;
+}
+
+.output-stage strong {
+  font-size: 1.18rem;
+}
+
+.output-stage ul {
+  margin: 0;
+  padding-left: 1.05rem;
+  color: #cbd3e3;
+  font-size: 0.83rem;
+}
+
+.output-stage li + li {
+  margin-top: 0.28rem;
+}
+
+.writeback-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.38rem 0.58rem 0.38rem 0.38rem;
+  border-radius: 999px;
+  background: rgba(233, 255, 244, 0.1);
+  color: #d8ffeb;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.workflow-arrow {
+  align-self: center;
+  justify-self: center;
+  color: #8d7cff;
+  font-size: 1.55rem;
+  line-height: 1;
+  transform: rotate(90deg);
+}
+
+.weekly-thesis {
+  padding: 1.05rem 1.15rem;
+  border-left: 4px solid var(--accent);
+  border-radius: 0 1rem 1rem 0;
+  background: var(--accent-soft);
+  color: var(--ink) !important;
+  font-size: clamp(1.12rem, 3vw, 1.45rem);
+  line-height: 1.3;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+.weekly-proof-grid,
+.proof-sequence,
+.proof-result-row {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.workflow-proof {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  border: 1px solid #27314a;
+  background: #0f1728;
+}
+
+.workflow-proof img {
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+
+.workflow-proof figcaption {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.8rem 0.9rem 0.9rem;
+  color: #c8cfde;
+  line-height: 1.35;
+}
+
+.workflow-proof figcaption span {
+  color: #9d8fff;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.privacy-note {
+  padding-top: 0.2rem;
+  color: var(--muted) !important;
+  font-size: 0.82rem;
+}
+
 .screen-card {
   overflow: hidden;
   padding: 0.6rem;
@@ -737,6 +950,35 @@ details[open].details-block summary::before {
     grid-template-columns: 1fr;
   }
 
+  .weekly-case-header {
+    grid-template-columns: minmax(0, 1.35fr) minmax(17rem, 0.65fr);
+    align-items: end;
+  }
+
+  .weekly-proof-grid {
+    grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1.3fr);
+    align-items: stretch;
+  }
+
+  .proof-sequence {
+    grid-template-rows: auto 1fr;
+  }
+
+  .proof-result-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .proof-history {
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .proof-history img {
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
   .how-grid,
   .architecture-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -785,6 +1027,25 @@ details[open].details-block summary::before {
 
   .panel {
     padding: 1.5rem;
+  }
+
+  .weekly-report-case {
+    padding: 1.8rem;
+    gap: 1.6rem;
+  }
+
+  .weekly-workflow {
+    grid-template-columns: minmax(0, 0.9fr) auto minmax(0, 1.35fr) auto minmax(0, 0.9fr);
+    gap: 0.6rem;
+    padding: 0.75rem;
+  }
+
+  .workflow-stage {
+    padding: 1.1rem;
+  }
+
+  .workflow-arrow {
+    transform: none;
   }
 
   .architecture-stack {
