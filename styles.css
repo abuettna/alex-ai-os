@@ -1193,6 +1193,12 @@ details[open].details-block summary::before {
   font-weight: 800;
 }
 
+.quote-translation {
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-style: italic;
+}
+
 .finding-card,
 .race-thesis,
 .evidence-note {
