@@ -1266,13 +1266,14 @@
             </fieldset>
 
             <div class="data-notice">
-              <strong>Was beim Absenden gespeichert wird:</strong> deine Auswahl, deine beiden
-              Freitextfelder, Zeitpunkt, Antwortcode, Linkquelle und nur die grobe Angabe
-              Mobil/Desktop. Keine Namen, E-Mail-Adressen oder automatisch ausgelesenen
-              Tracker-Daten. Die Antworten werden in Airtable für die Produktforschung
-              gespeichert. Hosting- und Speicherdienste verarbeiten technisch notwendige
-              Verbindungsdaten nach ihren Bedingungen. Bitte trage keine Diagnosen,
-              Klarnamen oder vertraulichen Details ein.
+              <strong>Was bei aktiver zentraler Speicherung gespeichert wird:</strong> deine
+              Auswahl, deine beiden Freitextfelder, Zeitpunkt, Antwortcode, Linkquelle und
+              nur die grobe Angabe Mobil/Desktop. Keine Namen, E-Mail-Adressen oder automatisch
+              ausgelesenen Tracker-Daten. Ist die zentrale Speicherung nicht erreichbar,
+              werden stattdessen nur Kopieren und Teilen auf deinem Gerät angeboten. Die
+              Antworten werden in Airtable für die Produktforschung gespeichert. Hosting- und
+              Speicherdienste verarbeiten technisch notwendige Verbindungsdaten nach ihren
+              Bedingungen. Bitte trage keine Diagnosen, Klarnamen oder vertraulichen Details ein.
             </div>
             <label class="survey-choice consent-choice">
               <input type="checkbox" name="consent" value="yes">
@@ -1281,7 +1282,7 @@
             <p class="survey-error" id="survey-error-5" role="alert"></p>
             <div class="survey-actions">
               <button class="demo-button demo-button-secondary" type="button" data-survey-back="4">Zurück</button>
-              <button class="demo-button demo-button-primary" type="submit" id="submit-response">Antwort absenden</button>
+              <button class="demo-button demo-button-primary" type="submit" id="submit-response">Antwort abschließen</button>
             </div>
             <p class="submit-status" id="submit-status" role="status"></p>
             <div class="fallback-share" id="fallback-share" hidden>
@@ -1651,6 +1652,27 @@
         var surveyProgress = researchCard.querySelector(".survey-progress-wrap");
         var surveyStartedAt = 0;
         var lastResponseSummary = "";
+        var storageReady = false;
+
+        function refreshStorageStatus() {
+          return fetch("/api/discovery-status", {
+            method: "GET",
+            headers: { "Accept": "application/json" },
+            cache: "no-store"
+          })
+            .then(function (response) {
+              if (!response.ok) throw new Error("Status unavailable");
+              return response.json();
+            })
+            .then(function (body) {
+              storageReady = body.ready === true;
+              return storageReady;
+            })
+            .catch(function () {
+              storageReady = false;
+              return false;
+            });
+        }
 
         function checkedValues(name) {
           return Array.prototype.map.call(
@@ -1762,6 +1784,7 @@
 
         document.getElementById("start-research").addEventListener("click", function () {
           if (!surveyStartedAt) surveyStartedAt = Date.now();
+          refreshStorageStatus();
           demoCard.hidden = true;
           researchCard.hidden = false;
           researchForm.hidden = false;
@@ -1846,7 +1869,7 @@
           document.getElementById("share-response").textContent = "Antwort teilen";
           var submit = document.getElementById("submit-response");
           submit.disabled = false;
-          submit.textContent = "Antwort absenden";
+          submit.textContent = "Antwort abschließen";
           for (var step = 1; step <= 5; step += 1) setSurveyError(step, "");
           showSurveyStep(1);
         }
@@ -1890,6 +1913,14 @@
           };
           lastResponseSummary = buildResponseSummary(payload);
 
+          if (!storageReady) {
+            submit.disabled = false;
+            submit.textContent = "Antwort vorbereitet";
+            status.textContent = "Die zentrale Speicherung ist noch nicht aktiv. Deine Eingaben wurden nicht übertragen – du kannst die kompakte Antwort jetzt selbst teilen oder kopieren.";
+            document.getElementById("fallback-share").hidden = false;
+            return;
+          }
+
           fetch("/api/save-discovery-response", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -1911,7 +1942,7 @@
             })
             .catch(function () {
               submit.disabled = false;
-              submit.textContent = "Antwort erneut absenden";
+              submit.textContent = "Antwort erneut abschließen";
               status.textContent = "Die zentrale Speicherung ist gerade nicht erreichbar. Deine Eingaben bleiben hier; du kannst erneut versuchen oder die kompakte Antwort direkt zurückschicken.";
               document.getElementById("fallback-share").hidden = false;
             });
@@ -1937,6 +1968,8 @@
             });
           }
         });
+
+        refreshStorageStatus();
 
         document.getElementById("restart").addEventListener("click", function () {
           state = { device: "", question: "", context: "" };
