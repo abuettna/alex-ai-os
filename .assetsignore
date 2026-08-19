@@ -14,6 +14,8 @@ package.json
 package-lock.json
 README.md
 pilot/SETUP.md
+worker
+wrangler.jsonc
 
 # Preserve inactive pilot implementation artifacts in-repo, but do not publish.
 pilot/pilot.js
