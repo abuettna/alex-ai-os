@@ -287,6 +287,14 @@ async function handleDiscovery(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === "/api/discovery-status") {
+      if (request.method !== "GET") {
+        return jsonResponse(405, { error: "Method Not Allowed" });
+      }
+      return jsonResponse(200, {
+        ready: Boolean(env.AIRTABLE_API_KEY || env.AIRTABLE_TOKEN)
+      });
+    }
     if (url.pathname === "/api/save-discovery-response") {
       return handleDiscovery(request, env);
     }
