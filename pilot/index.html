@@ -2,34 +2,1077 @@
 <html lang="de">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="Founding Pilot – bald verfügbar.">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="Personal AI OS in 60 Sekunden: drei Fragen, ein konkreter Startpunkt – mit Garmin, Polar, anderer Uhr oder ganz ohne Tracking.">
     <meta name="theme-color" content="#0b1020">
     <meta name="robots" content="noindex">
-    <title>Founding Pilot – bald verfügbar</title>
+    <meta property="og:title" content="Personal AI OS – 60-Sekunden-Demo">
+    <meta property="og:description" content="Was könnten deine vorhandenen Daten und dein echter Alltag gemeinsam für dich tun?">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://personal-ai-os.com/pilot/">
+    <link rel="canonical" href="https://personal-ai-os.com/pilot/">
+    <title>Personal AI OS – 60-Sekunden-Demo</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+      :root {
+        --demo-accent: #6048ff;
+        --demo-accent-2: #9b8cff;
+        --demo-dark: #0b1020;
+        --demo-dark-soft: #171d35;
+      }
+
+      body {
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 10% 0%, rgba(96, 72, 255, 0.12), transparent 32rem),
+          radial-gradient(circle at 100% 35%, rgba(155, 140, 255, 0.11), transparent 28rem),
+          var(--bg);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .demo-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(221, 227, 237, 0.9);
+        background: rgba(244, 246, 250, 0.9);
+        backdrop-filter: blur(18px);
+      }
+
+      .demo-header-inner,
+      .demo-shell,
+      .demo-footer {
+        width: min(780px, calc(100% - 28px));
+        margin-inline: auto;
+      }
+
+      .demo-header-inner {
+        min-height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .demo-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        font-weight: 850;
+        letter-spacing: -0.025em;
+      }
+
+      .demo-logo {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 0.85rem;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: linear-gradient(135deg, var(--demo-accent), var(--demo-accent-2));
+        box-shadow: 0 9px 25px rgba(96, 72, 255, 0.24);
+      }
+
+      .header-share {
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.82);
+        color: var(--ink);
+        padding: 0.55rem 0.85rem;
+        font-weight: 750;
+        cursor: pointer;
+      }
+
+      .header-share:hover {
+        border-color: var(--demo-accent);
+      }
+
+      .demo-shell {
+        padding: clamp(2rem, 7vw, 4.5rem) 0 4rem;
+      }
+
+      .demo-intro {
+        text-align: center;
+        display: grid;
+        justify-items: center;
+        gap: 1.05rem;
+        margin-bottom: clamp(1.75rem, 5vw, 2.75rem);
+      }
+
+      .demo-kicker {
+        margin: 0;
+        color: var(--demo-accent);
+        font-size: 0.72rem;
+        font-weight: 850;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .demo-intro h1 {
+        max-width: 720px;
+        margin: 0;
+        font-size: clamp(2.25rem, 8vw, 4.5rem);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+      }
+
+      .demo-intro .lede {
+        max-width: 620px;
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 3vw, 1.18rem);
+        line-height: 1.65;
+      }
+
+      .micro-facts {
+        list-style: none;
+        margin: 0.15rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .micro-facts li {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 0.4rem 0.7rem;
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .demo-card {
+        overflow: hidden;
+        border: 1px solid rgba(201, 210, 228, 0.9);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 26px 80px rgba(15, 23, 40, 0.11);
+      }
+
+      .progress-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 750;
+      }
+
+      .progress-track {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.35rem;
+        flex: 1;
+      }
+
+      .progress-segment {
+        height: 5px;
+        border-radius: 999px;
+        background: var(--line);
+        transition: background 180ms ease, transform 180ms ease;
+      }
+
+      .progress-segment.is-active,
+      .progress-segment.is-done {
+        background: var(--demo-accent);
+      }
+
+      .progress-segment.is-active {
+        transform: scaleY(1.4);
+      }
+
+      .step {
+        padding: clamp(1.35rem, 5vw, 2.25rem);
+      }
+
+      .step[hidden] {
+        display: none;
+      }
+
+      .step-heading {
+        display: grid;
+        gap: 0.65rem;
+        margin-bottom: 1.35rem;
+      }
+
+      .step-count {
+        margin: 0;
+        color: var(--demo-accent);
+        font-size: 0.72rem;
+        font-weight: 850;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .step-heading h2 {
+        margin: 0;
+        font-size: clamp(1.55rem, 5vw, 2.2rem);
+        line-height: 1.12;
+        letter-spacing: -0.035em;
+      }
+
+      .step-heading p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .option-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      .option-grid.context-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .option {
+        position: relative;
+        width: 100%;
+        min-height: 92px;
+        border: 1.5px solid var(--line-strong);
+        border-radius: 17px;
+        background: var(--bg);
+        color: var(--ink);
+        padding: 1rem 2.8rem 1rem 1rem;
+        display: grid;
+        align-content: center;
+        gap: 0.2rem;
+        text-align: left;
+        cursor: pointer;
+        transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+      }
+
+      .context-grid .option {
+        min-height: 70px;
+      }
+
+      .option:hover {
+        transform: translateY(-2px);
+        border-color: var(--demo-accent);
+        box-shadow: 0 12px 28px rgba(15, 23, 40, 0.07);
+      }
+
+      .option.is-selected {
+        border-color: var(--demo-accent);
+        background: var(--accent-soft);
+      }
+
+      .option::after {
+        content: "›";
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-52%);
+        color: var(--demo-accent);
+        font-size: 1.65rem;
+        line-height: 1;
+      }
+
+      .option strong {
+        font-size: 1rem;
+        line-height: 1.25;
+      }
+
+      .option span {
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.35;
+      }
+
+      .privacy-line {
+        margin: 1.1rem 0 0;
+        color: var(--muted);
+        font-size: 0.79rem;
+        text-align: center;
+      }
+
+      .result-step {
+        padding: 0;
+      }
+
+      .result-hero {
+        padding: clamp(1.5rem, 5vw, 2.4rem);
+        color: #fff;
+        background:
+          radial-gradient(circle at 100% 0%, rgba(155, 140, 255, 0.32), transparent 20rem),
+          var(--demo-dark);
+      }
+
+      .result-hero .step-count {
+        color: #bcb3ff;
+      }
+
+      .result-hero h2 {
+        margin: 0.55rem 0 0.65rem;
+        max-width: 620px;
+        color: #fff;
+        font-size: clamp(1.75rem, 6vw, 2.8rem);
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+      }
+
+      .result-hero p:last-child {
+        margin: 0;
+        color: rgba(255,255,255,0.72);
+      }
+
+      .result-body {
+        display: grid;
+      }
+
+      .result-section {
+        padding: clamp(1.25rem, 5vw, 2rem);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .result-section:last-child {
+        border-bottom: 0;
+      }
+
+      .result-label {
+        margin: 0 0 0.55rem;
+        color: var(--demo-accent);
+        font-size: 0.7rem;
+        font-weight: 850;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .result-section h3 {
+        margin: 0 0 0.55rem;
+        font-size: 1.22rem;
+        letter-spacing: -0.02em;
+      }
+
+      .result-section p {
+        margin: 0;
+      }
+
+      .source-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      .source-card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--bg);
+        padding: 1rem;
+      }
+
+      .source-card strong {
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+
+      .source-card p {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+
+      .prompt-box {
+        margin-top: 0.9rem;
+        border: 1px solid rgba(96, 72, 255, 0.2);
+        border-radius: 16px;
+        background: var(--accent-soft);
+        padding: 1rem;
+        color: var(--ink);
+        white-space: pre-wrap;
+        line-height: 1.62;
+        font-size: 0.94rem;
+      }
+
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1rem;
+      }
+
+      .demo-button {
+        min-height: 44px;
+        border: 0;
+        border-radius: 12px;
+        padding: 0.7rem 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        font-weight: 800;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .demo-button-primary {
+        background: var(--demo-accent);
+        color: #fff;
+      }
+
+      .demo-button-secondary {
+        border: 1px solid var(--line-strong);
+        background: #fff;
+        color: var(--ink);
+      }
+
+      .demo-button:hover {
+        opacity: 0.88;
+      }
+
+      .copy-status {
+        min-height: 1.2em;
+        margin-top: 0.55rem !important;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .feedback-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-top: 0.85rem;
+      }
+
+      .feedback-option {
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        background: var(--bg);
+        color: var(--ink);
+        padding: 0.55rem 0.85rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .feedback-option.is-selected {
+        border-color: var(--demo-accent);
+        background: var(--accent-soft);
+        color: var(--demo-accent);
+      }
+
+      .feedback-followup {
+        min-height: 1.6em;
+        margin-top: 0.75rem !important;
+        color: var(--demo-accent);
+        font-weight: 750;
+      }
+
+      .safety-note {
+        border-left: 4px solid var(--demo-accent);
+        background: var(--panel-strong);
+      }
+
+      .demo-footer {
+        padding: 0 0 calc(2rem + env(safe-area-inset-bottom));
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.65rem 1rem;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .demo-footer a {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      dialog {
+        width: min(390px, calc(100% - 28px));
+        border: 0;
+        border-radius: 24px;
+        padding: 0;
+        color: var(--ink);
+        background: #fff;
+        box-shadow: 0 35px 110px rgba(11, 16, 32, 0.3);
+      }
+
+      dialog::backdrop {
+        background: rgba(11, 16, 32, 0.68);
+        backdrop-filter: blur(5px);
+      }
+
+      .share-dialog-inner {
+        padding: 1.35rem;
+        text-align: center;
+      }
+
+      .share-dialog-inner h2 {
+        margin: 0.35rem 0;
+        font-size: 1.5rem;
+      }
+
+      .share-dialog-inner > p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .qr-wrap {
+        width: min(280px, 82vw);
+        aspect-ratio: 1;
+        margin: 1rem auto;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        padding: 0.75rem;
+      }
+
+      .qr-wrap svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .qr-url {
+        display: block;
+        color: var(--muted);
+        font-size: 0.82rem;
+        overflow-wrap: anywhere;
+      }
+
+      .dialog-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+
+      @media (max-width: 580px) {
+        .option-grid,
+        .source-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .option {
+          min-height: 76px;
+        }
+
+        .demo-header-inner {
+          min-height: 60px;
+        }
+
+        .demo-brand span:last-child {
+          font-size: 0.92rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Zum Hauptinhalt springen</a>
+    <a class="skip-link" href="#demo">Zum Test springen</a>
 
-    <header class="site-header">
-      <a href="/" class="brand"><span class="logo">◎</span><span>Personal AI OS</span></a>
+    <header class="demo-header">
+      <div class="demo-header-inner">
+        <a class="demo-brand" href="/" aria-label="Personal AI OS Startseite">
+          <span class="demo-logo" aria-hidden="true">◎</span>
+          <span>Personal AI OS</span>
+        </a>
+        <button class="header-share" type="button" data-open-share>QR zeigen</button>
+      </div>
     </header>
 
-    <main id="main-content" class="section-shell section-block">
-      <section class="panel stack-lg" aria-labelledby="pilot-coming-soon-title">
-        <p class="eyebrow">FOUNDING PILOT</p>
-        <h1 id="pilot-coming-soon-title">Founding Pilot – bald verfügbar</h1>
+    <main class="demo-shell">
+      <section class="demo-intro" aria-labelledby="demo-title">
+        <p class="demo-kicker">60-Sekunden-Demo · für echte Menschen, nicht nur Data Nerds</p>
+        <h1 id="demo-title">Was könnte dein Alltag heute schon für dich wissen?</h1>
         <p class="lede">
-          Ich bereite gerade einen vollständig automatisierten Self-Service-Pilot vor. Du sollst dein persönliches AI-Setup später selbstständig durchlaufen können – ohne manuelles Onboarding und ohne halbfertige Funktionen.
+          Ob Garmin, Polar oder gar kein Tracker: Wähle einen echten Ausgangspunkt und eine echte Frage. Danach siehst du, was ein Personal AI OS daraus machen könnte.
         </p>
-        <p class="small-note">
-          Die aktuelle Pilot-Version ist vorübergehend deaktiviert, bis der technische Ablauf sauber getestet ist.
-        </p>
-        <div>
-          <a class="button button-primary" href="/">Zurück zur Startseite</a>
+        <ul class="micro-facts" aria-label="Rahmen der Demo">
+          <li>3 Taps</li>
+          <li>kein Login</li>
+          <li>keine Verbindung nötig</li>
+          <li>Auswahl bleibt im Browser</li>
+        </ul>
+      </section>
+
+      <section class="demo-card" id="demo" aria-label="Personal AI OS Kurztest">
+        <div class="progress-wrap" aria-label="Fortschritt">
+          <span id="progress-label">1 von 3</span>
+          <div class="progress-track" aria-hidden="true">
+            <span class="progress-segment is-active" data-progress="1"></span>
+            <span class="progress-segment" data-progress="2"></span>
+            <span class="progress-segment" data-progress="3"></span>
+          </div>
         </div>
+
+        <section class="step" id="step-device" data-key="device">
+          <div class="step-heading">
+            <p class="step-count">Frage 1</p>
+            <h2>Was nutzt du heute?</h2>
+            <p>Es gibt keine falsche Antwort. Tracking ist eine mögliche Datenquelle, keine Voraussetzung.</p>
+          </div>
+          <div class="option-grid">
+            <button class="option" type="button" data-value="garmin">
+              <strong>Garmin</strong>
+              <span>Uhr + Garmin Connect</span>
+            </button>
+            <button class="option" type="button" data-value="polar">
+              <strong>Polar</strong>
+              <span>Uhr + Polar Flow</span>
+            </button>
+            <button class="option" type="button" data-value="other">
+              <strong>Andere Uhr oder App</strong>
+              <span>Apple Watch, Fitbit, Strava …</span>
+            </button>
+            <button class="option" type="button" data-value="none">
+              <strong>Kein Tracking</strong>
+              <span>Nur du und dein echter Alltag</span>
+            </button>
+          </div>
+          <p class="privacy-line">Deine Auswahl wird nicht abgesendet oder gespeichert.</p>
+        </section>
+
+        <section class="step" id="step-question" data-key="question" hidden>
+          <div class="step-heading">
+            <p class="step-count">Frage 2</p>
+            <h2>Welche Frage würdest du wirklich stellen?</h2>
+            <p>Nicht: „Zeig mir meine Daten.“ Sondern: „Hilf mir bei einer Entscheidung.“</p>
+          </div>
+          <div class="option-grid">
+            <button class="option" type="button" data-value="train">
+              <strong>Was soll ich heute trainieren?</strong>
+              <span>Belastung, Erholung und echter Kalender</span>
+            </button>
+            <button class="option" type="button" data-value="nutrition">
+              <strong>Wie esse ich rund ums Training?</strong>
+              <span>Ohne starre Standardpläne</span>
+            </button>
+            <button class="option" type="button" data-value="energy">
+              <strong>Warum bin ich heute so platt?</strong>
+              <span>Muster statt einzelner Tageswert</span>
+            </button>
+            <button class="option" type="button" data-value="routine">
+              <strong>Wie bleibe ich mit wenig Zeit dran?</strong>
+              <span>Plan trifft Arbeit, Familie und Realität</span>
+            </button>
+            <button class="option" type="button" data-value="habit">
+              <strong>Wie ändere ich eine Gewohnheit?</strong>
+              <span>Zum Beispiel Rauchen, Snacks oder Bewegung</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="step" id="step-context" data-key="context" hidden>
+          <div class="step-heading">
+            <p class="step-count">Frage 3</p>
+            <h2>Was ist heute außerdem wahr?</h2>
+            <p>Genau hier beginnt Kontext. Die gleiche Zahl kann an zwei Tagen etwas anderes bedeuten.</p>
+          </div>
+          <div class="option-grid context-grid">
+            <button class="option" type="button" data-value="sleep">
+              <strong>Ich habe schlecht geschlafen.</strong>
+              <span>Ein Wert allein erklärt noch nicht, warum.</span>
+            </button>
+            <button class="option" type="button" data-value="load">
+              <strong>Gestern war eine harte Einheit.</strong>
+              <span>Die heutige Entscheidung gehört in die ganze Woche.</span>
+            </button>
+            <button class="option" type="button" data-value="busy">
+              <strong>Arbeit oder Familie lassen kaum Zeit.</strong>
+              <span>Ein perfekter Plan, der nicht stattfindet, ist wertlos.</span>
+            </button>
+            <button class="option" type="button" data-value="social">
+              <strong>Heute Abend gibt es Essen und Wein.</strong>
+              <span>Das echte Leben ist Teil der Entscheidung.</span>
+            </button>
+            <button class="option" type="button" data-value="good">
+              <strong>Ich fühle mich gut – nichts Besonderes.</strong>
+              <span>Auch subjektiv gute Tage sind ein wichtiges Signal.</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="step result-step" id="step-result" hidden aria-live="polite">
+          <div class="result-hero">
+            <p class="step-count">Dein Ergebnis</p>
+            <h2 id="result-title">Nicht mehr Daten. Eine bessere Frage.</h2>
+            <p id="result-summary"></p>
+          </div>
+
+          <div class="result-body">
+            <section class="result-section">
+              <p class="result-label">Was zusammenkommt</p>
+              <div class="source-grid">
+                <article class="source-card">
+                  <strong id="device-title">Dein Ausgangspunkt</strong>
+                  <p id="device-copy"></p>
+                </article>
+                <article class="source-card">
+                  <strong>Was kein Tracker weiß</strong>
+                  <p id="context-copy"></p>
+                </article>
+              </div>
+            </section>
+
+            <section class="result-section">
+              <p class="result-label">Beispiel für Decision Support</p>
+              <h3 id="decision-heading"></h3>
+              <p id="decision-copy"></p>
+            </section>
+
+            <section class="result-section">
+              <p class="result-label">Du kannst heute anfangen</p>
+              <h3>Dieser Startprompt funktioniert auch ohne Integration.</h3>
+              <div class="prompt-box" id="prompt-text"></div>
+              <div class="action-row">
+                <button class="demo-button demo-button-primary" type="button" id="copy-prompt">Startprompt kopieren</button>
+                <a class="demo-button demo-button-secondary" href="/#use-cases">Echte Beispiele ansehen</a>
+                <button class="demo-button demo-button-secondary" type="button" data-open-share>QR zeigen</button>
+              </div>
+              <p class="copy-status" id="copy-status" role="status"></p>
+            </section>
+
+            <section class="result-section">
+              <p class="result-label">Der eigentliche Test heute Abend</p>
+              <h3>Würdest du so etwas morgen selbst benutzen?</h3>
+              <div class="feedback-options" role="group" aria-label="Persönliche Einschätzung">
+                <button class="feedback-option" type="button" data-feedback="yes">Ja</button>
+                <button class="feedback-option" type="button" data-feedback="maybe">Vielleicht</button>
+                <button class="feedback-option" type="button" data-feedback="no">Nein</button>
+              </div>
+              <p class="feedback-followup" id="feedback-followup">Sag Alex die ehrliche Antwort – genau darum geht es.</p>
+            </section>
+
+            <section class="result-section safety-note">
+              <p class="result-label">Realitätscheck</p>
+              <p id="safety-copy">Das ist ein Beispiel für Decision Support, keine medizinische Beratung. KI kann falsch liegen; wichtige Entscheidungen müssen überprüft werden.</p>
+            </section>
+
+            <section class="result-section">
+              <div class="action-row">
+                <button class="demo-button demo-button-secondary" type="button" id="restart">Noch einmal testen</button>
+                <a class="demo-button demo-button-secondary" href="/">Zur gesamten Website</a>
+              </div>
+            </section>
+          </div>
+        </section>
       </section>
     </main>
+
+    <footer class="demo-footer">
+      <span>Personal AI OS · öffentlicher Prototyp</span>
+      <span>Auswahl nur lokal · kein Konto · keine Diagnose</span>
+      <a href="/">Projekt und Datenschutz-Hinweise</a>
+    </footer>
+
+    <dialog id="share-dialog" aria-labelledby="share-title">
+      <div class="share-dialog-inner">
+        <p class="demo-kicker">Zum Weitergeben</p>
+        <h2 id="share-title">Einfach scannen</h2>
+        <p>Öffnet genau diese 60-Sekunden-Demo.</p>
+        <div class="qr-wrap" aria-label="QR-Code zu personal-ai-os.com/pilot">
+          <svg viewBox="0 0 37 37" role="img" aria-labelledby="qr-title" shape-rendering="crispEdges">
+            <title id="qr-title">QR-Code zu https://personal-ai-os.com/pilot/</title>
+            <rect width="37" height="37" fill="#fff"></rect>
+            <path d="M4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM14 4h1v1h-1zM15 4h1v1h-1zM19 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM23 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM29 4h1v1h-1zM30 4h1v1h-1zM31 4h1v1h-1zM32 4h1v1h-1zM4 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM14 5h1v1h-1zM15 5h1v1h-1zM16 5h1v1h-1zM18 5h1v1h-1zM19 5h1v1h-1zM22 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM13 6h1v1h-1zM17 6h1v1h-1zM18 6h1v1h-1zM19 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM29 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM4 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM16 7h1v1h-1zM20 7h1v1h-1zM21 7h1v1h-1zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM30 7h1v1h-1zM32 7h1v1h-1zM4 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM17 8h1v1h-1zM21 8h1v1h-1zM23 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM32 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM26 9h1v1h-1zM32 9h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM31 10h1v1h-1zM32 10h1v1h-1zM12 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM18 11h1v1h-1zM21 11h1v1h-1zM22 11h1v1h-1zM23 11h1v1h-1zM4 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM17 12h1v1h-1zM18 12h1v1h-1zM20 12h1v1h-1zM21 12h1v1h-1zM22 12h1v1h-1zM26 12h1v1h-1zM29 12h1v1h-1zM31 12h1v1h-1zM32 12h1v1h-1zM4 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM13 13h1v1h-1zM19 13h1v1h-1zM20 13h1v1h-1zM21 13h1v1h-1zM22 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM25 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM28 13h1v1h-1zM32 13h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM9 14h1v1h-1zM10 14h1v1h-1zM14 14h1v1h-1zM18 14h1v1h-1zM19 14h1v1h-1zM22 14h1v1h-1zM25 14h1v1h-1zM26 14h1v1h-1zM28 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM4 15h1v1h-1zM5 15h1v1h-1zM6 15h1v1h-1zM8 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM13 15h1v1h-1zM14 15h1v1h-1zM15 15h1v1h-1zM16 15h1v1h-1zM17 15h1v1h-1zM18 15h1v1h-1zM19 15h1v1h-1zM22 15h1v1h-1zM23 15h1v1h-1zM24 15h1v1h-1zM25 15h1v1h-1zM32 15h1v1h-1zM9 16h1v1h-1zM10 16h1v1h-1zM12 16h1v1h-1zM21 16h1v1h-1zM23 16h1v1h-1zM27 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM4 17h1v1h-1zM7 17h1v1h-1zM8 17h1v1h-1zM13 17h1v1h-1zM16 17h1v1h-1zM17 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM26 17h1v1h-1zM30 17h1v1h-1zM31 17h1v1h-1zM32 17h1v1h-1zM4 18h1v1h-1zM6 18h1v1h-1zM7 18h1v1h-1zM9 18h1v1h-1zM10 18h1v1h-1zM12 18h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM18 18h1v1h-1zM22 18h1v1h-1zM23 18h1v1h-1zM24 18h1v1h-1zM25 18h1v1h-1zM28 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM32 18h1v1h-1zM5 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM11 19h1v1h-1zM13 19h1v1h-1zM17 19h1v1h-1zM20 19h1v1h-1zM25 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM31 19h1v1h-1zM4 20h1v1h-1zM6 20h1v1h-1zM7 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM13 20h1v1h-1zM16 20h1v1h-1zM19 20h1v1h-1zM23 20h1v1h-1zM24 20h1v1h-1zM25 20h1v1h-1zM28 20h1v1h-1zM29 20h1v1h-1zM31 20h1v1h-1zM5 21h1v1h-1zM6 21h1v1h-1zM7 21h1v1h-1zM8 21h1v1h-1zM12 21h1v1h-1zM13 21h1v1h-1zM14 21h1v1h-1zM15 21h1v1h-1zM17 21h1v1h-1zM19 21h1v1h-1zM20 21h1v1h-1zM21 21h1v1h-1zM24 21h1v1h-1zM27 21h1v1h-1zM29 21h1v1h-1zM30 21h1v1h-1zM31 21h1v1h-1zM4 22h1v1h-1zM6 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM15 22h1v1h-1zM16 22h1v1h-1zM19 22h1v1h-1zM21 22h1v1h-1zM24 22h1v1h-1zM25 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM30 22h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM11 23h1v1h-1zM14 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM22 23h1v1h-1zM24 23h1v1h-1zM25 23h1v1h-1zM30 23h1v1h-1zM5 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM17 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM23 24h1v1h-1zM24 24h1v1h-1zM25 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM28 24h1v1h-1zM29 24h1v1h-1zM30 24h1v1h-1zM12 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM15 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM20 25h1v1h-1zM24 25h1v1h-1zM28 25h1v1h-1zM29 25h1v1h-1zM30 25h1v1h-1zM31 25h1v1h-1zM32 25h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM8 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM12 26h1v1h-1zM14 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM20 26h1v1h-1zM21 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM26 26h1v1h-1zM28 26h1v1h-1zM29 26h1v1h-1zM31 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM12 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM16 27h1v1h-1zM19 27h1v1h-1zM24 27h1v1h-1zM28 27h1v1h-1zM29 27h1v1h-1zM31 27h1v1h-1zM32 27h1v1h-1zM4 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM13 28h1v1h-1zM18 28h1v1h-1zM21 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM30 28h1v1h-1zM31 28h1v1h-1zM4 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM15 29h1v1h-1zM16 29h1v1h-1zM17 29h1v1h-1zM18 29h1v1h-1zM19 29h1v1h-1zM20 29h1v1h-1zM23 29h1v1h-1zM24 29h1v1h-1zM25 29h1v1h-1zM27 29h1v1h-1zM28 29h1v1h-1zM29 29h1v1h-1zM32 29h1v1h-1zM4 30h1v1h-1zM6 30h1v1h-1zM7 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM12 30h1v1h-1zM15 30h1v1h-1zM20 30h1v1h-1zM24 30h1v1h-1zM27 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM4 31h1v1h-1zM10 31h1v1h-1zM13 31h1v1h-1zM15 31h1v1h-1zM16 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM20 31h1v1h-1zM24 31h1v1h-1zM26 31h1v1h-1zM28 31h1v1h-1zM29 31h1v1h-1zM31 31h1v1h-1zM4 32h1v1h-1zM5 32h1v1h-1zM6 32h1v1h-1zM7 32h1v1h-1zM8 32h1v1h-1zM9 32h1v1h-1zM10 32h1v1h-1zM12 32h1v1h-1zM13 32h1v1h-1zM15 32h1v1h-1zM19 32h1v1h-1zM22 32h1v1h-1zM24 32h1v1h-1zM27 32h1v1h-1zM29 32h1v1h-1zM31 32h1v1h-1z" fill="#000"></path>
+          </svg>
+        </div>
+        <span class="qr-url">personal-ai-os.com/pilot/</span>
+        <div class="dialog-actions">
+          <button class="demo-button demo-button-primary" type="button" id="native-share">Link teilen</button>
+          <button class="demo-button demo-button-secondary" type="button" id="close-share">Schließen</button>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var state = { device: "", question: "", context: "" };
+        var shareUrl = "https://personal-ai-os.com/pilot/";
+
+        var devices = {
+          garmin: {
+            label: "Garmin",
+            prompt: "eine Garmin-Uhr und Garmin Connect",
+            copy: "Aktivitäten, Schlaf, HRV, Body Battery und Trainingslast können Signale liefern – soweit dein Gerät sie erfasst.",
+            principle: "Die Uhr liefert Signale. Sie kennt aber weder deinen Arbeitstag noch dein eigentliches Ziel."
+          },
+          polar: {
+            label: "Polar",
+            prompt: "eine Polar-Uhr und Polar Flow",
+            copy: "Aktivitäten, Schlaf, Nightly Recharge und Cardio Load können Signale liefern – soweit dein Gerät sie erfasst.",
+            principle: "Polar liefert gute Bausteine. Die konkrete Entscheidung braucht trotzdem deinen heutigen Kontext."
+          },
+          other: {
+            label: "Andere Uhr oder App",
+            prompt: "eine andere Sportuhr oder Tracking-App",
+            copy: "Aktivitäten, Schlaf, Herzfrequenz, Schritte oder Trainingshistorie können genutzt werden – abhängig von deinem System.",
+            principle: "Nicht die Marke entscheidet. Entscheidend ist, welche verlässlichen Signale tatsächlich verfügbar sind."
+          },
+          none: {
+            label: "Kein Tracking",
+            prompt: "aktuell keinen Tracker",
+            copy: "Das ist kein Ausschlusskriterium. Ein 20-Sekunden-Check-in zu Schlaf, Energie, letzter Belastung und Zeit kann für den Anfang reichen.",
+            principle: "Starte mit der kleinsten brauchbaren Datengrundlage. Ein neues Gerät lohnt sich erst, wenn es eine konkrete Frage besser beantwortet."
+          }
+        };
+
+        var questions = {
+          train: {
+            label: "Was soll ich heute trainieren?",
+            ask: "Trainingsziel, letzter Belastung, Schlaf und Energie sowie verfügbarer Zeit",
+            intro: "Eine sinnvolle Empfehlung würde nicht aus einem einzelnen Readiness-Score entstehen.",
+            safety: "Das ist ein Beispiel für Trainings-Decision-Support, keine medizinische Beratung. Schmerzen, Krankheit oder ungewöhnliche Beschwerden gehören fachlich abgeklärt."
+          },
+          nutrition: {
+            label: "Wie esse ich rund ums Training?",
+            ask: "Sportart und Umfang, Zeitpunkt, Hunger und Verträglichkeit sowie den Lebensmitteln, die real verfügbar sind",
+            intro: "Eine sinnvolle Empfehlung würde nicht einfach einen Standard-Ernährungsplan auswerfen.",
+            safety: "Das ist allgemeiner Decision Support und keine individuelle medizinische Ernährungsberatung. Erkrankungen, Allergien oder starke Beschwerden brauchen fachliche Abklärung."
+          },
+          energy: {
+            label: "Warum bin ich heute so platt?",
+            ask: "Schlaf, letzter Belastung, Stress und ungewöhnlichen Beschwerden",
+            intro: "Das System dürfte keine Diagnose aus einem schlechten Tag ableiten.",
+            safety: "KI kann Erklärungen strukturieren, aber keine Ursache diagnostizieren. Anhaltende, starke oder ungewöhnliche Erschöpfung gehört medizinisch abgeklärt."
+          },
+          routine: {
+            label: "Wie bleibe ich mit wenig Zeit dran?",
+            ask: "realistischen Zeitfenstern, der kleinsten sinnvollen Einheit, typischen Hindernissen und bestehenden Routinen",
+            intro: "Der beste Plan ist nicht der theoretisch perfekte, sondern der, der in deinem echten Leben stattfindet.",
+            safety: "Das Ergebnis ist ein Planungsbeispiel. Es ersetzt weder individuelle medizinische Einschätzung noch professionelles Coaching, wenn besondere Risiken bestehen."
+          },
+          habit: {
+            label: "Wie ändere ich eine Gewohnheit?",
+            ask: "Auslösern, bisherigem Muster, deinem Ziel und dem kleinsten akzeptablen nächsten Schritt",
+            intro: "Ein gutes System würde nicht moralisieren, sondern Auslöser, Muster und kleine nächste Schritte sichtbar machen.",
+            safety: "Bei Rauchen, Alkohol oder anderen Abhängigkeiten kann KI beim Beobachten und Planen helfen, ersetzt aber keine evidenzbasierte professionelle Unterstützung."
+          }
+        };
+
+        var contexts = {
+          sleep: {
+            label: "Du hast schlecht geschlafen.",
+            addition: {
+              train: "Es würde Schlaf, subjektive Energie und – falls vorhanden – Erholungssignale gegen dein Wochenziel halten. Das Ergebnis könnte bewusst kürzer oder leichter ausfallen.",
+              nutrition: "Es würde Training, Hunger und Tagesablauf zusammen betrachten, statt Müdigkeit mit aggressivem Verzicht oder wahllosem Snacken zu beantworten.",
+              energy: "Schlaf ist eine plausible Spur, aber noch keine Erklärung. Entscheidend wären Verlauf, Belastung, Stress und ungewöhnliche Begleitsymptome.",
+              routine: "Es würde die Einstiegshürde senken: eine kleine Einheit, ein Spaziergang oder ein klarer Ruhetag können sinnvoller sein als ein Planbruch mit schlechtem Gewissen.",
+              habit: "Es würde prüfen, ob Müdigkeit ein wiederkehrender Auslöser ist, und genau für diesen Moment einen kleinen Ersatzschritt vorbereiten."
+            }
+          },
+          load: {
+            label: "Gestern war eine harte Einheit.",
+            addition: {
+              train: "Es würde die Belastung von gestern gegen Ziel und Rest der Woche halten und heute eher ergänzen als blind wiederholen.",
+              nutrition: "Es würde Erholung, nächste Einheit und echten Hunger berücksichtigen – nicht nur die Kalorien einer einzelnen Aktivität.",
+              energy: "Die Belastung von gestern ist relevant. Das System würde sie aber mit Schlaf, subjektivem Gefühl und Verlauf abgleichen, statt automatisch Übertraining zu behaupten.",
+              routine: "Es würde Erholung als Teil der Routine behandeln und den nächsten sinnvollen, realistischen Zeitpunkt festlegen.",
+              habit: "Es würde prüfen, ob harte Belastung danach regelmäßig dieselbe Gewohnheit auslöst, und diesen Übergang gezielt gestalten."
+            }
+          },
+          busy: {
+            label: "Arbeit oder Familie lassen kaum Zeit.",
+            addition: {
+              train: "Es würde zuerst dein echtes Zeitfenster kennen und daraus die kleinste wirksame Einheit bauen.",
+              nutrition: "Es würde eine einfache Lösung für den tatsächlichen Tagesablauf wählen, statt einen perfekten Plan mit zehn Zutaten zu verlangen.",
+              energy: "Zeitdruck und mentale Last gehören in die Erklärung. Das System würde nach Mustern fragen, statt nur Wearable-Werte zu interpretieren.",
+              routine: "Es würde aus dem vorhandenen Zeitfenster eine belastbare Minimalroutine bauen – und bewusst festlegen, was heute entfallen darf.",
+              habit: "Es würde den typischen Stressmoment identifizieren und einen Ersatzschritt wählen, der auch unter Zeitdruck realistisch bleibt."
+            }
+          },
+          social: {
+            label: "Heute Abend gibt es Essen und Wein.",
+            addition: {
+              train: "Es würde den Abend als Kontext einbeziehen, ohne Sport und Essen zu einem Strafkonto zu machen. Belastung, Schlaf und Wochenziel gehören zusammen.",
+              nutrition: "Es würde Raum für den Abend lassen, ohne vorher zu hungern oder Genuss moralisch zu bewerten – und die Empfehlung an Training und echten Hunger koppeln.",
+              energy: "Der geplante Abend erklärt die aktuelle Müdigkeit nicht. Relevant wären eher Schlaf, Stress, Belastung und der Verlauf der letzten Tage.",
+              routine: "Es würde die Routine um den Abend herum planen: klein, früh und realistisch – oder bewusst auf einen besseren Zeitpunkt verschieben.",
+              habit: "Es würde soziale Auslöser ernst nehmen und vorab einen konkreten, selbstgewählten Rahmen formulieren, statt erst im Moment Willenskraft zu verlangen."
+            }
+          },
+          good: {
+            label: "Du fühlst dich gut.",
+            addition: {
+              train: "Es würde das gute Gefühl als positives Signal werten, die Einheit aber trotzdem in Wochenziel und letzte Belastung einordnen.",
+              nutrition: "Es würde eine einfache, trainingsbezogene Lösung wählen und keinen komplizierten Plan erzeugen, nur weil mehr Daten möglich wären.",
+              energy: "Ein guter Tag ist ebenfalls Datenmaterial. Das System würde vergleichen, was heute anders ist, statt nur Probleme zu dokumentieren.",
+              routine: "Es würde den guten Tag nutzen, um die Routine leicht zu machen – ohne sofort Umfang und Komplexität hochzuschrauben.",
+              habit: "Es würde festhalten, was heute leichter macht, anders zu handeln, und daraus einen wiederholbaren kleinen Schritt bauen."
+            }
+          }
+        };
+
+        function showStep(id, number) {
+          document.querySelectorAll(".step").forEach(function (step) {
+            step.hidden = step.id !== id;
+          });
+
+          var label = document.getElementById("progress-label");
+          if (id === "step-result") {
+            label.textContent = "Ergebnis";
+          } else {
+            label.textContent = number + " von 3";
+          }
+
+          document.querySelectorAll(".progress-segment").forEach(function (segment) {
+            var value = Number(segment.getAttribute("data-progress"));
+            segment.classList.toggle("is-done", id === "step-result" || value < number);
+            segment.classList.toggle("is-active", id !== "step-result" && value === number);
+          });
+
+          document.getElementById("demo").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        document.querySelectorAll(".option").forEach(function (button) {
+          button.addEventListener("click", function () {
+            var step = button.closest(".step");
+            var key = step.getAttribute("data-key");
+            state[key] = button.getAttribute("data-value");
+
+            step.querySelectorAll(".option").forEach(function (option) {
+              option.classList.toggle("is-selected", option === button);
+            });
+
+            window.setTimeout(function () {
+              if (key === "device") showStep("step-question", 2);
+              if (key === "question") showStep("step-context", 3);
+              if (key === "context") {
+                renderResult();
+                showStep("step-result", 3);
+              }
+            }, 140);
+          });
+        });
+
+        function renderResult() {
+          var device = devices[state.device];
+          var question = questions[state.question];
+          var context = contexts[state.context];
+
+          document.getElementById("result-title").textContent = question.label;
+          document.getElementById("result-summary").textContent =
+            device.label + " + echter Kontext: " + context.label + " Genau daraus wird eine konkrete, überprüfbare Frage.";
+          document.getElementById("device-title").textContent = device.label + " als Ausgangspunkt";
+          document.getElementById("device-copy").textContent = device.copy;
+          document.getElementById("context-copy").textContent =
+            context.label + " Dazu kommen dein Ziel, dein subjektives Gefühl und dein reales Zeitfenster.";
+          document.getElementById("decision-heading").textContent = question.intro;
+          document.getElementById("decision-copy").textContent =
+            context.addition[state.question] + " " + device.principle;
+          document.getElementById("safety-copy").textContent = question.safety;
+
+          var prompt =
+            "Ich nutze " + device.prompt + ". Meine aktuelle Frage ist: „" + question.label + "“ " +
+            "Heute gilt außerdem: " + context.label + " Arbeite nicht mit erfundenen Daten. " +
+            "Stelle mir zuerst maximal vier kurze Rückfragen zu " + question.ask + ". " +
+            "Gib mir danach eine konkrete, konservative Empfehlung, nenne deine Unsicherheit und sage, " +
+            "welche eine Information die Antwort morgen besser machen würde.";
+
+          document.getElementById("prompt-text").textContent = prompt;
+          document.getElementById("copy-status").textContent = "";
+        }
+
+        function copyText(text, done) {
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(done).catch(function () {
+              fallbackCopy(text, done);
+            });
+          } else {
+            fallbackCopy(text, done);
+          }
+        }
+
+        function fallbackCopy(text, done) {
+          var area = document.createElement("textarea");
+          area.value = text;
+          area.setAttribute("readonly", "");
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand("copy");
+          area.remove();
+          done();
+        }
+
+        document.getElementById("copy-prompt").addEventListener("click", function () {
+          copyText(document.getElementById("prompt-text").textContent, function () {
+            document.getElementById("copy-status").textContent = "Kopiert. Du kannst den Prompt direkt in ChatGPT einfügen.";
+          });
+        });
+
+        document.getElementById("restart").addEventListener("click", function () {
+          state = { device: "", question: "", context: "" };
+          document.querySelectorAll(".option, .feedback-option").forEach(function (item) {
+            item.classList.remove("is-selected");
+          });
+          document.getElementById("feedback-followup").textContent =
+            "Sag Alex die ehrliche Antwort – genau darum geht es.";
+          showStep("step-device", 1);
+        });
+
+        var feedbackText = {
+          yes: "Was würdest du morgen als Erstes damit machen?",
+          maybe: "Was müsste noch klarer oder einfacher werden?",
+          no: "Was daran ist für dich unnötig oder unattraktiv?"
+        };
+
+        document.querySelectorAll(".feedback-option").forEach(function (button) {
+          button.addEventListener("click", function () {
+            document.querySelectorAll(".feedback-option").forEach(function (item) {
+              item.classList.toggle("is-selected", item === button);
+            });
+            document.getElementById("feedback-followup").textContent =
+              feedbackText[button.getAttribute("data-feedback")];
+          });
+        });
+
+        var dialog = document.getElementById("share-dialog");
+
+        document.querySelectorAll("[data-open-share]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            if (typeof dialog.showModal === "function") {
+              dialog.showModal();
+            } else {
+              dialog.setAttribute("open", "");
+            }
+          });
+        });
+
+        document.getElementById("close-share").addEventListener("click", function () {
+          dialog.close();
+        });
+
+        dialog.addEventListener("click", function (event) {
+          if (event.target === dialog) dialog.close();
+        });
+
+        document.getElementById("native-share").addEventListener("click", function () {
+          if (navigator.share) {
+            navigator.share({
+              title: "Personal AI OS – 60-Sekunden-Demo",
+              text: "Drei Fragen, ein konkreter Startpunkt – mit oder ohne Tracker.",
+              url: shareUrl
+            }).catch(function () {});
+          } else {
+            copyText(shareUrl, function () {
+              document.getElementById("native-share").textContent = "Link kopiert";
+            });
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
+
