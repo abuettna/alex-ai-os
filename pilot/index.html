@@ -699,6 +699,25 @@
         font-weight: 700;
       }
 
+      .fallback-share {
+        margin-top: 0.9rem;
+        border: 1px solid rgba(96, 72, 255, 0.22);
+        border-radius: 15px;
+        background: var(--accent-soft);
+        padding: 1rem;
+      }
+
+      .fallback-share[hidden] {
+        display: none;
+      }
+
+      .fallback-share p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.55;
+      }
+
       .hp-field {
         position: absolute !important;
         left: -10000px !important;
@@ -1265,6 +1284,17 @@
               <button class="demo-button demo-button-primary" type="submit" id="submit-response">Antwort absenden</button>
             </div>
             <p class="submit-status" id="submit-status" role="status"></p>
+            <div class="fallback-share" id="fallback-share" hidden>
+              <p>
+                Falls die zentrale Speicherung gerade nicht erreichbar ist, kannst du deine
+                kompakte Antwort direkt an die Person zurückschicken, von der du den Link hast.
+                Das passiert erst, wenn du selbst kopierst oder teilst.
+              </p>
+              <div class="action-row">
+                <button class="demo-button demo-button-primary" type="button" id="share-response">Antwort teilen</button>
+                <button class="demo-button demo-button-secondary" type="button" id="copy-response">Antwort kopieren</button>
+              </div>
+            </div>
           </section>
         </form>
 
@@ -1620,6 +1650,7 @@
         var surveySuccess = document.getElementById("survey-success");
         var surveyProgress = researchCard.querySelector(".survey-progress-wrap");
         var surveyStartedAt = 0;
+        var lastResponseSummary = "";
 
         function checkedValues(name) {
           return Array.prototype.map.call(
@@ -1631,6 +1662,41 @@
         function radioValue(name) {
           var input = researchForm.querySelector('input[name="' + name + '"]:checked');
           return input ? input.value : "";
+        }
+
+        function selectedLabels(name) {
+          return Array.prototype.map.call(
+            researchForm.querySelectorAll('input[name="' + name + '"]:checked'),
+            function (input) {
+              var label = input.closest("label");
+              var text = label && label.querySelector("span");
+              return text ? text.textContent.trim() : input.value;
+            }
+          );
+        }
+
+        function selectedLabel(name) {
+          return selectedLabels(name)[0] || "";
+        }
+
+        function buildResponseSummary(payload) {
+          var lines = [
+            "Personal AI OS – Kurzfeedback",
+            "Ausgangssystem: " + devices[state.device].label,
+            "Bedarf: " + questions[state.question].label,
+            "Heutiger Kontext: " + contexts[state.context].label,
+            "Vorhandene Quellen: " + selectedLabels("existingTools").join(", "),
+            "Hauptproblem: " + selectedLabel("mainFriction"),
+            "Gewünschte Hilfe: " + selectedLabels("desiredHelp").join(" · "),
+            "Echte Frage: " + payload.tomorrowQuestion,
+            "7-Tage-Pilot: " + selectedLabel("pilotInterest"),
+            "Einrichtungsaufwand: " + selectedLabel("setupWillingness"),
+            "Datenschutzgrenze: " + selectedLabel("privacyBoundary"),
+            "Größter Einwand: " + selectedLabel("mainConcern")
+          ];
+          if (payload.optionalComment) lines.push("Zusatz: " + payload.optionalComment);
+          lines.push("Quelle: " + payload.source);
+          return lines.join("\n");
         }
 
         function setSurveyError(step, message) {
@@ -1773,7 +1839,11 @@
           document.getElementById("question-count").textContent = "0";
           document.getElementById("comment-count").textContent = "0";
           document.getElementById("submit-status").textContent = "";
+          document.getElementById("fallback-share").hidden = true;
           document.getElementById("response-code").textContent = "";
+          lastResponseSummary = "";
+          document.getElementById("copy-response").textContent = "Antwort kopieren";
+          document.getElementById("share-response").textContent = "Antwort teilen";
           var submit = document.getElementById("submit-response");
           submit.disabled = false;
           submit.textContent = "Antwort absenden";
@@ -1790,6 +1860,7 @@
           submit.disabled = true;
           submit.textContent = "Wird gespeichert …";
           status.textContent = "Deine Antwort wird sicher übertragen.";
+          document.getElementById("fallback-share").hidden = true;
 
           var source = new URLSearchParams(window.location.search).get("src") || "direct";
           source = source.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40) || "direct";
@@ -1817,6 +1888,7 @@
             clientType: window.matchMedia("(max-width: 720px)").matches ? "Mobile" : "Desktop",
             website: researchForm.elements.website.value
           };
+          lastResponseSummary = buildResponseSummary(payload);
 
           fetch("/api/save-discovery-response", {
             method: "POST",
@@ -1833,14 +1905,37 @@
               researchForm.hidden = true;
               surveyProgress.hidden = true;
               surveySuccess.hidden = false;
+              document.getElementById("fallback-share").hidden = true;
               document.getElementById("response-code").textContent = body.responseId;
               surveySuccess.scrollIntoView({ behavior: "smooth", block: "start" });
             })
             .catch(function () {
               submit.disabled = false;
               submit.textContent = "Antwort erneut absenden";
-              status.textContent = "Das Speichern hat gerade nicht funktioniert. Deine Eingaben bleiben hier – bitte versuche es noch einmal.";
+              status.textContent = "Die zentrale Speicherung ist gerade nicht erreichbar. Deine Eingaben bleiben hier; du kannst erneut versuchen oder die kompakte Antwort direkt zurückschicken.";
+              document.getElementById("fallback-share").hidden = false;
             });
+        });
+
+        document.getElementById("copy-response").addEventListener("click", function () {
+          copyText(lastResponseSummary, function () {
+            document.getElementById("copy-response").textContent = "Antwort kopiert";
+            document.getElementById("submit-status").textContent = "Kopiert – jetzt im Chat deiner Wahl an die Person zurückschicken.";
+          });
+        });
+
+        document.getElementById("share-response").addEventListener("click", function () {
+          if (navigator.share) {
+            navigator.share({
+              title: "Personal AI OS – Kurzfeedback",
+              text: lastResponseSummary
+            }).catch(function () {});
+          } else {
+            copyText(lastResponseSummary, function () {
+              document.getElementById("share-response").textContent = "Antwort kopiert";
+              document.getElementById("submit-status").textContent = "Kopiert – jetzt im Chat deiner Wahl zurückschicken.";
+            });
+          }
         });
 
         document.getElementById("restart").addEventListener("click", function () {
