@@ -147,6 +147,122 @@
         font-weight: 700;
       }
 
+      .os-explainer {
+        display: grid;
+        gap: 1.25rem;
+        margin-bottom: clamp(1.75rem, 5vw, 2.75rem);
+        padding: clamp(1.25rem, 5vw, 2rem);
+        overflow: hidden;
+        border: 1px solid rgba(201, 210, 228, 0.9);
+        border-radius: 28px;
+        background:
+          radial-gradient(circle at 100% 0%, rgba(96, 72, 255, 0.11), transparent 22rem),
+          rgba(255, 255, 255, 0.94);
+        box-shadow: 0 22px 65px rgba(15, 23, 40, 0.08);
+      }
+
+      .os-explainer-heading {
+        display: grid;
+        gap: 0.65rem;
+        max-width: 680px;
+      }
+
+      .os-explainer-heading h2 {
+        margin: 0;
+        font-size: clamp(1.55rem, 5vw, 2.35rem);
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+      }
+
+      .os-explainer-heading > p:last-child {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .os-map {
+        margin: 0;
+      }
+
+      .os-map-flow {
+        display: grid;
+        gap: 0.65rem;
+        align-items: stretch;
+      }
+
+      .os-map-node,
+      .os-map-core,
+      .os-map-result {
+        display: grid;
+        align-content: start;
+        gap: 0.45rem;
+        min-width: 0;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--bg);
+      }
+
+      .os-map-core {
+        border-color: rgba(96, 72, 255, 0.4);
+        background: var(--accent-soft);
+      }
+
+      .os-map-result {
+        border-color: var(--demo-dark);
+        background: var(--demo-dark);
+        color: #fff;
+      }
+
+      .os-map-step {
+        width: 1.65rem;
+        height: 1.65rem;
+        border-radius: 0.6rem;
+        display: grid;
+        place-items: center;
+        background: var(--demo-accent);
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .os-map-node strong,
+      .os-map-core strong,
+      .os-map-result strong {
+        font-size: 1rem;
+        line-height: 1.25;
+      }
+
+      .os-map-node p,
+      .os-map-core p,
+      .os-map-result p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+        line-height: 1.5;
+      }
+
+      .os-map-result p {
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .os-map-arrow {
+        display: grid;
+        place-items: center;
+        color: var(--demo-accent);
+        font-size: 1.5rem;
+        font-weight: 900;
+        line-height: 1;
+        transform: rotate(90deg);
+      }
+
+      .os-map figcaption {
+        padding: 0.85rem 0 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+        text-align: center;
+      }
+
       .demo-card {
         overflow: hidden;
         border: 1px solid rgba(201, 210, 228, 0.9);
@@ -835,6 +951,16 @@
         margin-top: 1rem;
       }
 
+      @media (min-width: 700px) {
+        .os-map-flow {
+          grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+        }
+
+        .os-map-arrow {
+          transform: none;
+        }
+      }
+
       @media (max-width: 580px) {
         .option-grid,
         .source-grid,
@@ -895,6 +1021,43 @@
           <li>keine Verbindung nötig</li>
           <li>Speicherung nur nach Zustimmung</li>
         </ul>
+      </section>
+
+      <section class="os-explainer" aria-labelledby="os-explainer-title">
+        <div class="os-explainer-heading">
+          <p class="demo-kicker">Kurz erklärt</p>
+          <h2 id="os-explainer-title">Was ist ein Personal AI OS?</h2>
+          <p>
+            Keine neue Uhr und kein weiteres Dashboard: Es bringt vorhandene Daten und deinen echten Alltag für eine konkrete Frage zusammen.
+          </p>
+        </div>
+
+        <figure class="os-map" aria-labelledby="os-map-caption">
+          <div class="os-map-flow">
+            <article class="os-map-node">
+              <span class="os-map-step" aria-hidden="true">1</span>
+              <strong>Daten + echter Alltag</strong>
+              <p>Tracker, Apps, Kalender und was nur du weißt – oder auch ganz ohne Tracking.</p>
+            </article>
+
+            <span class="os-map-arrow" aria-hidden="true">→</span>
+
+            <article class="os-map-core">
+              <span class="os-map-step" aria-hidden="true">2</span>
+              <strong>Ein gemeinsamer Kontext</strong>
+              <p>Die KI betrachtet Ziel, Zustand, Zeit und Unsicherheit zusammen statt nur einen Messwert.</p>
+            </article>
+
+            <span class="os-map-arrow" aria-hidden="true">→</span>
+
+            <article class="os-map-result">
+              <span class="os-map-step" aria-hidden="true">3</span>
+              <strong>Eine konkrete Entscheidung</strong>
+              <p>Zum Beispiel: heute trainieren oder erholen – mit Begründung und sinnvollem nächsten Schritt.</p>
+            </article>
+          </div>
+          <figcaption id="os-map-caption">In dieser Demo wird noch nichts verbunden. Du siehst nur sicher und unverbindlich, wie sich das Prinzip für dich anfühlen könnte.</figcaption>
+        </figure>
       </section>
 
       <section class="demo-card" id="demo" aria-label="Personal AI OS Kurztest">
