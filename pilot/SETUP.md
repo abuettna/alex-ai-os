@@ -1,113 +1,95 @@
-# Founding Pilot V0.1 — Configuration Guide
+# Public Discovery Pilot — Current Setup
 
-## Required Environment Variables
+This file documents the **current** pilot implementation. The older Founding Pilot V0.1 / Netlify architecture is obsolete and must not be used as the production setup guide.
 
-Set these in your Netlify site → Site settings → Environment variables.
+## What the pilot is today
 
-| Variable | Description | Where to get it |
-|---|---|---|
-| `OPENAI_API_KEY` | OpenAI API key | https://platform.openai.com/api-keys |
-| `OPENAI_MODEL` | OpenAI model name (optional, defaults to `gpt-4o-mini`) | See [OpenAI model list](https://platform.openai.com/docs/models) |
-| `AIRTABLE_API_KEY` | Airtable personal access token | https://airtable.com/create/tokens |
-| `AIRTABLE_BASE_ID` | Your Airtable base ID (starts with `app...`) | Found in the base URL when viewing the base |
+`/pilot/` is a public, contact-free discovery survey for Personal AI OS. It collects voluntary, consented structured feedback about users' current tools, friction, desired help, privacy boundaries, concerns and pilot interest.
 
-**All variables are server-side only. Never expose them client-side.**
+It is a discovery instrument, not a production onboarding system and not proof of product validation.
 
----
+Current constants in `worker/index.js`:
 
-## Airtable Setup
+- Survey version: `discovery-v1`
+- Consent version: `pilot-discovery-v1`
+- Destination: existing **Personal AI OS** Airtable base → **Pilot Discovery Responses** table
 
-Create a new base called **Personal AI OS Pilot** with the following tables:
+Do **not** create a separate `Personal AI OS Pilot` base or a `Pilot Participants` table for the current implementation.
 
-### Table: `Pilot Participants`
+## Production deployment
 
-Create these fields (all types as shown):
+Production is currently Cloudflare-based.
 
-| Field Name | Type |
-|---|---|
-| ParticipantID | Single line text |
-| Name | Single line text |
-| Email | Email |
-| Goals | Long text |
-| Devices | Long text |
-| Services | Long text |
-| PainPoint | Long text |
-| Frustration | Long text |
-| NoIntegrate | Long text |
-| TechnicalConfidence | Number |
-| ManualLogging | Number |
-| AutomationDesire | Number |
-| NewAppsWillingness | Number |
-| PayWillingness | Number |
-| PrivacyPreference | Single line text |
-| RecommendationID | Single line text |
-| EvidenceLevel | Single line text |
-| Confidence | Single line text |
-| ArchitectureSummary | Long text |
-| RecommendationJSON | Long text |
-| OnboardingTimestamp | Date (include time) |
-| PromptVersion | Single line text |
-| RegistryVersion | Single line text |
-| ModelId | Single line text |
-| GenerationFailed | Checkbox |
-| FailureReason | Long text |
+`wrangler.jsonc` configures:
 
-### Future tables (add later for evidence collection)
+- `worker/index.js` as the Cloudflare Worker entry point;
+- the repository root as the static asset directory;
+- `/api/*` to run through the Worker before static assets.
 
-- **Architecture Feedback** — D3/D10/D30 observations
-- **Architecture Evidence** — aggregated evidence by recipe
-- **Architecture Components** — component registry mirror
+The Worker validates the survey payload and writes accepted responses to Airtable server-side.
 
----
+### Required server-side secret
 
-## Netlify Deployment
+Configure one of these in the Cloudflare Worker environment:
 
-1. Connect the `abuettna/alex-ai-os` repo to Netlify
-2. Set build command: `npm ci`
-3. Set publish directory: `.` (root)
-4. Set functions directory: `netlify/functions` (auto-detected from `netlify.toml`)
-5. Add the three environment variables above
+- `AIRTABLE_API_KEY`, or
+- `AIRTABLE_TOKEN`
 
-The pilot is accessible at: `https://your-site.netlify.app/pilot/`
+The Worker contains the current Airtable base/table identifiers, but the credential itself must remain a Cloudflare secret. Never expose it in `pilot.js`, HTML, committed configuration, logs intended for users, or screenshots.
 
----
+No OpenAI API key is required for the current discovery survey submission flow.
 
-## Launch Blockers
+## Airtable destination
 
-Before sending the URL to real users, verify:
+The current table is **Pilot Discovery Responses** in the existing **Personal AI OS** base.
 
-- [ ] `OPENAI_API_KEY` set in Netlify
-- [ ] `AIRTABLE_API_KEY` and `AIRTABLE_BASE_ID` set in Netlify
-- [ ] Airtable base and `Pilot Participants` table created with correct field names
-- [ ] `/pilot/` loads and the form works end-to-end in a clean browser
-- [ ] Mobile test on iPhone Safari
-- [ ] Impressum page exists at `/impressum` or is linked (legal requirement for German users)
-- [ ] Datenschutzerklärung exists at `/datenschutz` (legal requirement)
-- [ ] Failure states work: test with a bad API key → error screen shows
+The Worker writes structured fields including:
 
----
+- Response ID / Submitted At
+- Survey Version / Source
+- Primary Setup / Primary Need / Current Context
+- Existing Tools / Main Friction / Desired Help
+- Tomorrow Question
+- Pilot Interest / Setup Willingness / Privacy Boundary / Main Concern
+- Optional Comment
+- Completion Seconds / Client Type
+- Consent Version
+- Full Response JSON
 
-## What is intentionally NOT built in V0.1
+A QC-only field named **Response Type** is used in Airtable to distinguish real participant submissions from internal automated QA/test submissions. Analysis must exclude `QA / Test` records unless the test population is explicitly being audited.
 
-- User accounts / authentication
-- Email delivery of results (documented as next step)
-- Payment / subscriptions
-- Mobile app
-- D3/D10/D30 follow-up automation (prepare fields, schedule manually for now)
-- Admin dashboard
-- OAuth connections to external services
-- Automatic Garmin/Apple Health data import
+The public form remains deliberately contact-free: do not silently add names, email addresses, wearable reads, authentication or additional tracking to this table.
 
----
+## Pre-deployment / regression checks
 
-## D3/D10/D30 Follow-up (future)
+Before publishing a change to `/pilot/`:
 
-After V0.1 participants use the system for 3, 10, and 30 days, ask them manually (or via a simple separate form):
+- [ ] `/pilot/` loads in a clean browser and on iPhone-sized screens.
+- [ ] Consent is explicit and the displayed wording matches the version expected by the Worker.
+- [ ] The form refuses malformed/invalid payloads.
+- [ ] The honeypot/spam field still rejects automated junk submissions.
+- [ ] The completion-time guard still behaves as intended.
+- [ ] A QA submission reaches Airtable end-to-end.
+- [ ] The QA record is marked `Response Type = QA / Test` before participant analysis.
+- [ ] No name, email or automatically retrieved wearable data is added to the payload.
+- [ ] Airtable credentials remain server-side only.
+- [ ] Failure states do not expose secrets or raw Airtable errors.
+- [ ] Relevant Impressum / privacy links remain reachable from the public experience.
 
-**Setup:** Did you attempt setup? Did it work? How long? Where did you get stuck? Did you need Alex's help?
+## Interpreting pilot data
 
-**Usage:** Have you used the system?
+Treat this table as **discovery evidence**. Report participant `n` separately from QA/test submissions.
 
-**Value:** Did it help concretely? Would you keep using it? What would you miss if it were gone? Could you have built this without the recommendation?
+Do not turn small-sample responses into claims such as “users want X” without the appropriate qualifier. Prefer wording like “3 early participant responses currently show…” and preserve contradictory feedback, concerns and uncertainty.
 
-Add responses to **Architecture Feedback** table in Airtable. This data drives upgrading `evidenceLevel` from `experimental` to `pilot-tested` and eventually `replicated` or `validated`.
+Direct quotes and identifiable external feedback should not be published unless publication/quote permission is documented elsewhere.
+
+## Legacy Netlify files
+
+`netlify.toml`, `netlify/functions/`, and the `npm run dev` script using `netlify dev` are still present in the repository. They reflect an older/alternate implementation and are **not the current production deployment path**.
+
+Do not delete them solely as part of documentation cleanup; first determine whether they are still useful for local development, rollback or reference. If the project fully standardizes on Cloudflare, remove or replace them in a dedicated cleanup change with regression testing.
+
+## Not part of the current discovery pilot
+
+The old Founding Pilot V0.1 design included named participants, email, AI-generated architecture recommendations, OpenAI API generation and D3/D10/D30 follow-up tables. Those concepts are not part of the current public discovery submission flow unless reintroduced deliberately in a future version.
