@@ -1,0 +1,1 @@
+Tracking is best-effort only. Outbound navigation is never delayed or blocked if the analytics request fails.
