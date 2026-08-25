@@ -1,0 +1,1 @@
+Current product links are direct official links and are not affiliate links. Add affiliate parameters only after enrollment in the relevant partner program and keep the public disclosure current.
