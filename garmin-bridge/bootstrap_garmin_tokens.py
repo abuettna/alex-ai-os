@@ -1,18 +1,21 @@
 """One-time interactive Garmin token bootstrap.
 
-Run on a trusted computer. The printed base64 string is a credential and must
-only be pasted into the GARMIN_TOKENS_B64 GitHub Actions secret.
+Run on a trusted computer from the repository root. Garmin credentials and MFA
+are sent only to Garmin during login and are never written to the repository.
+The resulting OAuth token state is encrypted before it is written to the repo.
 """
 
 from __future__ import annotations
 
-import base64
 from getpass import getpass
 from pathlib import Path
 
+from cryptography.fernet import Fernet
 from garminconnect import Garmin
 
+repo_root = Path(__file__).resolve().parent.parent
 token_dir = Path.home() / ".garminconnect"
+encrypted_file = repo_root / "garmin-bridge" / "garmin_tokens.enc"
 
 email = input("Garmin email: ").strip()
 password = getpass("Garmin password: ")
@@ -28,7 +31,15 @@ token_file = token_dir / "garmin_tokens.json"
 if not token_file.exists():
     raise SystemExit("Garmin login succeeded but token file was not found.")
 
-encoded = base64.b64encode(token_file.read_bytes()).decode("ascii")
-print("\nCreate GitHub Actions secret GARMIN_TOKENS_B64 with this value:")
-print(encoded)
-print("\nTreat this value like a password. Do not commit or share it.")
+key = Fernet.generate_key()
+encrypted = Fernet(key).encrypt(token_file.read_bytes())
+encrypted_file.write_bytes(encrypted)
+
+print("\nGarmin login successful.")
+print(f"Encrypted token state written to: {encrypted_file}")
+print("\nCreate GitHub Actions secret GARMIN_TOKEN_KEY with this value:")
+print(key.decode("ascii"))
+print("\nIMPORTANT:")
+print("- Treat GARMIN_TOKEN_KEY like a password; do not commit or share it.")
+print("- garmin_tokens.enc contains only encrypted token state and is intended to be committed.")
+print("- Your Garmin password is not stored in the repository or GitHub Actions.")
