@@ -29,9 +29,14 @@ Create an Airtable personal access token with record read/write access and restr
 
 ### 2. Bootstrap Garmin on a trusted computer
 
-Requires Python 3.12+ and a checkout of this branch/repository:
+Requires Python 3.12+ and a checkout of the bridge branch:
 
 ```bash
+git clone https://github.com/abuettna/alex-ai-os.git
+cd alex-ai-os
+git fetch origin feat/garmin-workout-bridge
+git switch feat/garmin-workout-bridge
+
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade "garminconnect[workout]>=0.3.5,<1" curl_cffi requests cryptography
@@ -50,7 +55,15 @@ Store the printed key as the GitHub Actions secret `GARMIN_TOKEN_KEY`. Do not pa
 
 ### 3. Seed the encrypted Garmin state
 
-Either commit `garmin-bridge/garmin_tokens.enc` to the bridge branch yourself, or send only that encrypted `.enc` file to ChatGPT and let ChatGPT commit it. Do not send the `GARMIN_TOKEN_KEY`.
+Either commit `garmin-bridge/garmin_tokens.enc` to the bridge branch yourself:
+
+```bash
+git add garmin-bridge/garmin_tokens.enc
+git commit -m "Seed encrypted Garmin token state"
+git push origin feat/garmin-workout-bridge
+```
+
+Or send only that encrypted `.enc` file to ChatGPT and let ChatGPT commit it. Do not send the `GARMIN_TOKEN_KEY`.
 
 The `.enc` file contains authenticated ciphertext; its security depends on keeping the decryption key secret.
 
