@@ -63,9 +63,12 @@ jobs:
           if git diff --quiet -- garmin-bridge/garmin_tokens.enc; then
             exit 0
           fi
+          cp garmin-bridge/garmin_tokens.enc /tmp/garmin_tokens.enc
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout -B main origin/main
+          cp /tmp/garmin_tokens.enc garmin-bridge/garmin_tokens.enc
           git add garmin-bridge/garmin_tokens.enc
           git commit -m "Refresh encrypted Garmin token state"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          git push origin main
