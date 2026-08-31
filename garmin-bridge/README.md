@@ -12,7 +12,7 @@ Private bridge for sending AI-generated strength workouts to Garmin Connect.
 6. Airtable is updated to `done` with the Garmin workout ID, or `error` with a sanitized error message.
 7. If Garmin rotated/refreshed its OAuth tokens, the new token state is encrypted and committed back as `garmin-bridge/garmin_tokens.enc`.
 
-The public repository never contains a usable Garmin credential or the workout payload. The encrypted token file is useless without the separate GitHub Actions secret key.
+The public repository never contains a usable Garmin credential or the workout payload. The encrypted token file is intended to be safe to store publicly as long as its separate decryption key remains secret.
 
 ## Required GitHub Actions secrets
 
@@ -52,7 +52,7 @@ Store the printed key as the GitHub Actions secret `GARMIN_TOKEN_KEY`. Do not pa
 
 Either commit `garmin-bridge/garmin_tokens.enc` to the bridge branch yourself, or send only that encrypted `.enc` file to ChatGPT and let ChatGPT commit it. Do not send the `GARMIN_TOKEN_KEY`.
 
-The `.enc` file contains authenticated ciphertext; the decryption key remains only in GitHub Actions secrets.
+The `.enc` file contains authenticated ciphertext; its security depends on keeping the decryption key secret.
 
 After the bridge is merged, each run persists any refreshed/rotated Garmin token state by updating this encrypted file. This avoids repeated Garmin logins even though GitHub Actions runners are ephemeral.
 
