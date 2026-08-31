@@ -29,6 +29,7 @@ FIELD_STATUS = "Status"
 FIELD_CREATED_AT = "Created At"
 FIELD_WORKOUT_NAME = "Workout Name"
 FIELD_SCHEDULE_DATE = "Schedule Date"
+FIELD_PUSH_TO_DEVICE = "Push to Device"
 FIELD_WORKOUT_JSON = "Workout JSON"
 FIELD_GARMIN_ID = "Garmin Workout ID"
 FIELD_PROCESSED_AT = "Processed At"
@@ -267,6 +268,7 @@ def process_record(client: Garmin, record: dict[str, Any]) -> None:
     raw_spec = str(fields.get(FIELD_WORKOUT_JSON) or "")
     schedule_date = str(fields.get(FIELD_SCHEDULE_DATE) or "").strip()
     existing_garmin_id = str(fields.get(FIELD_GARMIN_ID) or "").strip()
+    push_to_device = bool(fields.get(FIELD_PUSH_TO_DEVICE, False))
 
     update_record(record_id, {FIELD_STATUS: "processing", FIELD_ERROR: ""})
 
@@ -285,6 +287,9 @@ def process_record(client: Garmin, record: dict[str, Any]) -> None:
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", schedule_date):
             raise BridgeError("Schedule Date must be YYYY-MM-DD")
         client.schedule_workout(garmin_id, schedule_date)
+
+    if push_to_device:
+        client.push_workout_to_device(garmin_id)
 
     update_record(
         record_id,
