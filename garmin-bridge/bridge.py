@@ -1,8 +1,8 @@
 """Private Airtable -> Garmin Connect workout bridge.
 
-Reads pending strength-workout requests from Airtable, creates native Garmin
-strength workouts, and optionally schedules them. Secrets are supplied only
-through environment variables and are never printed.
+Reads pending strength-workout requests from Airtable, creates or updates native
+Garmin strength workout templates, and optionally schedules/pushes them. Secrets
+are supplied only through environment variables and are never printed.
 """
 
 from __future__ import annotations
@@ -24,9 +24,12 @@ AIRTABLE_BASE_ID = "app6xAdVA6xYBLwde"
 AIRTABLE_TABLE_ID = "tblRMkfb0jURaID91"
 AIRTABLE_API = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_ID}"
 MAX_REQUESTS_PER_RUN = 5
+MAX_WORKOUT_LOOKUP = 5000
 
 FIELD_STATUS = "Status"
 FIELD_CREATED_AT = "Created At"
+FIELD_OPERATION = "Operation"
+FIELD_TARGET_WORKOUT_NAME = "Target Workout Name"
 FIELD_WORKOUT_NAME = "Workout Name"
 FIELD_SCHEDULE_DATE = "Schedule Date"
 FIELD_PUSH_TO_DEVICE = "Push to Device"
@@ -251,6 +254,61 @@ def garmin_client() -> Garmin:
     return client
 
 
+def find_workout_by_exact_name(client: Garmin, target_name: str) -> dict[str, Any]:
+    target = target_name.strip().casefold()
+    matches: list[dict[str, Any]] = []
+    start = 0
+    page_size = 100
+
+    while start < MAX_WORKOUT_LOOKUP:
+        page = client.get_workouts(start=start, limit=page_size)
+        if not page:
+            break
+        matches.extend(
+            item
+            for item in page
+            if str(item.get("workoutName") or "").strip().casefold() == target
+        )
+        if len(page) < page_size:
+            break
+        start += len(page)
+
+    if not matches:
+        raise BridgeError(f"Garmin workout not found by exact name: '{target_name}'")
+    if len(matches) > 1:
+        raise BridgeError(
+            f"Multiple Garmin workouts share the exact name '{target_name}'; use Garmin Workout ID"
+        )
+    return matches[0]
+
+
+def update_existing_workout(
+    client: Garmin,
+    *,
+    garmin_id: str,
+    replacement: StrengthWorkout,
+) -> None:
+    existing = client.get_workout_by_id(garmin_id)
+    sport_key = str((existing.get("sportType") or {}).get("sportTypeKey") or "")
+    if sport_key and sport_key != "strength_training":
+        raise BridgeError("Refusing to replace a non-strength Garmin workout")
+
+    replacement_data = replacement.to_dict()
+    # Garmin's update endpoint replaces the full object. Start from the server's
+    # current payload so owner/id metadata and any other required fields survive.
+    updated = dict(existing)
+    for key in (
+        "workoutName",
+        "sportType",
+        "estimatedDurationInSecs",
+        "workoutSegments",
+        "description",
+    ):
+        updated[key] = replacement_data.get(key)
+
+    client.update_workout(garmin_id, updated)
+
+
 def sanitized_error(exc: Exception) -> str:
     text = str(exc)
     text = re.sub(r"(?i)bearer\s+[A-Za-z0-9._~+/=-]+", "Bearer [redacted]", text)
@@ -265,23 +323,40 @@ def process_record(client: Garmin, record: dict[str, Any]) -> None:
     if not workout_name:
         raise BridgeError("Workout Name is missing")
 
+    operation = str(fields.get(FIELD_OPERATION) or "create").strip().casefold()
+    if operation not in {"create", "update"}:
+        raise BridgeError("Operation must be create or update")
+
     raw_spec = str(fields.get(FIELD_WORKOUT_JSON) or "")
     schedule_date = str(fields.get(FIELD_SCHEDULE_DATE) or "").strip()
-    existing_garmin_id = str(fields.get(FIELD_GARMIN_ID) or "").strip()
+    garmin_id = str(fields.get(FIELD_GARMIN_ID) or "").strip()
+    target_name = str(fields.get(FIELD_TARGET_WORKOUT_NAME) or "").strip()
     push_to_device = bool(fields.get(FIELD_PUSH_TO_DEVICE, False))
 
     update_record(record_id, {FIELD_STATUS: "processing", FIELD_ERROR: ""})
 
-    garmin_id = existing_garmin_id
-    if not garmin_id:
-        spec = parse_spec(raw_spec)
-        workout = build_strength_workout(workout_name, spec)
-        result = client.upload_strength_workout(workout)
-        garmin_id = str(result.get("workoutId") or "").strip()
+    spec = parse_spec(raw_spec)
+    workout = build_strength_workout(workout_name, spec)
+
+    if operation == "create":
         if not garmin_id:
-            raise BridgeError("Garmin upload returned no workoutId")
-        # Persist immediately: if scheduling fails, a retry won't create a duplicate.
-        update_record(record_id, {FIELD_GARMIN_ID: garmin_id})
+            result = client.upload_strength_workout(workout)
+            garmin_id = str(result.get("workoutId") or "").strip()
+            if not garmin_id:
+                raise BridgeError("Garmin upload returned no workoutId")
+            # Persist immediately: if scheduling/push fails, retry won't duplicate.
+            update_record(record_id, {FIELD_GARMIN_ID: garmin_id})
+    else:
+        if not garmin_id:
+            # For a simple edit where the name does not change, Workout Name is
+            # sufficient. Target Workout Name is only needed when renaming.
+            lookup_name = target_name or workout_name
+            target = find_workout_by_exact_name(client, lookup_name)
+            garmin_id = str(target.get("workoutId") or "").strip()
+            if not garmin_id:
+                raise BridgeError("Matched Garmin workout has no workoutId")
+            update_record(record_id, {FIELD_GARMIN_ID: garmin_id})
+        update_existing_workout(client, garmin_id=garmin_id, replacement=workout)
 
     if schedule_date:
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", schedule_date):
