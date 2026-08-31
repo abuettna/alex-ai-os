@@ -48,9 +48,11 @@ The script prompts locally for Garmin email/password and MFA if required. It the
 
 Store the printed key as the GitHub Actions secret `GARMIN_TOKEN_KEY`. Do not paste the key into chat or commit it.
 
-### 3. Commit the encrypted Garmin state
+### 3. Seed the encrypted Garmin state
 
-Commit `garmin-bridge/garmin_tokens.enc` to the bridge branch. The file contains authenticated ciphertext; the decryption key remains only in GitHub Actions secrets.
+Either commit `garmin-bridge/garmin_tokens.enc` to the bridge branch yourself, or send only that encrypted `.enc` file to ChatGPT and let ChatGPT commit it. Do not send the `GARMIN_TOKEN_KEY`.
+
+The `.enc` file contains authenticated ciphertext; the decryption key remains only in GitHub Actions secrets.
 
 After the bridge is merged, each run persists any refreshed/rotated Garmin token state by updating this encrypted file. This avoids repeated Garmin logins even though GitHub Actions runners are ephemeral.
 
