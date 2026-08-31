@@ -56,6 +56,8 @@ The `.enc` file contains authenticated ciphertext; its security depends on keepi
 
 After the bridge is merged, each run persists any refreshed/rotated Garmin token state by updating this encrypted file. This avoids repeated Garmin logins even though GitHub Actions runners are ephemeral.
 
+The workflow is configuration-safe: if the secrets or encrypted state have not been initialized yet, it exits without touching Garmin or Airtable.
+
 ## Create vs update
 
 The Airtable queue has `Operation = create | update`.
