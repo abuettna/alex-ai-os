@@ -1,13 +1,13 @@
 """Private Airtable -> Garmin Connect workout bridge.
 
 Reads pending strength-workout requests from Airtable, creates or updates native
-Garmin strength workout templates, and optionally schedules/pushes them. Secrets
-are supplied only through environment variables and are never printed.
+Garmin strength workout templates, and optionally schedules/pushes them. Garmin
+OAuth state is stored only as authenticated ciphertext; the encryption key lives
+in GitHub Actions secrets.
 """
 
 from __future__ import annotations
 
-import base64
 import json
 import os
 import re
@@ -17,12 +17,14 @@ from pathlib import Path
 from typing import Any
 
 import requests
+from cryptography.fernet import Fernet, InvalidToken
 from garminconnect import Garmin, exercises
 from garminconnect.workout import StrengthWorkout, WorkoutSegment, create_strength_set
 
 AIRTABLE_BASE_ID = "app6xAdVA6xYBLwde"
 AIRTABLE_TABLE_ID = "tblRMkfb0jURaID91"
 AIRTABLE_API = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_ID}"
+TOKEN_STATE_FILE = Path(__file__).with_name("garmin_tokens.enc")
 MAX_REQUESTS_PER_RUN = 5
 MAX_WORKOUT_LOOKUP = 5000
 
@@ -48,6 +50,13 @@ def require_env(name: str) -> str:
     if not value:
         raise BridgeError(f"Missing required secret: {name}")
     return value
+
+
+def token_cipher() -> Fernet:
+    try:
+        return Fernet(require_env("GARMIN_TOKEN_KEY").encode("ascii"))
+    except (ValueError, UnicodeEncodeError) as exc:
+        raise BridgeError("GARMIN_TOKEN_KEY is not a valid Fernet key") from exc
 
 
 def airtable_headers() -> dict[str, str]:
@@ -210,7 +219,6 @@ def build_strength_workout(workout_name: str, spec: dict[str, Any]) -> StrengthW
                 weight_kg=weight_kg,
             )
         )
-        # create_strength_set consumes step_order, +1 and +2.
         step_order += 3
 
     duration = bounded_int(
@@ -235,12 +243,14 @@ def build_strength_workout(workout_name: str, spec: dict[str, Any]) -> StrengthW
 
 
 def garmin_client() -> Garmin:
-    encoded = require_env("GARMIN_TOKENS_B64")
+    if not TOKEN_STATE_FILE.exists() or not TOKEN_STATE_FILE.read_bytes().strip():
+        raise BridgeError("Encrypted Garmin token state is not initialized")
+
     try:
-        raw = base64.b64decode(encoded, validate=True)
+        raw = token_cipher().decrypt(TOKEN_STATE_FILE.read_bytes())
         json.loads(raw.decode("utf-8"))
-    except Exception as exc:
-        raise BridgeError("GARMIN_TOKENS_B64 is not valid token JSON") from exc
+    except (InvalidToken, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise BridgeError("Encrypted Garmin token state could not be decrypted") from exc
 
     token_dir = Path.home() / ".garminconnect"
     token_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
@@ -252,6 +262,16 @@ def garmin_client() -> Garmin:
     client = Garmin()
     client.login(str(token_dir))
     return client
+
+
+def persist_garmin_token_state(client: Garmin) -> None:
+    """Encrypt the current token state after any automatic refresh."""
+    raw = client.client.dumps().encode("utf-8")
+    json.loads(raw.decode("utf-8"))
+    encrypted = token_cipher().encrypt(raw)
+    tmp = TOKEN_STATE_FILE.with_suffix(".enc.tmp")
+    tmp.write_bytes(encrypted)
+    tmp.replace(TOKEN_STATE_FILE)
 
 
 def find_workout_by_exact_name(client: Garmin, target_name: str) -> dict[str, Any]:
@@ -294,8 +314,6 @@ def update_existing_workout(
         raise BridgeError("Refusing to replace a non-strength Garmin workout")
 
     replacement_data = replacement.to_dict()
-    # Garmin's update endpoint replaces the full object. Start from the server's
-    # current payload so owner/id metadata and any other required fields survive.
     updated = dict(existing)
     for key in (
         "workoutName",
@@ -344,12 +362,9 @@ def process_record(client: Garmin, record: dict[str, Any]) -> None:
             garmin_id = str(result.get("workoutId") or "").strip()
             if not garmin_id:
                 raise BridgeError("Garmin upload returned no workoutId")
-            # Persist immediately: if scheduling/push fails, retry won't duplicate.
             update_record(record_id, {FIELD_GARMIN_ID: garmin_id})
     else:
         if not garmin_id:
-            # For a simple edit where the name does not change, Workout Name is
-            # sufficient. Target Workout Name is only needed when renaming.
             lookup_name = target_name or workout_name
             target = find_workout_by_exact_name(client, lookup_name)
             garmin_id = str(target.get("workoutId") or "").strip()
@@ -378,36 +393,40 @@ def process_record(client: Garmin, record: dict[str, Any]) -> None:
 
 
 def main() -> int:
-    # Fail before touching the queue if secrets/auth are unavailable.
     require_env("AIRTABLE_TOKEN")
+    require_env("GARMIN_TOKEN_KEY")
     client = garmin_client()
 
     processed = 0
     failed = 0
 
-    for _ in range(MAX_REQUESTS_PER_RUN):
-        record = get_oldest_pending()
-        if not record:
-            break
-        record_id = record["id"]
-        try:
-            process_record(client, record)
-            processed += 1
-        except Exception as exc:
-            failed += 1
+    try:
+        for _ in range(MAX_REQUESTS_PER_RUN):
+            record = get_oldest_pending()
+            if not record:
+                break
+            record_id = record["id"]
             try:
-                update_record(
-                    record_id,
-                    {
-                        FIELD_STATUS: "error",
-                        FIELD_ERROR: sanitized_error(exc),
-                        FIELD_PROCESSED_AT: utc_now_iso(),
-                    },
-                )
-            except Exception:
-                pass
+                process_record(client, record)
+                processed += 1
+            except Exception as exc:
+                failed += 1
+                try:
+                    update_record(
+                        record_id,
+                        {
+                            FIELD_STATUS: "error",
+                            FIELD_ERROR: sanitized_error(exc),
+                            FIELD_PROCESSED_AT: utc_now_iso(),
+                        },
+                    )
+                except Exception:
+                    pass
+    finally:
+        # Garmin may rotate the refresh token. Persist the newest token state so
+        # the next ephemeral GitHub Actions runner starts from the current one.
+        persist_garmin_token_state(client)
 
-    # Keep public Actions logs intentionally content-free.
     print(f"Garmin bridge finished: processed={processed}, failed={failed}")
     return 1 if failed else 0
 
