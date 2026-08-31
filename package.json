@@ -2,7 +2,7 @@
   "name": "personal-ai-os",
   "version": "0.1.0",
   "private": true,
-  "description": "Personal AI OS – Founding Pilot V0.1",
+  "description": "Personal AI OS public website, discovery pilot and legacy local tooling",
   "type": "commonjs",
   "engines": {
     "node": ">=18"
