@@ -1,5 +1,6 @@
 const AIRTABLE_BASE_ID = "apptpoj0htosZOAJ7";
 const AIRTABLE_TABLE_ID = "tblitBRp9TRhvMVf0";
+const STACK_CLICKS_TABLE_ID = "tblPG4D8EfLmeqVX8";
 const SURVEY_VERSION = "discovery-v1";
 const CONSENT_VERSION = "pilot-discovery-v1";
 
@@ -178,14 +179,39 @@ function validatePayload(payload) {
   };
 }
 
-async function saveToAirtable(data, env) {
-  const apiKey = env.AIRTABLE_API_KEY || env.AIRTABLE_TOKEN;
+function airtableToken(env) {
+  return env.AIRTABLE_API_KEY || env.AIRTABLE_TOKEN;
+}
+
+async function writeAirtableRecord(tableId, fields, env) {
+  const apiKey = airtableToken(env);
   if (!apiKey) {
     const error = new Error("Airtable is not configured");
     error.status = 503;
     throw error;
   }
 
+  const airtableResponse = await fetch(
+    "https://api.airtable.com/v0/" + AIRTABLE_BASE_ID + "/" + tableId,
+    {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + apiKey,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ fields, typecast: false })
+    }
+  );
+
+  if (!airtableResponse.ok) {
+    console.error("Airtable write failed", tableId, airtableResponse.status);
+    const error = new Error("Airtable write failed");
+    error.status = 502;
+    throw error;
+  }
+}
+
+async function saveToAirtable(data, env) {
   const submittedAt = new Date().toISOString();
   const responseId =
     "DISC-" +
@@ -217,24 +243,7 @@ async function saveToAirtable(data, env) {
   };
   if (data.optionalComment) fields["Optional Comment"] = data.optionalComment;
 
-  const airtableResponse = await fetch(
-    "https://api.airtable.com/v0/" + AIRTABLE_BASE_ID + "/" + AIRTABLE_TABLE_ID,
-    {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + apiKey,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ fields, typecast: false })
-    }
-  );
-
-  if (!airtableResponse.ok) {
-    console.error("Airtable write failed", airtableResponse.status);
-    const error = new Error("Airtable write failed");
-    error.status = 502;
-    throw error;
-  }
+  await writeAirtableRecord(AIRTABLE_TABLE_ID, fields, env);
   return responseId;
 }
 
@@ -284,6 +293,66 @@ async function handleDiscovery(request, env) {
   }
 }
 
+async function handleStackClick(request, env) {
+  if (request.method !== "POST") {
+    return jsonResponse(405, { error: "Method Not Allowed" });
+  }
+
+  const origin = request.headers.get("Origin");
+  if (origin && origin.replace(/\/$/, "") !== new URL(request.url).origin) {
+    return jsonResponse(403, { error: "Origin not allowed" });
+  }
+
+  const contentLength = Number(request.headers.get("Content-Length") || 0);
+  if (contentLength > 5000) {
+    return jsonResponse(413, { error: "Request too large" });
+  }
+
+  let payload;
+  try {
+    payload = await request.json();
+  } catch {
+    return jsonResponse(400, { error: "Invalid JSON" });
+  }
+
+  const product = cleanText(payload.product, 120);
+  const category = cleanText(payload.category, 80);
+  const destination = cleanText(payload.destination, 500);
+  const source = cleanText(payload.source, 80).replace(/[^a-zA-Z0-9_-]/g, "") || "direct";
+  const page = cleanText(payload.page, 120) || "/stack/";
+
+  if (!product || !category || !/^https:\/\//i.test(destination)) {
+    return jsonResponse(400, { error: "Invalid event" });
+  }
+
+  const timestamp = new Date().toISOString();
+  const clickId =
+    "STACK-" +
+    timestamp.slice(0, 10).replace(/-/g, "") +
+    "-" +
+    crypto.randomUUID().slice(0, 8).toUpperCase();
+
+  try {
+    await writeAirtableRecord(
+      STACK_CLICKS_TABLE_ID,
+      {
+        "Click ID": clickId,
+        "Timestamp": timestamp,
+        "Product": product,
+        "Category": category,
+        "Destination": destination,
+        "Source": source,
+        "Page": page
+      },
+      env
+    );
+    return jsonResponse(200, { saved: true });
+  } catch (error) {
+    console.error("Stack click save failed", error.message);
+    return jsonResponse(error.status || 502, { saved: false });
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -292,11 +361,14 @@ export default {
         return jsonResponse(405, { error: "Method Not Allowed" });
       }
       return jsonResponse(200, {
-        ready: Boolean(env.AIRTABLE_API_KEY || env.AIRTABLE_TOKEN)
+        ready: Boolean(airtableToken(env))
       });
     }
     if (url.pathname === "/api/save-discovery-response") {
       return handleDiscovery(request, env);
+    }
+    if (url.pathname === "/api/stack-click" || url.pathname === "/.netlify/functions/stack-click") {
+      return handleStackClick(request, env);
     }
     if (url.pathname.startsWith("/api/")) {
       return jsonResponse(404, { error: "Not Found" });
