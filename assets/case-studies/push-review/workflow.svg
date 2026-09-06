@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1000" viewBox="0 0 1200 1000">
+<title>A planned Push workout becomes a concrete execution plan</title>
+<desc>Editorial diagram of the documented exchange. Six exercises in LiftTrack, four sources checked in ChatGPT, and a recommendation to retain the template with controlled effort. Bench press: 18 kilograms, 3 sets of 10 to 12 repetitions. Incline press: 14 kilograms as the starting point.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0b1020"/><stop offset="1" stop-color="#211b49"/></linearGradient></defs>
+<rect width="1200" height="1000" rx="32" fill="url(#bg)"/>
+<g font-family="Arial, sans-serif">
+<text x="64" y="69" fill="#b9adff" font-size="18" font-weight="700" letter-spacing="3">PERSONAL AI OS / WORKOUT REVIEW</text>
+<text x="64" y="133" fill="white" font-size="47" font-weight="700">Same template. More specific execution.</text>
+<text x="64" y="179" fill="#c6cce0" font-size="23">A documented Push workout review across four connected sources.</text>
+<rect x="64" y="225" width="1072" height="147" rx="20" fill="#ffffff"/>
+<text x="92" y="263" fill="#6048ff" font-size="17" font-weight="700" letter-spacing="2">01 / PLANNED IN LIFTTRACK</text>
+<text x="92" y="312" fill="#0f1728" font-size="35" font-weight="700">Push · 6 exercises</text>
+<text x="92" y="345" fill="#526075" font-size="21">Bench · Lateral raise · Incline bench · Triceps · Shoulder press · Push-up</text>
+<path d="M600 380v37m-10-10 10 10 10-10" fill="none" stroke="#b9adff" stroke-width="4"/>
+<rect x="64" y="430" width="1072" height="192" rx="20" fill="#6048ff"/>
+<text x="92" y="468" fill="white" font-size="17" font-weight="700" letter-spacing="2">02 / CHECKED IN CHATGPT</text>
+<text x="92" y="513" fill="white" font-size="31" font-weight="700">Does this session fit the rest of my plans?</text>
+<g font-size="20" fill="white">
+<rect x="92" y="541" width="191" height="49" rx="12" fill="#4933cf"/><text x="114" y="573">LiftTrack</text>
+<rect x="299" y="541" width="161" height="49" rx="12" fill="#4933cf"/><text x="321" y="573">freddy</text>
+<rect x="476" y="541" width="264" height="49" rx="12" fill="#4933cf"/><text x="498" y="573">Google Calendar</text>
+<rect x="756" y="541" width="170" height="49" rx="12" fill="#4933cf"/><text x="778" y="573">Airtable</text>
+</g>
+<path d="M600 632v37m-10-10 10 10 10-10" fill="none" stroke="#b9adff" stroke-width="4"/>
+<rect x="64" y="682" width="1072" height="220" rx="20" fill="#f3f0ff"/>
+<text x="92" y="720" fill="#6048ff" font-size="17" font-weight="700" letter-spacing="2">03 / RECOMMENDATION RETURNED</text>
+<text x="92" y="764" fill="#0f1728" font-size="33" font-weight="700">Keep the template. Control the effort.</text>
+<text x="92" y="811" fill="#28344d" font-size="24">Bench: 18 kg · 3 × 10–12 controlled reps</text>
+<text x="92" y="852" fill="#28344d" font-size="24">Incline: start at 14 kg · avoid forcing another record</text>
+<text x="64" y="953" fill="#c6cce0" font-size="19">Editorial visualization of the source exchange · not an app screenshot</text>
+</g></svg>

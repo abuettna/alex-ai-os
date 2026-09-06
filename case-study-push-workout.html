@@ -10,6 +10,8 @@
   <meta property="og:description" content="One question. Four connected sources. Keep the template; moderate the effort. A documented Personal AI OS workflow.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://personal-ai-os.com/case-study-push-workout.html">
+  <meta property="og:image" content="https://personal-ai-os.com/assets/case-studies/push-review/workflow.svg">
+  <meta property="og:image:alt" content="Six exercises, four connected sources and a concrete recommendation for controlled effort.">
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://personal-ai-os.com/case-study-push-workout.html">
   <link rel="stylesheet" href="/styles.css">
@@ -35,6 +37,16 @@
     .push-steps li+li{margin-top:1rem}
     .push-links a{text-decoration:underline;text-underline-offset:3px}
     @media(min-width:760px){.push-hero{grid-template-columns:1.25fr 1fr;align-items:stretch;padding:4rem 0}.push-sources{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .push-visual{margin-top:1rem}.push-visual img{width:100%;height:auto;border-radius:24px}.push-visual figcaption{color:var(--muted);font-size:.88rem;margin-top:.8rem}
+    .push-table{width:100%;border-collapse:collapse;background:#fff;font-size:.96rem}
+    .push-table th,.push-table td{padding:1rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+    .push-table th{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;background:var(--accent-soft)}
+    .push-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px}
+    .push-table caption{padding:1rem;text-align:left;font-weight:700}
+    .push-decisions{display:grid;gap:1rem}.push-decision{padding:1.3rem;border:1px solid var(--line);border-radius:20px;background:white}
+    .push-decision h3{font-size:1.35rem;margin:.5rem 0 .8rem}.push-decision p+p{margin-top:.7rem}
+    .push-number{display:inline-block;padding:.3rem .65rem;background:var(--accent-soft);color:var(--accent);font-weight:800;border-radius:8px}
+    @media(min-width:760px){.push-decisions{grid-template-columns:repeat(2,minmax(0,1fr))}}
   </style>
 </head>
 <body>
@@ -50,7 +62,7 @@
         <h1>Does this workout fit my week?</h1>
         <p class="lede">A Push workout was already planned in LiftTrack. I asked my AI coach to check it against my recent training and the rest of my plans.</p>
         <p>LiftTrack · freddy · Google Calendar · Airtable</p>
-        <a class="journey-back" href="#evidence">Read the selected conversation excerpts ↓</a>
+        <a class="journey-back" href="#actual-template">See the workout and concrete recommendations ↓</a>
       </div>
       <aside class="push-verdict" aria-label="Observed recommendation">
         <p class="eyebrow">THE ANSWER IN THIS EXCHANGE</p>
@@ -65,6 +77,61 @@
         <article><h3>freddy / Garmin</h3><p>Recent activity and recovery context, made available through the connected health-data service.</p></article>
         <article><h3>Google Calendar</h3><p>The surrounding training schedule, including the next running sessions.</p></article>
         <article><h3>Airtable</h3><p>Subjective journal context that adds information beyond the workout template.</p></article>
+      </div>
+    </section>
+    <section class="section-shell section-block bordered-top" aria-labelledby="actual-template">
+      <div class="stack-lg">
+        <div class="stack-md push-copy">
+          <p class="eyebrow">THE ACTUAL WORKOUT</p>
+          <h2 id="actual-template">Six exercises. One existing template.</h2>
+          <p>The LiftTrack screen shows a planned Push session with six exercises. In the reply, the coach lists the following template. Loads are reproduced as displayed in the conversation.</p>
+        </div>
+        <div class="push-table-wrap">
+          <table class="push-table">
+            <caption>Push template reported in the source reply</caption>
+            <thead><tr><th scope="col">Exercise</th><th scope="col">Sets × reps</th><th scope="col">Load</th></tr></thead>
+            <tbody>
+              <tr><td>Dumbbell bench press</td><td>3 × 10</td><td>18 kg</td></tr>
+              <tr><td>Lateral raise</td><td>3 × 12</td><td>4 kg</td></tr>
+              <tr><td>Incline dumbbell bench press</td><td>3 × 10</td><td>14 kg</td></tr>
+              <tr><td>Triceps extension</td><td>3 × 10</td><td>8 kg</td></tr>
+              <tr><td>Shoulder press</td><td>3 × 10</td><td>10 kg</td></tr>
+              <tr><td>Decline push-up</td><td>3 × 12</td><td>Bodyweight</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="push-visual">
+          <img src="/assets/case-studies/push-review/workflow.svg" width="1200" height="1000" alt="Workout review: a six-exercise LiftTrack Push template is checked against four connected sources. The recommendation retains the template, with 18 kg bench press for 3 sets of 10 to 12 controlled repetitions and 14 kg as the incline press starting point." loading="lazy">
+          <figcaption>Editorial visualization of the documented exchange. This is a diagram, not an original app screenshot.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="section-shell section-block bordered-top" aria-labelledby="execution-title">
+      <div class="stack-lg">
+        <div class="stack-md push-copy"><p class="eyebrow">WHAT CHANGED IN PRACTICE</p><h2 id="execution-title">The useful detail is in the execution.</h2><p>The answer compared the template with previous performance and the surrounding training schedule. These are specific recommendations from that reply, not a record of a completed session.</p></div>
+        <div class="push-decisions">
+          <article class="push-decision">
+            <span class="push-number">01 / BENCH PRESS</span><h3>18 kg. Controlled sets.</h3>
+            <p>The reply references previous bench sets of 18 and 12 repetitions at 18 kg. Its recommendation for the planned session: <strong>3 × 10–12 clean repetitions at 18 kg</strong>, rather than repeating a high-repetition effort just because it is possible.</p>
+            <p class="push-muted">The template load stays. The intended effort becomes more specific.</p>
+          </article>
+          <article class="push-decision">
+            <span class="push-number">02 / INCLINE PRESS</span><h3>14 kg as the starting point.</h3>
+            <p>The previous session is described as including 14 kg × 16 and 16 kg × 13. The recommendation starts with <strong>14 kg</strong>, with 16 kg only if the first set is very easy, without aiming to force a new record.</p>
+            <p class="push-muted">Previous performance informs the recommendation without making every session a progression test.</p>
+          </article>
+          <article class="push-decision">
+            <span class="push-number">03 / THE OTHER EXERCISES</span><h3>Keep the accessories familiar.</h3>
+            <p>The response retains <strong>4 kg lateral raises and 8 kg triceps extensions</strong>. It describes controlled repetitions for the remaining exercises and technically clean push-ups instead of a maximum-repetition test.</p>
+            <p class="push-muted">The exercise selection is retained; execution cues refine the plan.</p>
+          </article>
+          <article class="push-decision">
+            <span class="push-number">04 / THE SURROUNDING WEEK</span><h3>A strength session within a running plan.</h3>
+            <p>The reply considers a recently completed long run, a planned day without running, a subsequent easy run and a later quality session. It assesses the Push workout as part of that sequence.</p>
+            <p class="push-muted">The calendar contributes context that the exercise template alone cannot provide.</p>
+          </article>
+        </div>
+        <p class="weekly-thesis">“Keep the workout” can still come with a specific answer about weight, repetitions and effort.</p>
       </div>
     </section>
     <section id="evidence" class="section-shell section-block bordered-top">
@@ -107,8 +174,8 @@
         <p class="eyebrow">EVIDENCE &amp; PRIVACY</p>
         <h2>What this example establishes.</h2>
         <p>The screenshots document a scheduled workout, a user request, visible connector activity messages and the resulting recommendation. They do not independently verify every retrieved record or establish that the recommendation was optimal.</p>
-        <p>This is a workflow case study. No completed workout, training benefit or clinical outcome is demonstrated. The excerpt is not a general recommendation to train when unwell or in pain.</p>
-        <p>Only selected text is published. Exact dates, personal measurements, detailed training records and private journal content are omitted. Full screenshots and underlying records are not included in this case study’s public assets.</p>
+        <p>This is a workflow case study. No completed workout, training benefit or clinical outcome is demonstrated. The recommendations describe this individual exchange and are not a general training prescription.</p>
+        <p>Selected exercise details and conversation excerpts are published alongside an editorial diagram. Private health and journal information, exact dates and underlying records are omitted. Full screenshots are not included in this case study’s public assets.</p>
         <p class="push-muted">The recommendation remained advice for the user to assess. This exchange does not demonstrate an automatic write to LiftTrack, Garmin or the calendar.</p>
         <div class="hero-actions"><a class="button button-primary" href="/stack/">Explore my tools</a><a class="button button-secondary" href="/#use-cases">More real examples</a></div>
       </div>
