@@ -61,7 +61,7 @@
     <div class="section-heading stack-md narrow-heading">
       <p class="eyebrow">CASE STUDIES</p>
       <h2>What does it actually do?</h2>
-      <p>These are documented workflows from the real system. Each case has its own page so the homepage stays readable while the evidence and limitations remain inspectable.</p>
+      <p>Documented workflows from the real system — including the cases that save time, the cases that combine multiple sources, and the cases where the AI gets something subtly wrong.</p>
     </div>
     <div class="use-case-grid">
       <article class="panel use-case featured-case">
@@ -107,6 +107,20 @@
         <p>A planned Push workout is checked against training history, recovery, calendar and journal context, then translated into concrete execution guidance.</p>
         <a class="button button-secondary" href="case-study-push-workout.html">Read case study</a>
       </article>
+
+      <article class="panel use-case">
+        <p class="case-label">MINIMUM SUFFICIENT CONTEXT</p>
+        <h3>Sometimes one connected app is enough.</h3>
+        <p>LiftTrack’s exercise catalogue plus real equipment context was enough to create executable Push A/B templates — and to correct a movement that did not fit the actual bench.</p>
+        <a class="button button-secondary" href="case-study-lifttrack-copilot.html">Read case study</a>
+      </article>
+
+      <article class="panel use-case">
+        <p class="case-label">FAILURE CASE · PROVENANCE</p>
+        <h3>Correct facts can still produce a wrong story.</h3>
+        <p>Two valid activity records were linked by an unsupported chronology because connector return order was mistaken for time order.</p>
+        <a class="button button-secondary" href="case-study-temporal-inference.html">Read failure case</a>
+      </article>
     </div>
   </section>
 
@@ -116,31 +130,13 @@
       <h2>Why freddy plays a central role.</h2>
       <p>My Personal AI OS needs a reliable way to make longitudinal health and training data available inside the conversation. In the current setup, <a href="https://freddy.coach/" target="_blank" rel="noopener noreferrer">freddy</a> is the main quantitative access layer doing that job.</p>
     </div>
-
     <div class="how-grid">
-      <article class="panel flow-panel">
-        <p class="mini-label">CONNECTED SOURCES</p>
-        <h3>Multiple systems, one query surface.</h3>
-        <p>Garmin Connect, Apple Health, Intervals.icu and Runalyze are currently connected through freddy. That gives the conversational layer access to recovery, sleep, training, activity and other longitudinal metrics without rebuilding those source systems.</p>
-      </article>
-      <article class="panel flow-panel accent-panel">
-        <p class="mini-label">ROLE IN THE OS</p>
-        <h3>Access layer, not replacement.</h3>
-        <p>Garmin, Runalyze and Intervals.icu keep doing their specialist jobs. freddy makes the relevant records queryable from the AI conversation and exposes enough source context to support cross-domain reasoning.</p>
-      </article>
-      <article class="panel flow-panel result-panel">
-        <p class="mini-label">WHY RELIABILITY MATTERS</p>
-        <h3>Integration failures are part of the real system.</h3>
-        <p>I am currently working with the freddy team on Runalyze import behavior. Runalyze is connected and activity data are returning, while the import is still reported as in progress. That distinction — connected versus actually current at metric level — is exactly the kind of problem the architecture has to handle honestly.</p>
-      </article>
+      <article class="panel flow-panel"><p class="mini-label">CONNECTED SOURCES</p><h3>Multiple systems, one query surface.</h3><p>Garmin Connect, Apple Health, Intervals.icu and Runalyze are currently connected through freddy. That gives the conversational layer access to recovery, sleep, training, activity and other longitudinal metrics without rebuilding those source systems.</p></article>
+      <article class="panel flow-panel accent-panel"><p class="mini-label">ROLE IN THE OS</p><h3>Access layer, not replacement.</h3><p>Garmin, Runalyze and Intervals.icu keep doing their specialist jobs. freddy makes the relevant records queryable from the AI conversation and exposes enough source context to support cross-domain reasoning.</p></article>
+      <article class="panel flow-panel result-panel"><p class="mini-label">WHY RELIABILITY MATTERS</p><h3>Integration failures are part of the real system.</h3><p>Runalyze import behavior has been an active real-world reliability case. The important distinction is not just whether a connector says “connected”, but whether the metrics needed for a decision are actually current and complete.</p></article>
     </div>
-
     <div class="panel relationship-panel">
-      <div class="stack-md">
-        <p class="mini-label">CURRENT SNAPSHOT · 14 SEPTEMBER 2026</p>
-        <p>Runalyze currently exposes 89 metrics through freddy. Historical activity coverage has substantially returned, with major activity families reaching back to 2021; body-composition and recovery/sleep families are also present. Many current series reach 11 September. freddy still reports the import as in progress, so I am treating this as substantial recovery with residual current-data latency rather than declaring the issue fully solved.</p>
-        <p class="small-note">That makes freddy more than a convenience connector in this project: it is one of the places where source availability, provenance and integration reliability become observable.</p>
-      </div>
+      <div class="stack-md"><p class="mini-label">CURRENT SNAPSHOT · 14 SEPTEMBER 2026</p><p>Runalyze currently exposes 89 metrics through freddy. Historical activity coverage has substantially returned, with major activity families reaching back to 2021; body-composition and recovery/sleep families are also present. Many current series reach 11 September. freddy still reports the import as in progress, so I am treating this as substantial recovery with residual current-data latency rather than declaring the issue fully solved.</p><p class="small-note">That makes freddy more than a convenience connector in this project: it is one of the places where source availability, provenance and integration reliability become observable.</p></div>
     </div>
   </section>
 
@@ -151,51 +147,22 @@
       <p>The system is a loop rather than one app. Measurement stays close to the tools that are good at it; the AI layer connects enough context to answer better questions.</p>
     </div>
     <div class="architecture-grid three-layer-overview">
-      <article class="panel architecture-lane">
-        <p class="mini-label">CAPTURE &amp; SPECIALIST TOOLS</p>
-        <div class="stack-sm">
-          <div class="system-card"><strong>Garmin Fenix 8 + CIRQA</strong><span>Training execution, sleep, recovery and continuous signals</span></div>
-          <div class="system-card"><strong>LiftTrack</strong><span>Strength templates and exercise-level history</span></div>
-          <div class="system-card"><strong>Runalyze + Intervals.icu</strong><span>Endurance analysis and derived training context</span></div>
-          <div class="system-card"><strong>Calendar + Raw Log</strong><span>Real-life constraints and information sensors cannot know</span></div>
-        </div>
-      </article>
-      <article class="panel architecture-lane">
-        <p class="mini-label">ACCESS &amp; MEMORY</p>
-        <div class="stack-sm">
-          <div class="system-card"><strong>freddy</strong><span>Main quantitative health/training access layer across connected services</span></div>
-          <div class="system-card"><strong>Airtable Journal</strong><span>Curated durable context after daily reconciliation</span></div>
-          <div class="system-card"><strong>Google Calendar + Airtable connectors</strong><span>Deliberate read/write actions where useful</span></div>
-        </div>
-      </article>
-      <article class="panel architecture-lane dark-lane">
-        <p class="mini-label">REASONING</p>
-        <div class="stack-sm">
-          <div class="system-card dark-card"><strong>ChatGPT / conversational AI</strong><span>Retrieves relevant context, reconciles differences and turns it into one answer</span></div>
-          <div class="system-card result-card"><strong>Outcome</strong><span>Training decisions, weekly reviews, rest, structured logging and reusable workflows</span></div>
-        </div>
-      </article>
+      <article class="panel architecture-lane"><p class="mini-label">CAPTURE &amp; SPECIALIST TOOLS</p><div class="stack-sm"><div class="system-card"><strong>Garmin Fenix 8 + CIRQA</strong><span>Training execution, sleep, recovery and continuous signals</span></div><div class="system-card"><strong>LiftTrack</strong><span>Strength templates, exercise catalogue and workout history</span></div><div class="system-card"><strong>Runalyze + Intervals.icu</strong><span>Endurance analysis and derived training context</span></div><div class="system-card"><strong>Calendar + Raw Log</strong><span>Real-life constraints and information sensors cannot know</span></div></div></article>
+      <article class="panel architecture-lane"><p class="mini-label">ACCESS &amp; MEMORY</p><div class="stack-sm"><div class="system-card"><strong>freddy</strong><span>Main quantitative health/training access layer across connected services</span></div><div class="system-card"><strong>Airtable Journal</strong><span>Curated durable context after daily reconciliation</span></div><div class="system-card"><strong>Google Calendar + Airtable connectors</strong><span>Deliberate read/write actions where useful</span></div></div></article>
+      <article class="panel architecture-lane dark-lane"><p class="mini-label">REASONING</p><div class="stack-sm"><div class="system-card dark-card"><strong>ChatGPT / conversational AI</strong><span>Retrieves relevant context, reconciles differences and turns it into one answer</span></div><div class="system-card result-card"><strong>Outcome</strong><span>Training decisions, weekly reviews, rest, structured logging and reusable workflows</span></div></div></article>
     </div>
-    <aside class="reality-check"><p class="eyebrow">REALITY CHECK</p><p>A green connector is not proof that every endpoint is current. Mirrored workouts are not independent observations. AI estimates remain estimates. Third-party APIs and integrations change. Those failure modes are part of the system, not something to hide.</p></aside>
+    <aside class="reality-check"><p class="eyebrow">REALITY CHECK</p><p>A green connector is not proof that every endpoint is current. Mirrored workouts are not independent observations. Connector return order is not chronology. AI estimates remain estimates. Third-party APIs and integrations change. Those failure modes are part of the system, not something to hide.</p></aside>
   </section>
 
   <section class="section-shell section-block bordered-top">
     <div class="two-column-story">
       <div class="section-heading stack-md"><p class="eyebrow">WHY THIS PROJECT EXISTS</p><h2>The problem is not a lack of data.</h2></div>
-      <div class="story-copy stack-md">
-        <p>The useful information already exists across wearables, training apps, calendars, notes and structured logs. The hard part is knowing which pieces matter together for the question being asked.</p>
-        <p class="pull-quote">The value is not another place to look at data. It is having enough context to ask — and answer — a better question.</p>
-      </div>
+      <div class="story-copy stack-md"><p>The useful information already exists across wearables, training apps, calendars, notes and structured logs. The hard part is knowing which pieces matter together for the question being asked.</p><p class="pull-quote">The value is not another place to look at data. It is having enough context to ask — and answer — a better question.</p></div>
     </div>
   </section>
 
   <section id="about" class="section-shell section-block bordered-top">
-    <div class="section-heading stack-md narrow-heading">
-      <p class="eyebrow">ABOUT</p>
-      <h2>Hi, I’m Alex.</h2>
-      <p>I am a scientist, runner and the person building and using Personal AI OS. I document the system publicly because real examples are more useful than abstract AI claims — including the parts that break.</p>
-      <p>A prospective methods study is running alongside the project, but the website is primarily a practical reference for the architecture, case studies and collaborations around it.</p>
-    </div>
+    <div class="section-heading stack-md narrow-heading"><p class="eyebrow">ABOUT</p><h2>Hi, I’m Alex.</h2><p>I am a scientist, runner and the person building and using Personal AI OS. I document the system publicly because real examples are more useful than abstract AI claims — including the parts that break.</p><p>The research side is maintained continuously in a structured Research Log. If and when I turn the accumulated evidence into a formal publication, the study/manuscript state will be frozen from that reviewed evidence rather than maintaining a second parallel research registry.</p></div>
     <div class="how-grid">
       <article class="panel"><p class="mini-label">BUILD IN PUBLIC</p><h3>Prompt &amp; Perform</h3><p>Shorter examples, running and practical Personal AI OS workflows.</p><a class="button button-secondary" href="https://www.instagram.com/promptandperform/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></article>
       <article class="panel"><p class="mini-label">TOOLS</p><h3>My real stack</h3><p>The devices, apps and training tools actually used in the system.</p><a class="button button-secondary" href="/stack/?src=homepage-about">Explore the stack</a></article>
@@ -203,19 +170,9 @@
     </div>
   </section>
 
-  <section class="section-shell section-block bordered-top">
-    <div class="section-heading stack-md narrow-heading">
-      <p class="eyebrow">LIMITS</p>
-      <h2>A practical project, not a clinical product.</h2>
-      <p>Examples describe my own setup. AI-generated interpretations can be wrong. Health-related outputs are informational and decision-support only. Third-party services process data under their own terms, and integrations can change without notice.</p>
-    </div>
-  </section>
+  <section class="section-shell section-block bordered-top"><div class="section-heading stack-md narrow-heading"><p class="eyebrow">LIMITS</p><h2>A practical project, not a clinical product.</h2><p>Examples describe my own setup. AI-generated interpretations can be wrong. Health-related outputs are informational and decision-support only. Third-party services process data under their own terms, and integrations can change without notice.</p></div></section>
 </main>
 
-<footer class="site-footer">
-  <span>Personal AI OS</span>
-  <span>Real tools. Real context. Documented workflows.</span>
-  <a href="https://www.instagram.com/promptandperform/" target="_blank" rel="noopener noreferrer">Prompt &amp; Perform ↗</a>
-</footer>
+<footer class="site-footer"><span>Personal AI OS</span><span>Real tools. Real context. Documented workflows.</span><a href="https://www.instagram.com/promptandperform/" target="_blank" rel="noopener noreferrer">Prompt &amp; Perform ↗</a></footer>
 </body>
 </html>
