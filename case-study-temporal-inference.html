@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Correct facts can still produce a wrong story · Personal AI OS</title>
+  <meta name="description" content="A Personal AI OS failure case: two correct activity records were linked by an unsupported temporal inference because connector return order was mistaken for chronology.">
+  <meta name="theme-color" content="#0b1020">
+  <meta property="og:title" content="Correct facts can still produce a wrong story">
+  <meta property="og:description" content="A provenance failure case: individually correct records, unsupported chronology, wrong narrative.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://personal-ai-os.com/case-study-temporal-inference.html">
+  <link rel="canonical" href="https://personal-ai-os.com/case-study-temporal-inference.html">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="site-header"><a class="brand" href="/"><span class="logo">◎</span><span>Personal AI OS</span></a><nav class="site-nav" aria-label="Primary"><a href="/#case-studies">Case studies</a><a href="/#architecture">Architecture</a><a href="/#about">About</a></nav></header>
+<main id="main-content">
+  <section class="hero section-shell">
+    <div class="hero-copy stack-lg">
+      <p class="eyebrow">FAILURE CASE · PROVENANCE &amp; RELATIONS</p>
+      <h1>Correct facts can still produce a wrong story.</h1>
+      <p class="lede">Two same-day activity records were individually correct. The AI nevertheless produced a false chronology because it treated connector return order as time order.</p>
+      <p class="hero-note"><strong>This is not a Garmin or freddy measurement error.</strong> The failure occurred in the interpretation layer that connected two valid records with an unsupported temporal relation.</p>
+    </div>
+  </section>
+
+  <section class="section-shell section-block bordered-top">
+    <div class="section-heading stack-md narrow-heading"><p class="eyebrow">WHAT HAPPENED</p><h2>A relation was invented between correct records.</h2></div>
+    <div class="how-grid">
+      <article class="panel flow-panel"><p class="mini-label">SOURCE DATA</p><h3>Two valid activities.</h3><p>Garmin/freddy returned a treadmill session and a Push B strength session from the same day.</p></article>
+      <article class="panel flow-panel accent-panel"><p class="mini-label">AI INFERENCE</p><h3>Return order became chronology.</h3><p>The conversational layer interpreted the ordering of returned records as if it proved sequence and verbalized the second item as happening “afterwards”.</p></article>
+      <article class="panel flow-panel result-panel"><p class="mini-label">REALITY</p><h3>The sequence was reversed.</h3><p>The treadmill session actually happened before the strength session. The user corrected the narrative.</p></article>
+    </div>
+  </section>
+
+  <section class="section-shell section-block bordered-top">
+    <div class="two-column-story">
+      <div class="section-heading stack-md"><p class="eyebrow">SYSTEMS LESSON</p><h2>Provenance applies to relationships too.</h2></div>
+      <div class="story-copy stack-md">
+        <p>Most data-quality checks focus on whether individual values are correct. This case shows a second failure mode: the values can all be correct while the relationship between them is unsupported.</p>
+        <p class="pull-quote">A fluent narrative can be wrong without containing a single fabricated measurement.</p>
+        <p>Chronology, causality and “before/after” statements therefore need their own evidence. Connector result order is not a timestamp.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-shell section-block bordered-top">
+    <div class="section-heading stack-md narrow-heading"><p class="eyebrow">GUARDRAIL</p><h2>Do not infer temporal order from list order.</h2><p>When reliable start timestamps are unavailable, the system should either retrieve a source that can establish order, ask the user when the relation matters, or explicitly say that the sequence is uncertain.</p></div>
+  </section>
+
+  <section class="section-shell section-block bordered-top">
+    <div class="section-heading stack-md narrow-heading"><p class="eyebrow">LIMITATIONS</p><h2>One observed failure, not an error rate.</h2><p>This is a single documented episode. It does not estimate how often this class of error occurs, and it should not be generalized into a claim about Garmin or freddy data quality. Its value is methodological: it exposes a subtle failure mode in longitudinal AI interpretation.</p><div class="hero-actions"><a class="button button-secondary" href="/#case-studies">Back to case studies</a></div></div>
+  </section>
+</main>
+<footer class="site-footer"><strong>Personal AI OS</strong><span>Real tools. Real context. Failure modes included.</span></footer>
+</body>
+</html>
