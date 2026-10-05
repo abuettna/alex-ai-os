@@ -12,7 +12,9 @@ The active research workbench is **Alex Data Lake → Personal AI OS Research Lo
 
 The former **Living Study** table is archive-only and retained for provenance. The earlier **Value Events** table was never operationalized and remains an inactive empty historical ledger; it must not be selectively backfilled or interpreted as evidence that zero value events occurred.
 
-If and when a concrete publication/submission is chosen, a frozen Study/Manuscript state should be derived from reviewed Research Log items plus source data. Any prospective denominator-based hypothesis must be defined and frozen before new prospective capture begins.
+Since **2026-10-01**, **Alex Data Lake → AI Interaction Episodes** provides a prospective, low-burden denominator ledger. One row represents one substantive Personal AI OS interaction episode observable to the study pipeline. The ledger deliberately retains incremental value, probably incremental value, single-source sufficiency, convenience-only interactions, wrong/unsupported outputs and maintenance/troubleshooting. Its denominator is explicitly **observable episodes**, not every interaction across the ChatGPT account; inaccessible interactions must remain missing rather than being reconstructed as if capture were complete.
+
+If and when a concrete publication/submission is chosen, a frozen Study/Manuscript state should be derived from reviewed Research Log items, the prospective episode ledger and source data. Any new prospective hypothesis or endpoint not already covered by the frozen capture protocol must be defined before collection.
 
 Research principles:
 
@@ -49,9 +51,11 @@ Irrecoverable information — especially event time, quantities, actually consum
 
 ## Current quantitative access layer
 
-freddy is the main quantitative health/training access layer used by the conversational system. As of 2026-09-21 it has Garmin Connect, Apple Health, Intervals.icu and Runalyze connected.
+freddy is the main quantitative health/training access layer used by the conversational system. Garmin Connect, Apple Health, Intervals.icu and Runalyze are connected through it.
 
-Freshness must be checked per source/metric rather than inferred from a green connector state. On 2026-09-21, Garmin and Apple Health were current through the same day; Runalyze exposed 89 metrics with major activity/recovery families through 2026-09-20 while still reporting a sync in progress; Intervals.icu remained connected but its provider coverage ended 2026-09-12.
+Freshness is treated as a property of the **specific data used for a decision**, not as one connector-wide state. Real-world QC has shown that connector status, source/profile-level coverage metadata, ingestion state and individual metric-family dates can disagree. The operating rule is therefore to verify decision-critical metrics at query time rather than relying on a green connector state or a dated global snapshot.
+
+Product capabilities also change over time. For example, freddy's W39 2026 product update announced broader Runalyze availability and sync-recovery improvements for Apple Health/Health Connect. Such changes are preserved as provenance; they do not retroactively erase earlier observed failure modes or prove that every source/metric is current.
 
 ## Strength-training integration
 
@@ -79,6 +83,7 @@ Research/publication is secondary public context rather than the homepage's main
 - `case-study-push-workout.html` — documented workout-review workflow case
 - `case-study-lifttrack-copilot.html` — minimum-sufficient-context LiftTrack case
 - `case-study-temporal-inference.html` — interpretation-layer failure case
+- `case-study-half-marathon.html` — calibrated race-decision case with official-vs-device outcome provenance
 - `pilot/` — secondary public discovery pilot and client assets
 - `stack/` — documented real-world hardware/software stack
 - `worker/` — Cloudflare Worker API used for `/api/*`
@@ -104,7 +109,7 @@ There is currently no comprehensive automated test suite in this repository. Bef
 4. confirm public copy does not promote illustrative evidence into efficacy or validation claims;
 5. confirm `/api/*` remains server-side and no secrets appear in delivered client assets;
 6. search repository-wide for stale commercial/product positioning and obsolete deployment instructions;
-7. verify dated connector snapshots against current source-level and metric-level freshness before publishing them.
+7. avoid hard-coded connector freshness snapshots unless they are explicitly presented as historical observations.
 
 `package.json` still exposes `npm run dev` via `netlify dev`; that script reflects older tooling and is not evidence of the current production architecture.
 
@@ -120,6 +125,7 @@ Existing specialist tools remain important systems of record. Third-party tools 
 - distinguish connector status from endpoint-level data availability;
 - do not treat mirrored platform records or weekly derived summaries as independent evidence;
 - retain failures and uncertainty;
-- freeze any future prospective protocol/denominator before collection rather than reconstructing it selectively;
+- preserve the prospective episode ledger's observable-coverage limitation;
+- freeze any new prospective protocol/endpoint before collection rather than reconstructing it selectively;
 - resolve the required ethics/privacy publication determination before submission;
 - do not publish private names, family information or direct quotes without appropriate justification and permission.
