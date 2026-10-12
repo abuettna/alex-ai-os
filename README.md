@@ -42,7 +42,7 @@ The manual journal workflow is intentionally not a per-message Airtable write:
 
 1. An iPhone Shortcut opens a persistent ChatGPT Raw Log conversation.
 2. The Raw Log is the primary source of truth during capture.
-3. Photos, voice notes and short observations can be logged with minimal friction; unresolved details may be enriched later when convenient.
+3. Photos, voice notes and short observations can be logged with minimal friction; unresolved details may be enriched later when convenient. Since 2026-10-08, an optional deliberately incomplete qualitative food-photo mode is also used; absent photos do not imply absent meals or complete dietary coverage.
 4. A once-daily QC/reconciliation pass compares the raw event sequence with the Airtable Journal.
 5. Missing records are added, clear duplicates/errors are corrected, timestamps are reconciled, and a second pass verifies the final state.
 6. Weekly summaries are durable derived synthesis records; they are not independent raw observations and must not be double-counted with the events they summarize.
@@ -55,11 +55,11 @@ freddy is the main quantitative health/training access layer used by the convers
 
 Freshness is treated as a property of the **specific data used for a decision**, not as one connector-wide state. Real-world QC has shown that connector status, source/profile-level coverage metadata, ingestion state and individual metric-family dates can disagree. The operating rule is therefore to verify decision-critical metrics at query time rather than relying on a green connector state or a dated global snapshot.
 
-Product capabilities also change over time. For example, freddy's W39 2026 product update announced broader Runalyze availability and sync-recovery improvements for Apple Health/Health Connect. Such changes are preserved as provenance; they do not retroactively erase earlier observed failure modes or prove that every source/metric is current.
+Product capabilities also change over time. For example, freddy's W39 2026 product update announced broader Runalyze availability and sync-recovery improvements for Apple Health/Health Connect. The W40 update also introduced local-day date handling and possible-incompleteness/last-read metadata for daily totals; at least one Apple Health endpoint was subsequently observed returning these fields. Such changes are preserved as provenance; they do not retroactively erase earlier observed failure modes or prove that every source/metric is current.
 
 ## Strength-training integration
 
-LiftTrack is the canonical strength-training layer for templates, exercise catalogue and exercise-level history. The currently exposed ChatGPT integration supports reads plus user-approved workout create/update actions. Historical cases must preserve the capability that existed at the time; current write capability must not be retroactively attributed to older planning episodes.
+LiftTrack is the canonical strength-training layer for templates, exercise catalogue and exercise-level history. The currently exposed ChatGPT integration supports reads plus user-approved workout create/update actions. User-approved template updates were documented on 2026-10-02 and 2026-10-07 and read back from saved Upper Body A/B templates on 2026-10-12. This verifies the template-write pathway, not downstream Garmin synchronization. Historical cases must preserve the capability that existed at the time; current write capability must not be retroactively attributed to older planning episodes.
 
 The experimental Airtable **Garmin Workout Queue** remains empty and is now an inactive historical fallback rather than a current architecture path.
 
@@ -84,6 +84,8 @@ Research/publication is secondary public context rather than the homepage's main
 - `case-study-lifttrack-copilot.html` — minimum-sufficient-context LiftTrack case
 - `case-study-temporal-inference.html` — interpretation-layer failure case
 - `case-study-half-marathon.html` — calibrated race-decision case with official-vs-device outcome provenance
+- `case-study-longitudinal-weight.html` — longitudinal weight and context case (fixed October 6 snapshot)
+- `isarlauf-2026.html` — personal Isarlauf race story
 - `pilot/` — secondary public discovery pilot and client assets
 - `stack/` — documented real-world hardware/software stack
 - `worker/` — Cloudflare Worker API used for `/api/*`
