@@ -42,7 +42,7 @@ The manual journal workflow is intentionally not a per-message Airtable write:
 
 1. An iPhone Shortcut opens a persistent ChatGPT Raw Log conversation.
 2. The Raw Log is the primary source of truth during capture.
-3. Photos, voice notes and short observations can be logged with minimal friction; unresolved details may be enriched later when convenient. Since 2026-10-08, an optional deliberately incomplete qualitative food-photo mode is also used; absent photos do not imply absent meals or complete dietary coverage.
+3. Photos, voice notes and short observations can be logged with minimal friction; unresolved details may be enriched later when convenient.
 4. A once-daily QC/reconciliation pass compares the raw event sequence with the Airtable Journal.
 5. Missing records are added, clear duplicates/errors are corrected, timestamps are reconciled, and a second pass verifies the final state.
 6. Weekly summaries are durable derived synthesis records; they are not independent raw observations and must not be double-counted with the events they summarize.
