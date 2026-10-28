@@ -1,0 +1,74 @@
+name: Garmin Workout Bridge
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "garmin-bridge/trigger.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: garmin-workout-bridge
+  cancel-in-progress: false
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check bridge configuration
+        id: config
+        env:
+          AIRTABLE_TOKEN: ${{ secrets.AIRTABLE_TOKEN }}
+          GARMIN_TOKEN_KEY: ${{ secrets.GARMIN_TOKEN_KEY }}
+        shell: bash
+        run: |
+          if [ -n "$AIRTABLE_TOKEN" ] && [ -n "$GARMIN_TOKEN_KEY" ] && [ -s garmin-bridge/garmin_tokens.enc ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Garmin bridge is not initialized yet; skipping."
+          fi
+
+      - name: Set up Python
+        if: steps.config.outputs.ready == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install bridge dependencies
+        if: steps.config.outputs.ready == 'true'
+        run: python -m pip install --disable-pip-version-check "garminconnect[workout]>=0.3.5,<1" curl_cffi requests cryptography
+
+      - name: Process private workout queue
+        if: steps.config.outputs.ready == 'true'
+        env:
+          AIRTABLE_TOKEN: ${{ secrets.AIRTABLE_TOKEN }}
+          GARMIN_TOKEN_KEY: ${{ secrets.GARMIN_TOKEN_KEY }}
+        run: python garmin-bridge/bridge.py
+
+      - name: Persist refreshed encrypted Garmin state
+        if: always() && steps.config.outputs.ready == 'true'
+        shell: bash
+        run: |
+          if git diff --quiet -- garmin-bridge/garmin_tokens.enc; then
+            exit 0
+          fi
+          cp garmin-bridge/garmin_tokens.enc /tmp/garmin_tokens.enc
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout -B main origin/main
+          cp /tmp/garmin_tokens.enc garmin-bridge/garmin_tokens.enc
+          git add garmin-bridge/garmin_tokens.enc
+          git commit -m "Refresh encrypted Garmin token state"
+          git push origin main
