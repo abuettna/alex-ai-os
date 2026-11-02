@@ -36,18 +36,18 @@ Research principles:
 - **Treat infrastructure evolution as data.** Connector failures, source additions, device changes and endpoint transitions are part of the real system.
 - **Do not optimize for engagement.** A useful result may be rest, no action, deferral or recognition that one source was already sufficient.
 
-## Raw Log → Journal architecture
+## Conversational capture → Journal architecture
 
-The manual journal workflow is intentionally not a per-message Airtable write:
+The manual journal workflow is intentionally not a per-message Airtable write. A dedicated Raw Log was used through October 2026; from 1 November 2026 capture and coaching can share a weekly conversation. Both variants follow the same separation between capture and durable storage:
 
-1. An iPhone Shortcut opens a persistent ChatGPT Raw Log conversation.
-2. The Raw Log is the primary source of truth during capture.
-3. Photos, voice notes and short observations can be logged with minimal friction; unresolved details may be enriched later when convenient.
-4. A once-daily QC/reconciliation pass compares the raw event sequence with the Airtable Journal.
+1. Capture happens in a ChatGPT conversation (historically a dedicated Raw Log; since 2026-11-01 also a combined weekly Alltag/Coaching/Log chat). Shortcut navigation to the new conversation has not been independently verified.
+2. The originating conversation is the capture source until reconciliation; the curated Airtable Journal is the durable reference.
+3. Voice notes and short observations can be logged with minimal friction; unresolved details may be enriched later when convenient.
+4. A completed QC/reconciliation pass compares the captured event sequence with the Airtable Journal. Do not assume daily completeness without a verified pass.
 5. Missing records are added, clear duplicates/errors are corrected, timestamps are reconciled, and a second pass verifies the final state.
 6. Weekly summaries are durable derived synthesis records; they are not independent raw observations and must not be double-counted with the events they summarize.
 
-Irrecoverable information — especially event time, quantities, actually consumed fraction, image-dependent product identity, symptoms and subjective context — should be materialized before the original chat/image context becomes unavailable.
+Irrecoverable information — especially event time, quantities, actually consumed fraction, source-dependent product identity, symptoms and subjective context — should be materialized before the original chat/image context becomes unavailable.
 
 ## Current quantitative access layer
 
