@@ -102,8 +102,8 @@
 
       <article class="panel use-case">
         <p class="case-label">LOW-FRICTION DATA CAPTURE</p>
-        <h3>Raw Log → daily QC → curated Journal.</h3>
-        <p>Fast text, voice and image capture is separated from slower reconciliation, timestamp checks and durable storage.</p>
+        <h3>Capture → QC → curated Journal.</h3>
+        <p>Fast conversational capture is separated from later reconciliation, timestamp checks and durable storage.</p>
         <a class="button button-secondary" href="case-study-raw-log.html">Read case study</a>
       </article>
 
@@ -167,8 +167,8 @@
       <p>The system is a loop rather than one app. Measurement stays close to the tools that are good at it; the AI layer connects enough context to answer better questions.</p>
     </div>
     <div class="architecture-grid three-layer-overview">
-      <article class="panel architecture-lane"><p class="mini-label">CAPTURE &amp; SPECIALIST TOOLS</p><div class="stack-sm"><div class="system-card"><strong>Garmin Fenix 8 + CIRQA</strong><span>Training execution, sleep, recovery and continuous signals</span></div><div class="system-card"><strong>LiftTrack</strong><span>Strength templates, exercise catalogue and workout history</span></div><div class="system-card"><strong>Runalyze + Intervals.icu</strong><span>Endurance analysis and derived training context</span></div><div class="system-card"><strong>Calendar + Raw Log</strong><span>Real-life constraints and information sensors cannot know</span></div></div></article>
-      <article class="panel architecture-lane"><p class="mini-label">ACCESS &amp; MEMORY</p><div class="stack-sm"><div class="system-card"><strong>freddy</strong><span>Main quantitative health/training access layer across connected services</span></div><div class="system-card"><strong>Airtable Journal</strong><span>Curated durable context after daily reconciliation</span></div><div class="system-card"><strong>Google Calendar + Airtable connectors</strong><span>Deliberate read/write actions where useful</span></div></div></article>
+      <article class="panel architecture-lane"><p class="mini-label">CAPTURE &amp; SPECIALIST TOOLS</p><div class="stack-sm"><div class="system-card"><strong>Garmin Fenix 8 + CIRQA</strong><span>Training execution, sleep, recovery and continuous signals</span></div><div class="system-card"><strong>LiftTrack</strong><span>Strength templates, exercise catalogue and workout history</span></div><div class="system-card"><strong>Runalyze + Intervals.icu</strong><span>Endurance analysis and derived training context</span></div><div class="system-card"><strong>Calendar + conversational log</strong><span>Real-life constraints and information sensors cannot know</span></div></div></article>
+      <article class="panel architecture-lane"><p class="mini-label">ACCESS &amp; MEMORY</p><div class="stack-sm"><div class="system-card"><strong>freddy</strong><span>Main quantitative health/training access layer across connected services</span></div><div class="system-card"><strong>Airtable Journal</strong><span>Curated durable context after reconciliation</span></div><div class="system-card"><strong>Google Calendar + Airtable connectors</strong><span>Deliberate read/write actions where useful</span></div></div></article>
       <article class="panel architecture-lane dark-lane"><p class="mini-label">REASONING</p><div class="stack-sm"><div class="system-card dark-card"><strong>ChatGPT / conversational AI</strong><span>Retrieves relevant context, reconciles differences and turns it into one answer</span></div><div class="system-card result-card"><strong>Outcome</strong><span>Training decisions, weekly reviews, rest, structured logging and reusable workflows</span></div></div></article>
     </div>
     <aside class="reality-check"><p class="eyebrow">REALITY CHECK</p><p>A green connector is not proof that every endpoint is current. Mirrored workouts are not independent observations. Connector return order is not chronology. AI estimates remain estimates. Third-party APIs and integrations change. Those failure modes are part of the system, not something to hide.</p></aside>
